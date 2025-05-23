@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aventra</title>
+  <style>
+    :root {
+      --orange: #FF6600;
+      --dark: #2B0B3F;
+      --dark-accent: #6E2B6D;
+      --light: #F4F4F4;
+      --text: #F9F9F9;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--dark);
+      color: var(--text);
+    }
+
+    header {
+      background-color: var(--orange);
+      color: white;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1rem;
+      font-weight: bold;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      background: linear-gradient(145deg, #ff7f2e, #e25500);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: inline-block;
+    }
+
+    nav a:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 12px rgba(255, 102, 0, 0.6);
+    }
+
+    .hero {
+      padding: 6rem 2rem;
+      background: linear-gradient(to right, var(--orange), var(--dark-accent));
+      color: white;
+      text-align: center;
+      position: relative;
+      box-shadow: inset 0 -10px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero img {
+      max-width: 160px;
+      position: absolute;
+      bottom: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .hero h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .section {
+      padding: 4rem 2rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .section h3 {
+      color: var(--orange);
+      margin-bottom: 1rem;
+      font-size: 2rem;
+    }
+
+    .card {
+      background: var(--dark-accent);
+      padding: 2rem;
+      margin-top: 2rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+      border-radius: 12px;
+      color: var(--text);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      transform-style: preserve-3d;
+    }
+
+    .card:hover {
+      transform: scale(1.03) perspective(800px) rotateX(2deg);
+      box-shadow: 0 10px 40px rgba(255, 102, 0, 0.6);
+    }
+
+    footer {
+      background-color: #1A042C;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.3);
+    }
+
+    .social-links a {
+      margin: 0 1rem;
+      color: var(--orange);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .social-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Aventra</h1>
+    <nav>
+      <a href="#hakkimizda">Hakkımızda</a>
+      <a href="#vizyon">Vizyon</a>
+      <a href="#ekip">Ekip</a>
+      <a href="#oyunlar">Oyunlarımız</a>
+      <a href="#iletisim">İletişim</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Macera Dolu Atmosfer</h2>
+    <p>Her oyun, keşfe değer bir hikaye sunar. Aventra ile oyun dünyanı yeniden tanımla.</p>
+    <img src="/mnt/data/aventra_woutbg.png" alt="Aventra Logo Maskot">
+  </section>
+
+  <section id="hakkimizda" class="section">
+    <h3>Hakkımızda</h3>
+    <div class="card">
+      <p>Aventra, gönüllülük esasına dayalı bir oyun geliştirme topluluğudur. Adını "Adventure" ve "Aura" kelimelerinin birleşiminden alan Aventra, oyunculara keşfetmeye değer dünyalar ve yoğun atmosferler sunar. Ekip üyeleri farklı şehirlerden, okul veya iş hayatlarının yanı sıra tutkularını bu projelere aktaran yaratıcı bireylerden oluşur.</p>
+    </div>
+  </section>
+
+  <section id="vizyon" class="section">
+    <h3>Vizyon</h3>
+    <div class="card">
+      <p>Aventra'nın 10 yıllık planı, simülasyon, hikaye tabanlı ve top-down türlerinde oyunlar geliştirerek bu alanlarda lider konumda bir marka olmaktır. Oyunculara sunduğu atmosfer ve eğlence sayesinde sürdürülebilir bir gelir modeli hedeflenmektedir.</p>
+    </div>
+  </section>
+
+  <section id="ekip" class="section">
+    <h3>Ekip</h3>
+    <div class="card">
+      <p>Her biri oyun sektörüne tutkuyla bağlı geliştiricilerden oluşan bir çekirdek kadro ile çalışıyoruz. Ekibimizde oyun geliştiricisi, tasarımcı, sanatçı ve proje yöneticileri yer alıyor. Karar verici kişi: <strong>Mesut Atakan Temiz</strong>.</p>
+    </div>
+  </section>
+
+  <section id="oyunlar" class="section">
+    <h3>Oyunlarımız</h3>
+    <div class="card">
+      <p>Prototip aşamasında olan simülasyon odaklı projelerimizin yanında, hikaye anlatımı güçlü olan oyunlar üzerinde de çalışıyoruz. İlk beta ve erken erişim takvimimiz yakında duyurulacaktır.</p>
+    </div>
+  </section>
+
+  <section id="iletisim" class="section">
+  <h3>İletişim</h3>
+  <div class="card">
+    <p>Bize ulaşmak için: <strong>contact@aventra.games</strong></p>
+    <div class="social-links">
+      <a href="https://www.linkedin.com/company/aventragames" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" width="24" height="24"> LinkedIn
+      </a>
+      <a href="https://www.instagram.com/aventragames/" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram" width="24" height="24"> Instagram
+      </a>
+      <a href="https://itch.io/profile/aventra-games" target="_blank">
+        <img src="https://static.itch.io/images/itchio-textless-black.svg" alt="Itch.io" width="24" height="24"> Itch.io
+      </a>
+      <a href="https://discord.gg/kdZ559w8BN" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" width="24" height="24"> Discord
+      </a>
+    </div>
+  </div>
+</section>
+
+  <footer>
+    &copy; 2025 Aventra. Tüm hakları saklıdır.
+  </footer>
+</body>
+</html>
+
