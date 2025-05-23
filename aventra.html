@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Aventra</title>
   <style>
+    html {
+      scroll-behavior: smooth;
+    }
     :root {
       --orange: #FF6600;
       --dark: #2B0B3F;
@@ -125,22 +128,123 @@
   </style>
 </head>
 <body>
-  <header>
-    <h1>Aventra</h1>
-    <nav>
-      <a href="#hakkimizda">Hakkımızda</a>
-      <a href="#vizyon">Vizyon</a>
-      <a href="#ekip">Ekip</a>
-      <a href="#oyunlar">Oyunlarımız</a>
-      <a href="#iletisim">İletişim</a>
-    </nav>
-  </header>
+<header>
+  <div class="brand">
+    <img src="assets/images/aventra_woutbg.png" alt="Aventra Logo" class="brand-logo">
+    <span class="brand-name">VENTRA</span>
+  </div>
+  <nav>
+    <a href="#hakkimizda">Hakkımızda</a>
+    <a href="#vizyon">Vizyon</a>
+    <a href="#ekip">Ekip</a>
+    <a href="#oyunlar">Oyunlarımız</a>
+    <a href="#iletisim">İletişim</a>
+  </nav>
+</header>
 
-  <section class="hero">
+<style>
+  header {
+    background-color: var(--orange);
+    color: white;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  }
+
+  .brand {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.35rem;
+  }
+
+  .brand-logo {
+    width: 64px;
+    height: 64px;
+    display: block;
+  }
+
+  .brand-name {
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: white;
+    line-height: 1;
+    padding-bottom: 10px;
+  }
+
+  nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 1rem;
+    font-weight: bold;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    background: linear-gradient(145deg, #ff7f2e, #e25500);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block;
+  }
+
+  nav a:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 12px rgba(255, 102, 0, 0.6);
+  }
+</style>
+<section class="hero">
+  <img src="assets/images/aventra_woutbg.png" alt="Aventra Logo" class="hero-logo">
+  <div class="hero-content">
     <h2>Macera Dolu Atmosfer</h2>
     <p>Her oyun, keşfe değer bir hikaye sunar. Aventra ile oyun dünyanı yeniden tanımla.</p>
-    <img src="/mnt/data/aventra_woutbg.png" alt="Aventra Logo Maskot">
-  </section>
+  </div>
+  <img src="assets/images/aventra-maskot.png" alt="Aventra Logo Maskot" width="160" class="hero-maskot">
+</section>
+
+<style>
+  .hero {
+    padding: 3rem 2rem 6rem;
+    background: linear-gradient(to right, var(--orange), var(--dark-accent));
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: visible;
+  }
+
+  .hero-logo {
+    width: 180px;
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: transform 0.5s ease;
+    z-index: 3;
+  }
+
+  .hero-logo:hover {
+    transform: translateX(-50%) scale(1.08);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    margin-top: 8rem;
+  }
+
+  .hero-maskot {
+    margin-top: 3rem;
+    transition: transform 0.4s ease;
+    position: relative;
+    z-index: 4;
+  }
+
+  .hero-maskot:hover {
+    transform: scale(1.05);
+  }
+</style>
+
+
 
   <section id="hakkimizda" class="section">
     <h3>Hakkımızda</h3>
@@ -159,7 +263,7 @@
   <section id="ekip" class="section">
     <h3>Ekip</h3>
     <div class="card">
-      <p>Her biri oyun sektörüne tutkuyla bağlı geliştiricilerden oluşan bir çekirdek kadro ile çalışıyoruz. Ekibimizde oyun geliştiricisi, tasarımcı, sanatçı ve proje yöneticileri yer alıyor. Karar verici kişi: <strong>Mesut Atakan Temiz</strong>.</p>
+      <p>Her biri oyun sektörüne tutkuyla bağlı geliştiricilerden oluşan bir çekirdek kadro ile çalışıyoruz. Ekibimizde oyun geliştiricisi, tasarımcı, sanatçı ve proje yöneticileri yer alıyor.</p>
     </div>
   </section>
 
