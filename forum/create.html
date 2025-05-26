@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aventra Bilgi Bankası</title>
+  <title>Yeni Forum Oluştur</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     body {
@@ -78,25 +78,43 @@
     .entry-list {
       margin-top: 3rem;
     }
-    .entry {
-      background-color: #472c61;
-      padding: 1rem;
+    .entry-card {
+      display: flex;
+      flex-direction: column;
+      background-color: #fff;
       border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      transition: transform 0.2s ease;
+      color: #000;
+      text-decoration: none;
       margin-bottom: 1rem;
     }
-    .entry h3 {
+    .entry-card:hover {
+      transform: scale(1.02);
+    }
+    .entry-card .content {
+      padding: 1rem;
+    }
+    .entry-card h3 {
+      font-size: 1.2rem;
       margin: 0 0 0.5rem;
+    }
+    .entry-card p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #444;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Aventra Bilgi Bankası</h1>
+    <h1>Yeni Forum Oluştur</h1>
     <a href="/index.html" style="color:white; text-decoration:none;">Anasayfa</a>
   </header>
   <main>
     <section class="new-page">
-      <input type="text" id="pageTitle" placeholder="Yeni Sayfa Başlığı (örn. Unity 6 ile DirectX 12 Avantajları)">
+      <input type="text" id="pageTitle" placeholder="Forum Başlığı (örn. Unity 6 ile DirectX 12 Avantajları)">
       <div class="toolbar">
         <button onclick="execCmd('bold')"><i class="fas fa-bold"></i></button>
         <button onclick="execCmd('italic')"><i class="fas fa-italic"></i></button>
@@ -111,14 +129,10 @@
         <button onclick="insertImage()"><i class="fas fa-image"></i></button>
       </div>
       <div id="pageContent" contenteditable="true" aria-label="İçerik Alanı"></div>
-      <button class="submit" onclick="createEntry()">Sayfa Oluştur</button>
+      <button class="submit" onclick="createEntry()">Forum Sayfasını Oluştur</button>
     </section>
-
-    <section class="entry-list" id="entryList">
-      <!-- Oluşturulan sayfalar burada listelenecek -->
-    </section>
+    <section class="entry-list" id="entryList"></section>
   </main>
-
   <script>
     function execCmd(command, value = null) {
       document.execCommand(command, false, value);
@@ -136,10 +150,16 @@
       const content = document.getElementById('pageContent').innerHTML;
       if (title && content.trim() !== '') {
         const list = document.getElementById('entryList');
-        const entry = document.createElement('div');
-        entry.className = 'entry';
-        entry.innerHTML = `<h3>${title}</h3>${content}`;
-        list.prepend(entry);
+        const card = document.createElement('a');
+        card.className = 'entry-card';
+        card.href = 'forum-detail.html';
+        card.innerHTML = `
+          <div class="content">
+            <h3>${title}</h3>
+            <p>${content.slice(0, 120)}...</p>
+          </div>
+        `;
+        list.prepend(card);
         document.getElementById('pageTitle').value = '';
         document.getElementById('pageContent').innerHTML = '';
       }
