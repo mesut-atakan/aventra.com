@@ -1,38 +1,47 @@
-using UnityEngine;
+// forum/firebase-forum.js
 
-public class CameraDetection : MonoBehaviour
-{
-    [SerializeField, Range(0.0f, 1.0f)] private float angleThreshold = 0.5f; // Açı eşik değeri
-    [SerializeField, Range(0.0f, 1.0f)] private float topLimit = 0.1f;      // Üst sınırın yüzde cinsinden değeri
-    [SerializeField, Range(0.0f, 1.0f)] private float bottomLimit = 0.1f;   // Alt sınırın yüzde cinsinden değeri
-    [SerializeField, Range(0.0f, 1.0f)] private float rightLimit = 0.1f;    // Sağ sınırın yüzde cinsinden değeri
-    [SerializeField, Range(0.0f, 1.0f)] private float leftLimit = 0.1f;     // Sol sınırın yüzde cinsinden değeri
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-    internal bool ObjectInCameraDirection(Transform searchObject)
-    {
-        // Kamera ve nesne arasındaki vektörü al
-        Vector3 toObject = searchObject.position - GameManager.Camera.transform.position;
+const firebaseConfig = {
+  apiKey: "AIzaSyDFXXqR4Xze-NAfccFCnDzDL7e-xcZGL9s",
+  authDomain: "aventra-forum.firebaseapp.com",
+  projectId: "aventra-forum",
+  storageBucket: "aventra-forum.appspot.com",
+  messagingSenderId: "813714185971",
+  appId: "1:813714185971:web:cff1c9d2903ce3d7122186",
+  measurementId: "G-FYYR18WRCP"
+};
 
-        // Kamera vektörünü normalleştir
-        Vector3 cameraDirection = GameManager.Camera.transform.forward.normalized;
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-        // Vektörleri normalleştir
-        toObject.Normalize();
+// Global fonksiyon olarak tarayıcıya export
+window.createEntry = async function () {
+  const title = document.getElementById('pageTitle').value;
+  const content = document.getElementById('pageContent').innerHTML;
 
-        // Vektörler arasındaki açıyı kontrol et
-        float angle = Vector3.Dot(cameraDirection, toObject);
+  if (title && content.trim() !== '') {
+    try {
+      await addDoc(collection(db, "forums"), {
+        title,
+        content,
+        createdAt: serverTimestamp()
+      });
 
-        // Üst, alt, sağ ve sol sınırları belirle
-        float topLimitAngle = Mathf.Acos(topLimit);
-        float bottomLimitAngle = Mathf.Acos(bottomLimit);
-        float rightLimitAngle = Mathf.Acos(rightLimit);
-        float leftLimitAngle = Mathf.Acos(leftLimit);
-
-        // Nesnenin açısı üst, alt, sağ ve sol sınırlar içinde mi kontrol et
-        bool isInLimits = angle > topLimitAngle && angle < bottomLimitAngle &&
-                          Mathf.Abs(Vector3.Dot(toObject, Vector3.right)) > leftLimitAngle &&
-                          Mathf.Abs(Vector3.Dot(toObject, Vector3.right)) < rightLimitAngle;
-
-        return isInLimits;
+      alert("Forum başarıyla Firestore'a kaydedildi.");
+      document.getElementById('pageTitle').value = '';
+      document.getElementById('pageContent').innerHTML = '';
+    } catch (error) {
+      console.error("Veri ekleme hatası:", error);
+      alert("Bir hata oluştu. Lütfen tekrar deneyin.");
     }
-}
+  } else {
+    alert("Lütfen başlık ve içerik alanlarını doldurun.");
+  }
+};
