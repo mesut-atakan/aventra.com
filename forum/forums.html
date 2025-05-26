@@ -26,6 +26,18 @@
             align-items: center;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
         }
+        .subforum-description p {
+            margin: 0;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #ccc;
+            display: -webkit-box;
+            -webkit-line-clamp: 5;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-height: 7.5em; /* roughly 5 lines depending on font-size */
+        }
         .sidebar-menu {
             position: fixed;
             top: 0;
@@ -216,7 +228,7 @@
         </div>
         <div class="subforum-description subforum-column">
         <h4><a href="detail.html?id=${doc.id}">${data.title}</a></h4>
-        <p>${data.content?.slice(0, 150)}...</p>
+        <p>${data.content?.slice(0, 300)}...</p>
         </div>
         <div class="subforum-stats subforum-column center">
         <span>1 Yorum | 1 Konu</span>
@@ -231,6 +243,7 @@
 
         loadForums();
     </script>
+
     <script src="../main.js"></script>
 </body>
 </html>
