@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aventra Bilgi Bankası</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #2B0B3F;
+      color: #F9F9F9;
+    }
+    header {
+      background-color: #FF6600;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    main {
+      max-width: 800px;
+      margin: 3rem auto;
+      padding: 0 1rem;
+    }
+    .new-page {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      background-color: #3E2B59;
+      padding: 2rem;
+      border-radius: 10px;
+    }
+    .new-page input {
+      padding: 0.75rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    .toolbar {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .toolbar button {
+      background: #4c2c5b;
+      color: white;
+      border: none;
+      padding: 0.4rem 0.6rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #pageContent {
+      background: #fff;
+      color: #000;
+      padding: 1rem;
+      border-radius: 5px;
+      min-height: 200px;
+      font-size: 1rem;
+      border: none;
+      outline: none;
+    }
+    .new-page button.submit {
+      background-color: #FF6600;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .entry-list {
+      margin-top: 3rem;
+    }
+    .entry {
+      background-color: #472c61;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+    .entry h3 {
+      margin: 0 0 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Aventra Bilgi Bankası</h1>
+    <a href="/index.html" style="color:white; text-decoration:none;">Anasayfa</a>
+  </header>
+  <main>
+    <section class="new-page">
+      <input type="text" id="pageTitle" placeholder="Yeni Sayfa Başlığı (örn. Unity 6 ile DirectX 12 Avantajları)">
+      <div class="toolbar">
+        <button onclick="execCmd('bold')"><i class="fas fa-bold"></i></button>
+        <button onclick="execCmd('italic')"><i class="fas fa-italic"></i></button>
+        <button onclick="execCmd('underline')"><i class="fas fa-underline"></i></button>
+        <button onclick="execCmd('strikeThrough')"><i class="fas fa-strikethrough"></i></button>
+        <button onclick="execCmd('insertUnorderedList')"><i class="fas fa-list-ul"></i></button>
+        <button onclick="execCmd('insertOrderedList')"><i class="fas fa-list-ol"></i></button>
+        <button onclick="execCmd('formatBlock','<h1>')">H1</button>
+        <button onclick="execCmd('formatBlock','<h2>')">H2</button>
+        <button onclick="execCmd('formatBlock','<h3>')">H3</button>
+        <button onclick="insertLink()"><i class="fas fa-link"></i></button>
+        <button onclick="insertImage()"><i class="fas fa-image"></i></button>
+      </div>
+      <div id="pageContent" contenteditable="true" aria-label="İçerik Alanı"></div>
+      <button class="submit" onclick="createEntry()">Sayfa Oluştur</button>
+    </section>
+
+    <section class="entry-list" id="entryList">
+      <!-- Oluşturulan sayfalar burada listelenecek -->
+    </section>
+  </main>
+
+  <script>
+    function execCmd(command, value = null) {
+      document.execCommand(command, false, value);
+    }
+    function insertLink() {
+      const url = prompt("Bağlantı URL'si girin:");
+      if (url) execCmd('createLink', url);
+    }
+    function insertImage() {
+      const url = prompt("Görsel URL'si girin:");
+      if (url) execCmd('insertImage', url);
+    }
+    function createEntry() {
+      const title = document.getElementById('pageTitle').value;
+      const content = document.getElementById('pageContent').innerHTML;
+      if (title && content.trim() !== '') {
+        const list = document.getElementById('entryList');
+        const entry = document.createElement('div');
+        entry.className = 'entry';
+        entry.innerHTML = `<h3>${title}</h3>${content}`;
+        list.prepend(entry);
+        document.getElementById('pageTitle').value = '';
+        document.getElementById('pageContent').innerHTML = '';
+      }
+    }
+  </script>
+</body>
+</html>
