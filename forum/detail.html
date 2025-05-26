@@ -7,22 +7,93 @@
     <link rel="stylesheet" href="../style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            background: linear-gradient(to right, #2B0B3F, #6E2B6D);
+            color: #F9F9F9;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #FF6600;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .sidebar-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 220px;
+            background-color: #3E2B59;
+            display: flex;
+            flex-direction: column;
+            padding-top: 80px;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+        }
+
+            .sidebar-menu a {
+                color: white;
+                padding: 1rem;
+                text-decoration: none;
+                font-weight: bold;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                transition: background-color 0.3s ease;
+            }
+
+                .sidebar-menu a:hover {
+                    background-color: #6E2B6D;
+                }
+
+        .sidebar-hidden {
+            display: none;
+        }
+
+        .subforum-title h1 {
+            color: #FF6600;
+            font-size: 2rem;
+        }
+
+        .content-box {
+            background-color: white;
+            color: black;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: white;
+            background-color: #1A042C;
+            font-size: 0.9rem;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="navbar">
-            <nav class="navigation hide" id="navigation">
-                <span class="close-icon" id="close-icon" onclick="showIconBar()"><i class="fa fa-close"></i></span>
-                <ul class="nav-list">
-                    <li class="nav-item"><a href="../index.html">Anasayfa</a></li>
-                    <li class="nav-item"><a href="forums.html">Forumlar</a></li>
-                    <li class="nav-item"><a href="create.html">Yeni Forum Oluştur</a></li>
-                </ul>
-            </nav>
-            <a class="bar-icon" id="iconBar" onclick="hideIconBar()"><i class="fa fa-bars"></i></a>
+            <a class="bar-icon" id="iconBar"><i class="fa fa-bars"></i></a>
             <div class="brand">Aventra</div>
         </div>
     </header>
+
+    <div id="sidebar" class="sidebar-menu sidebar-hidden">
+        <a href="../index.html">Anasayfa</a>
+        <a href="forums.html">Forumlar</a>
+        <a href="create.html">Yeni Forum Oluştur</a>
+    </div>
 
     <div class="container">
         <div class="subforum">
@@ -38,6 +109,15 @@
     <footer>
         <span>&copy; Aventra Ekibi | Tüm Hakları Saklıdır</span>
     </footer>
+
+    <script>
+        const iconBar = document.getElementById("iconBar");
+        const sidebar = document.getElementById("sidebar");
+
+        iconBar.onclick = function () {
+        sidebar.classList.toggle("sidebar-hidden");
+        }
+    </script>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
