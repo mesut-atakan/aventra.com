@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <script type="module" src="firebase-forum.js"></script>
+	<script type="module" src="../firebase-forum.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Yeni Forum Oluştur</title>
@@ -146,25 +146,7 @@
       const url = prompt("Görsel URL'si girin:");
       if (url) execCmd('insertImage', url);
     }
-    function createEntry() {
-      const title = document.getElementById('pageTitle').value;
-      const content = document.getElementById('pageContent').innerHTML;
-      if (title && content.trim() !== '') {
-        const list = document.getElementById('entryList');
-        const card = document.createElement('a');
-        card.className = 'entry-card';
-        card.href = 'forum-detail.html';
-        card.innerHTML = `
-          <div class="content">
-            <h3>${title}</h3>
-            <p>${content.slice(0, 120)}...</p>
-          </div>
-        `;
-        list.prepend(card);
-        document.getElementById('pageTitle').value = '';
-        document.getElementById('pageContent').innerHTML = '';
-      }
-    }
+    
   </script>
 </body>
 </html>
