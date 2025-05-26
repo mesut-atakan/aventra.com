@@ -2,6 +2,7 @@
 <html lang="tr">
 <head>
 	<script type="module" src="./firebase-forum.js"></script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Yeni Forum Oluştur</title>
@@ -109,44 +110,106 @@
   </style>
 </head>
 <body>
-  <header>
-    <h1>Yeni Forum Oluştur</h1>
-    <a href="/index.html" style="color:white; text-decoration:none;">Anasayfa</a>
-  </header>
-  <main>
-    <section class="new-page">
-      <input type="text" id="pageTitle" placeholder="Forum Başlığı (örn. Unity 6 ile DirectX 12 Avantajları)">
-      <div class="toolbar">
-        <button onclick="execCmd('bold')"><i class="fas fa-bold"></i></button>
-        <button onclick="execCmd('italic')"><i class="fas fa-italic"></i></button>
-        <button onclick="execCmd('underline')"><i class="fas fa-underline"></i></button>
-        <button onclick="execCmd('strikeThrough')"><i class="fas fa-strikethrough"></i></button>
-        <button onclick="execCmd('insertUnorderedList')"><i class="fas fa-list-ul"></i></button>
-        <button onclick="execCmd('insertOrderedList')"><i class="fas fa-list-ol"></i></button>
-        <button onclick="execCmd('formatBlock','<h1>')">H1</button>
-        <button onclick="execCmd('formatBlock','<h2>')">H2</button>
-        <button onclick="execCmd('formatBlock','<h3>')">H3</button>
-        <button onclick="insertLink()"><i class="fas fa-link"></i></button>
-        <button onclick="insertImage()"><i class="fas fa-image"></i></button>
-      </div>
-      <div id="pageContent" contenteditable="true" aria-label="İçerik Alanı"></div>
-      <button class="submit" onclick="createEntry()">Forum Sayfasını Oluştur</button>
-    </section>
-    <section class="entry-list" id="entryList"></section>
-  </main>
-  <script>
-    function execCmd(command, value = null) {
-      document.execCommand(command, false, value);
-    }
-    function insertLink() {
-      const url = prompt("Bağlantı URL'si girin:");
-      if (url) execCmd('createLink', url);
-    }
-    function insertImage() {
-      const url = prompt("Görsel URL'si girin:");
-      if (url) execCmd('insertImage', url);
-    }
-    
-  </script>
+
+    <header>
+        <div class="brand">
+            <img src="../assets/images/aventra_woutbg.png" alt="Aventra Logo" class="brand-logo">
+            <span class="brand-name">VENTRA</span>
+        </div>
+        <nav>
+            <a href="../index.html">Anasayfa</a>
+            <a href="../index.html#hakkimizda">Hakkımızda</a>
+            <a href="../index.html#vizyon">Vizyon</a>
+            <a href="../index.html#ekip">Ekip</a>
+            <a href="../index.html#oyunlar">Oyunlarımız</a>
+            <a href="../index.html#iletisim">İletişim</a>
+        </nav>
+    </header>
+
+    <style>
+        header {
+            background-color: #FF6600;
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .brand-logo {
+            width: 48px;
+            height: 48px;
+            display: block;
+        }
+
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: white;
+            line-height: 1;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1rem;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            background: linear-gradient(145deg, #ff7f2e, #e25500);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: inline-block;
+        }
+
+            nav a:hover {
+                transform: scale(1.08);
+                box-shadow: 0 6px 12px rgba(255, 102, 0, 0.6);
+            }
+    </style>
+    <main>
+        <section class="new-page">
+            <input type="text" id="pageTitle" placeholder="Forum Başlığı (örn. Unity 6 ile DirectX 12 Avantajları)">
+            <div class="toolbar">
+                <button onclick="execCmd('bold')"><i class="fas fa-bold"></i></button>
+                <button onclick="execCmd('italic')"><i class="fas fa-italic"></i></button>
+                <button onclick="execCmd('underline')"><i class="fas fa-underline"></i></button>
+                <button onclick="execCmd('strikeThrough')"><i class="fas fa-strikethrough"></i></button>
+                <button onclick="execCmd('insertUnorderedList')"><i class="fas fa-list-ul"></i></button>
+                <button onclick="execCmd('insertOrderedList')"><i class="fas fa-list-ol"></i></button>
+                <button onclick="execCmd('formatBlock','<h1>')">H1</button>
+                <button onclick="execCmd('formatBlock','<h2>')">H2</button>
+                <button onclick="execCmd('formatBlock','<h3>')">H3</button>
+                <button onclick="insertLink()"><i class="fas fa-link"></i></button>
+                <button onclick="insertImage()"><i class="fas fa-image"></i></button>
+            </div>
+            <div id="pageContent" contenteditable="true" aria-label="İçerik Alanı"></div>
+            <button class="submit" onclick="createEntry()">Forum Sayfasını Oluştur</button>
+        </section>
+        <section class="entry-list" id="entryList"></section>
+    </main>
+    <script>
+        function execCmd(command, value = null) {
+        document.execCommand(command, false, value);
+        }
+        function insertLink() {
+        const url = prompt("Bağlantı URL'si girin:");
+        if (url) execCmd('createLink', url);
+        }
+        function insertImage() {
+        const url = prompt("Görsel URL'si girin:");
+        if (url) execCmd('insertImage', url);
+        }
+
+    </script>
 </body>
 </html>
