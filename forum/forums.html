@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aventra Forumlarý</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            background: linear-gradient(to right, #2B0B3F, #6E2B6D);
+            color: #F9F9F9;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #FF6600;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+        .sidebar-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 220px;
+            background-color: #3E2B59;
+            display: flex;
+            flex-direction: column;
+            padding-top: 80px;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 999;
+        }
+
+            .sidebar-menu a {
+                color: white;
+                padding: 1rem;
+                text-decoration: none;
+                font-weight: bold;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                transition: background-color 0.3s ease;
+            }
+
+                .sidebar-menu a:hover {
+                    background-color: #6E2B6D;
+                }
+
+        .sidebar-hidden {
+            display: none;
+        }
+
+        .subforum-row {
+            display: grid;
+            grid-template-columns: 50px 1fr 120px 150px;
+            align-items: start;
+            background-color: #1E1A2B;
+            color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            width: 100%;
+            min-height: 160px;
+            box-sizing: border-box;
+        }
+
+        .subforum-description h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.3rem;
+            line-height: 1.2;
+        }
+
+        .subforum-description p {
+            margin: 0;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #ccc;
+        }
+
+        .subforum-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .forum-info {
+            text-align: center;
+            margin-top: auto;
+            padding: 1rem;
+            background-color: #1A042C;
+            color: white;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: white;
+            background-color: #1A042C;
+            font-size: 0.9rem;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .search-box select,
+        .search-box input,
+        .search-box button {
+            padding: 0.5rem;
+            border-radius: 6px;
+            border: none;
+            margin: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <nav class="navigation hide" id="navigation">
+                <span class="close-icon" id="close-icon" onclick="showIconBar()"><i class="fa fa-close"></i></span>
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="../index.html">Anasayfa</a></li>
+                    <li class="nav-item"><a href="forums.html">Forumlar</a></li>
+                    <li class="nav-item"><a href="create.html">Yeni Forum Oluþtur</a></li>
+                </ul>
+            </nav>
+            <a class="bar-icon" id="iconBar" onclick="hideIconBar()"><i class="fa fa-bars"></i></a>
+            <div class="brand">Aventra</div>
+        </div>
+        <div class="search-box">
+            <div>
+                <select>
+                    <option value="Everything">Her Þy</option>
+                    <option value="Titles">Baþlýklar</option>
+                    <option value="Descriptions">Açýklamalar</option>
+                </select>
+                <input type="text" placeholder="Arama...">
+                <button><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="subforum">
+            <div class="subforum-title">
+                <h1>En Son Forumlar</h1>
+            </div>
+            <div id="forumList"></div>
+        </div>
+    </div>
+
+    <div class="forum-info">
+        <div class="chart">Aventra Forum Stats <i class="fa fa-bar-chart"></i></div>
+        <span><u>5</u> Forum Konusu mevcut. <a href="create.html">Yeni Forum Oluþtur</a></span>
+    </div>
+
+    <footer>
+        <span>&copy; Aventra Ekibi | Tüm Haklarý Saklýdýr</span>
+    </footer>
+
+    <div id="sidebar" class="sidebar-menu sidebar-hidden">
+        <a href="../index.html">Anasayfa</a>
+        <a href="forums.html">Forumlar</a>
+        <a href="create.html">Yeni Forum Oluþtur</a>
+    </div>
+
+    <script>
+        const iconBar = document.getElementById("iconBar");
+        const closeIcon = document.getElementById("close-icon");
+        const sidebar = document.getElementById("sidebar");
+
+        function toggleSidebar() {
+        sidebar.classList.toggle("sidebar-hidden");
+        }
+
+        iconBar.onclick = toggleSidebar;
+        closeIcon.onclick = toggleSidebar;
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+        apiKey: "AIzaSyDFXXqR4Xze-NAfccFCnDzDL7e-xcZGL9s",
+        authDomain: "aventra-forum.firebaseapp.com",
+        projectId: "aventra-forum",
+        storageBucket: "aventra-forum.appspot.com",
+        messagingSenderId: "813714185971",
+        appId: "1:813714185971:web:cff1c9d2903ce3d7122186",
+        measurementId: "G-FYYR18WRCP"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const forumList = document.getElementById("forumList");
+
+        async function loadForums() {
+        const q = query(collection(db, "forums"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+
+        forumList.innerHTML = '';
+        snapshot.forEach(doc => {
+        const data = doc.data();
+        const row = document.createElement("div");
+        row.className = "subforum-row";
+        row.innerHTML = `
+        <div class="subforum-icon subforum-column center">
+        <i class="fa fa-fire"></i>
+        </div>
+        <div class="subforum-description subforum-column">
+        <h4><a href="detail.html?id=${doc.id}">${data.title}</a></h4>
+        <p>${data.content?.slice(0, 150)}...</p>
+        </div>
+        <div class="subforum-stats subforum-column center">
+        <span>1 Yorum | 1 Konu</span>
+        </div>
+        <div class="subforum-info subforum-column">
+        <b><a href="detail.html?id=${doc.id}">Son yorum</a></b><br><small>Bugün</small>
+        </div>
+        `;
+        forumList.appendChild(row);
+        });
+        }
+
+        loadForums();
+    </script>
+    <script src="../main.js"></script>
+</body>
+</html>

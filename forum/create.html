@@ -1,202 +1,225 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-	<script type="module" src="./firebase-forum.js"></script>
-
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Yeni Forum Oluştur</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #2B0B3F;
-      color: #F9F9F9;
-    }
-    header {
-      background-color: #FF6600;
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 1.5rem;
-    }
-    main {
-      max-width: 800px;
-      margin: 3rem auto;
-      padding: 0 1rem;
-    }
-    .new-page {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      background-color: #3E2B59;
-      padding: 2rem;
-      border-radius: 10px;
-    }
-    .new-page input {
-      padding: 0.75rem;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-    }
-    .toolbar {
-      display: flex;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-    .toolbar button {
-      background: #4c2c5b;
-      color: white;
-      border: none;
-      padding: 0.4rem 0.6rem;
-      font-size: 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    #pageContent {
-      background: #fff;
-      color: #000;
-      padding: 1rem;
-      border-radius: 5px;
-      min-height: 200px;
-      font-size: 1rem;
-      border: none;
-      outline: none;
-    }
-    .new-page button.submit {
-      background-color: #FF6600;
-      color: white;
-      border: none;
-      padding: 0.75rem 1.5rem;
-      font-size: 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .entry-list {
-      margin-top: 3rem;
-    }
-    .entry-card {
-      display: flex;
-      flex-direction: column;
-      background-color: #fff;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      transition: transform 0.2s ease;
-      color: #000;
-      text-decoration: none;
-      margin-bottom: 1rem;
-    }
-    .entry-card:hover {
-      transform: scale(1.02);
-    }
-    .entry-card .content {
-      padding: 1rem;
-    }
-    .entry-card h3 {
-      font-size: 1.2rem;
-      margin: 0 0 0.5rem;
-    }
-    .entry-card p {
-      font-size: 0.95rem;
-      line-height: 1.5;
-      color: #444;
-    }
-  </style>
-</head>
-<body>
-
-    <header>
-        <div class="brand">
-            <img src="../assets/images/aventra_woutbg.png" alt="Aventra Logo" class="brand-logo">
-            <span class="brand-name">VENTRA</span>
-        </div>
-        <nav>
-            <a href="../index.html">Anasayfa</a>
-            <a href="../index.html#hakkimizda">Hakkımızda</a>
-            <a href="../index.html#vizyon">Vizyon</a>
-            <a href="../index.html#ekip">Ekip</a>
-            <a href="../index.html#oyunlar">Oyunlarımız</a>
-            <a href="../index.html#iletisim">İletişim</a>
-        </nav>
-    </header>
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Yeni Forum Oluştur</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet" />
     <style>
+        body {
+            background: linear-gradient(to right, #2B0B3F, #6E2B6D);
+            color: #F9F9F9;
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: block;
+            flex-direction: column;
+        }
+
         header {
             background-color: #FF6600;
-            color: white;
-            padding: 1.5rem 2rem;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 4px 8px rgba(0,0,0,0.4);
         }
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .brand-logo {
-            width: 48px;
-            height: 48px;
-            display: block;
-        }
-
-        .brand-name {
-            font-size: 1.5rem;
+        .navbar .brand {
             font-weight: bold;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            font-size: 1.4rem;
             color: white;
-            line-height: 1;
+        }
+        .sidebar-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 220px;
+            background-color: #3E2B59;
+            display: flex;
+            flex-direction: column;
+            padding-top: 80px;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 999;
         }
 
-        nav a {
+            .sidebar-menu a {
+                color: white;
+                padding: 1rem;
+                text-decoration: none;
+                font-weight: bold;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                transition: background-color 0.3s ease;
+            }
+
+                .sidebar-menu a:hover {
+                    background-color: #6E2B6D;
+                }
+
+        .sidebar-hidden {
+            display: none;
+        }
+        .nav-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav-item a {
             color: white;
             text-decoration: none;
-            margin-left: 1rem;
             font-weight: bold;
             padding: 0.5rem 1rem;
-            border-radius: 8px;
+            border-radius: 5px;
             background: linear-gradient(145deg, #ff7f2e, #e25500);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: inline-block;
+            transition: 0.3s ease;
         }
 
-            nav a:hover {
-                transform: scale(1.08);
-                box-shadow: 0 6px 12px rgba(255, 102, 0, 0.6);
+        .container {
+            max-width: 800px;
+            margin: 3rem auto;
+            background-color: #3E2B59;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .subforum-title h1 {
+            color: #FF6600;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .input-title, .content-box {
+            width: 100%;
+            padding: 0.75rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .content-box {
+            min-height: 200px;
+            background-color: white;
+            color: black;
+        }
+
+        .toolbar button {
+            background: #6E2B6D;
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            margin-right: 0.25rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .submit-button {
+            background-color: #FF6600;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            color: white;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+            .page-wrapper footer {
+                margin-top: auto;
+                background-color: #1A042C;
+                color: white;
+                text-align: center;
+                padding: 2rem;
+                font-size: 0.85rem;
+                box-shadow: 0 -4px 10px rgba(0,0,0,0.3);
             }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: white;
+            background-color: #1A042C;
+            font-size: 0.85rem;
+            margin-top: 3rem;
+        }
     </style>
-    <main>
-        <section class="new-page">
-            <input type="text" id="pageTitle" placeholder="Forum Başlığı (örn. Unity 6 ile DirectX 12 Avantajları)">
-            <div class="toolbar">
-                <button onclick="execCmd('bold')"><i class="fas fa-bold"></i></button>
-                <button onclick="execCmd('italic')"><i class="fas fa-italic"></i></button>
-                <button onclick="execCmd('underline')"><i class="fas fa-underline"></i></button>
-                <button onclick="execCmd('strikeThrough')"><i class="fas fa-strikethrough"></i></button>
-                <button onclick="execCmd('insertUnorderedList')"><i class="fas fa-list-ul"></i></button>
-                <button onclick="execCmd('insertOrderedList')"><i class="fas fa-list-ol"></i></button>
-                <button onclick="execCmd('formatBlock','<h1>')">H1</button>
-                <button onclick="execCmd('formatBlock','<h2>')">H2</button>
-                <button onclick="execCmd('formatBlock','<h3>')">H3</button>
-                <button onclick="insertLink()"><i class="fas fa-link"></i></button>
-                <button onclick="insertImage()"><i class="fas fa-image"></i></button>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <nav class="navigation hide" id="navigation">
+                <span class="close-icon" id="close-icon" onclick="showIconBar()"><i class="fa fa-close"></i></span>
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="../index.html">Anasayfa</a></li>
+                    <li class="nav-item"><a href="forums.html">Forumlar</a></li>
+                    <li class="nav-item"><a href="create.html">Yeni Forum Oluştur</a></li>
+                </ul>
+            </nav>
+            <a class="bar-icon" id="iconBar" onclick="hideIconBar()"><i class="fa fa-bars"></i></a>
+            <div class="brand">Aventra</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="subforum">
+            <div class="subforum-title">
+                <h1>Yeni Forum Oluştur</h1>
             </div>
-            <div id="pageContent" contenteditable="true" aria-label="İçerik Alanı"></div>
-            <button class="submit" onclick="createEntry()">Forum Sayfasını Oluştur</button>
-        </section>
-        <section class="entry-list" id="entryList"></section>
-    </main>
+            <div class="new-forum-form">
+                <input type="text" id="pageTitle" placeholder="Forum Başlığı (\u00f6rn. Unity 6 ile DirectX 12 Avantajları)" class="input-title" />
+                <div class="toolbar">
+                    <button onclick="execCmd('bold')"><i class="fa fa-bold"></i></button>
+                    <button onclick="execCmd('italic')"><i class="fa fa-italic"></i></button>
+                    <button onclick="execCmd('underline')"><i class="fa fa-underline"></i></button>
+                    <button onclick="execCmd('strikeThrough')"><i class="fa fa-strikethrough"></i></button>
+                    <button onclick="execCmd('insertUnorderedList')"><i class="fa fa-list-ul"></i></button>
+                    <button onclick="execCmd('insertOrderedList')"><i class="fa fa-list-ol"></i></button>
+                    <button onclick="insertLink()"><i class="fa fa-link"></i></button>
+                    <button onclick="insertImage()"><i class="fa fa-image"></i></button>
+                </div>
+                <div id="pageContent" contenteditable="true" aria-label="İçerik Alanı" class="content-box"></div>
+                <button class="submit-button" onclick="createEntry()">Forum Sayfasını Oluştur</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-wrapper">
+        <footer>
+            <span>&copy; Aventra Ekibi | Tüm Hakları Saklıdır</span>
+        </footer>
+    </div>
+    <div id="sidebar" class="sidebar-menu sidebar-hidden">
+        <a href="../index.html">Anasayfa</a>
+        <a href="forums.html">Forumlar</a>
+        <a href="create.html">Yeni Forum Oluştur</a>
+    </div>
+
+    <script>
+        const iconBar = document.getElementById("iconBar");
+        const closeIcon = document.getElementById("close-icon");
+        const sidebar = document.getElementById("sidebar");
+
+        function toggleSidebar() {
+        sidebar.classList.toggle("sidebar-hidden");
+        }
+
+        iconBar.onclick = toggleSidebar;
+        closeIcon.onclick = toggleSidebar;
+    </script>
+
+    <script type="module" src="./firebase-forum.js"></script>
     <script>
         function execCmd(command, value = null) {
         document.execCommand(command, false, value);
@@ -209,7 +232,7 @@
         const url = prompt("Görsel URL'si girin:");
         if (url) execCmd('insertImage', url);
         }
-
     </script>
+    <script src="../main.js"></script>
 </body>
 </html>
