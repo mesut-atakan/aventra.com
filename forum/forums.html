@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aventra Forumlarý</title>
+    <title>Aventra Forumlarï¿½</title>
     <link rel="stylesheet" href="../style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet" />
@@ -138,7 +138,7 @@
                 <ul class="nav-list">
                     <li class="nav-item"><a href="../index.html">Anasayfa</a></li>
                     <li class="nav-item"><a href="forums.html">Forumlar</a></li>
-                    <li class="nav-item"><a href="create.html">Yeni Forum Oluþtur</a></li>
+                    <li class="nav-item"><a href="create.html">Yeni Forum Oluï¿½tur</a></li>
                 </ul>
             </nav>
             <a class="bar-icon" id="iconBar" onclick="hideIconBar()"><i class="fa fa-bars"></i></a>
@@ -147,9 +147,9 @@
         <div class="search-box">
             <div>
                 <select>
-                    <option value="Everything">Her Þy</option>
-                    <option value="Titles">Baþlýklar</option>
-                    <option value="Descriptions">Açýklamalar</option>
+                    <option value="Everything">Her ï¿½y</option>
+                    <option value="Titles">Baï¿½lï¿½klar</option>
+                    <option value="Descriptions">Aï¿½ï¿½klamalar</option>
                 </select>
                 <input type="text" placeholder="Arama...">
                 <button><i class="fa fa-search"></i></button>
@@ -168,17 +168,17 @@
 
     <div class="forum-info">
         <div class="chart">Aventra Forum Stats <i class="fa fa-bar-chart"></i></div>
-        <span><u>5</u> Forum Konusu mevcut. <a href="create.html">Yeni Forum Oluþtur</a></span>
+        <span><u>5</u> Forum Konusu mevcut. <a href="create.html">Yeni Forum Oluï¿½tur</a></span>
     </div>
 
     <footer>
-        <span>&copy; Aventra Ekibi | Tüm Haklarý Saklýdýr</span>
+        <span>&copy; Aventra Ekibi | Tï¿½m Haklarï¿½ Saklï¿½dï¿½r</span>
     </footer>
 
     <div id="sidebar" class="sidebar-menu sidebar-hidden">
         <a href="../index.html">Anasayfa</a>
         <a href="forums.html">Forumlar</a>
-        <a href="create.html">Yeni Forum Oluþtur</a>
+        <a href="create.html">Yeni Forum Oluï¿½tur</a>
     </div>
 
     <script>
@@ -195,21 +195,27 @@
     </script>
 
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "firebase/app";
+        import { getAnalytics } from "firebase/analytics";
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
 
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
-        apiKey: "AIzaSyDFXXqR4Xze-NAfccFCnDzDL7e-xcZGL9s",
-        authDomain: "aventra-forum.firebaseapp.com",
-        projectId: "aventra-forum",
-        storageBucket: "aventra-forum.appspot.com",
-        messagingSenderId: "813714185971",
-        appId: "1:813714185971:web:cff1c9d2903ce3d7122186",
-        measurementId: "G-FYYR18WRCP"
+          apiKey: "AIzaSyAfkPiGwLZwvPQcTCFaQu-he7NjS4CG27U",
+          authDomain: "aventra-platform.firebaseapp.com",
+          projectId: "aventra-platform",
+          storageBucket: "aventra-platform.firebasestorage.app",
+          messagingSenderId: "1044485055341",
+          appId: "1:1044485055341:web:0bd3b3a2cecdded9423064",
+          masuramÄ±ndÄ±: "G-RZJ4H09WJW"
         };
 
+        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        const analytics = getAnalytics(app);
 
         const forumList = document.getElementById("forumList");
 
@@ -234,7 +240,7 @@
         <span>1 Yorum | 1 Konu</span>
         </div>
         <div class="subforum-info subforum-column">
-        <b><a href="detail.html?id=${doc.id}">Son yorum</a></b><br><small>Bugün</small>
+        <b><a href="detail.html?id=${doc.id}">Son yorum</a></b><br><small>Bugï¿½n</small>
         </div>
         `;
         forumList.appendChild(row);
