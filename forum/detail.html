@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum Detayý</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #2B0B3F;
+            color: #F9F9F9;
+        }
+
+        header {
+            background-color: #FF6600;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            header h1 {
+                margin: 0;
+                font-size: 1.5rem;
+            }
+
+        main {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            background-color: #3E2B59;
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        h2 {
+            color: #FF6600;
+        }
+
+        .loading {
+            text-align: center;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Forum Detayý</h1>
+        <a href="list.html" style="color:white; text-decoration:none;">Geri Dön</a>
+    </header>
+
+    <main id="forumContent">
+        <p class="loading">Yükleniyor...</p>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+        import {
+        getFirestore,
+        doc,
+        getDoc
+        } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+        apiKey: "AIzaSyDFXXqR4Xze-NAfccFCnDzDL7e-xcZGL9s",
+        authDomain: "aventra-forum.firebaseapp.com",
+        projectId: "aventra-forum",
+        storageBucket: "aventra-forum.appspot.com",
+        messagingSenderId: "813714185971",
+        appId: "1:813714185971:web:cff1c9d2903ce3d7122186",
+        measurementId: "G-FYYR18WRCP"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const params = new URLSearchParams(window.location.search);
+        const forumId = params.get("id");
+        const contentEl = document.getElementById("forumContent");
+
+        if (!forumId) {
+        contentEl.innerHTML = "<p>Geçersiz forum ID.</p>";
+        } else {
+        const ref = doc(db, "forums", forumId);
+        getDoc(ref).then((docSnap) => {
+        if (docSnap.exists()) {
+        const data = docSnap.data();
+        contentEl.innerHTML = `
+        <h2>${data.title}</h2>
+        <div>${data.content}</div>
+        `;
+        } else {
+        contentEl.innerHTML = "<p>Forum bulunamadý.</p>";
+        }
+        });
+        }
+    </script>
+</body>
+</html>

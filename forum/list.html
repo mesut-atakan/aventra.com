@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forumlar</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #2B0B3F;
+      color: #F9F9F9;
+    }
+    header {
+      background-color: #FF6600;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    main {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .forum-card {
+      background-color: #fff;
+      color: #000;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      text-decoration: none;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    .forum-card:hover {
+      transform: scale(1.02);
+    }
+    .forum-card h2 {
+      margin-top: 0;
+    }
+    .forum-card p {
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Forumlar</h1>
+    <a href="/index.html" style="color:white; text-decoration:none;">Anasayfa</a>
+  </header>
+  <main id="forumList">
+    <p>Yükleniyor...</p>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      query,
+      orderBy
+    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDFXXqR4Xze-NAfccFCnDzDL7e-xcZGL9s",
+      authDomain: "aventra-forum.firebaseapp.com",
+      projectId: "aventra-forum",
+      storageBucket: "aventra-forum.appspot.com",
+      messagingSenderId: "813714185971",
+      appId: "1:813714185971:web:cff1c9d2903ce3d7122186",
+      measurementId: "G-FYYR18WRCP"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const forumList = document.getElementById('forumList');
+
+    async function loadForums() {
+      const q = query(collection(db, "forums"), orderBy("createdAt", "desc"));
+      const snapshot = await getDocs(q);
+
+      forumList.innerHTML = '';
+
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const card = document.createElement('a');
+        card.href = `detail.html?id=${doc.id}`;
+        card.className = 'forum-card';
+        card.innerHTML = `
+          <h2>${data.title}</h2>
+          <p>${data.content?.slice(0, 150)}...</p>
+        `;
+        forumList.appendChild(card);
+      });
+    }
+
+    loadForums();
+  </script>
+</body>
+</html>
