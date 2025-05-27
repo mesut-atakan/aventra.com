@@ -120,27 +120,22 @@
     </script>
 
     <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "firebase/app";
-        import { getAnalytics } from "firebase/analytics";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js";
 
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
-          apiKey: "AIzaSyAfkPiGwLZwvPQcTCFaQu-he7NjS4CG27U",
-          authDomain: "aventra-platform.firebaseapp.com",
-          projectId: "aventra-platform",
-          storageBucket: "aventra-platform.firebasestorage.app",
-          messagingSenderId: "1044485055341",
-          appId: "1:1044485055341:web:0bd3b3a2cecdded9423064",
-          masuramındı: "G-RZJ4H09WJW"
+        apiKey: "AIzaSyAfkPiGwLZwvPQcTCFaQu-he7NjS4CG27U",
+        authDomain: "aventra-platform.firebaseapp.com",
+        projectId: "aventra-platform",
+        storageBucket: "aventra-platform.appspot.com",
+        messagingSenderId: "1044485055341",
+        appId: "1:1044485055341:web:0bd3b3a2cecdded9423064",
+        measurementId: "G-RZJ4H09WJW"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
 
         const forumTitle = document.getElementById("forumTitle");
         const forumContent = document.getElementById("forumContent");

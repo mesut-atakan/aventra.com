@@ -195,27 +195,27 @@
     </script>
 
     <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "firebase/app";
-        import { getAnalytics } from "firebase/analytics";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+        import {
+        getFirestore,
+        collection,
+        getDocs,
+        query,
+        orderBy
+        } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
-          apiKey: "AIzaSyAfkPiGwLZwvPQcTCFaQu-he7NjS4CG27U",
-          authDomain: "aventra-platform.firebaseapp.com",
-          projectId: "aventra-platform",
-          storageBucket: "aventra-platform.firebasestorage.app",
-          messagingSenderId: "1044485055341",
-          appId: "1:1044485055341:web:0bd3b3a2cecdded9423064",
-          masuramındı: "G-RZJ4H09WJW"
+        apiKey: "AIzaSyAfkPiGwLZwvPQcTCFaQu-he7NjS4CG27U",
+        authDomain: "aventra-platform.firebaseapp.com",
+        projectId: "aventra-platform",
+        storageBucket: "aventra-platform.appspot.com",
+        messagingSenderId: "1044485055341",
+        appId: "1:1044485055341:web:0bd3b3a2cecdded9423064",
+        measurementId: "G-RZJ4H09WJW"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
 
         const forumList = document.getElementById("forumList");
 
@@ -240,7 +240,7 @@
         <span>1 Yorum | 1 Konu</span>
         </div>
         <div class="subforum-info subforum-column">
-        <b><a href="detail.html?id=${doc.id}">Son yorum</a></b><br><small>Bug�n</small>
+        <b><a href="detail.html?id=${doc.id}">Son yorum</a></b><br><small>Bugün</small>
         </div>
         `;
         forumList.appendChild(row);
@@ -249,6 +249,25 @@
 
         loadForums();
     </script>
+
+    <!-- Favicon fix -->
+    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
+
+    <!-- Aquire font fix -->
+    <style>
+        @font-face {
+            font-family: 'Aquire';
+            src: url('/assets/fonts/aquire.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'Aquire', 'Segoe UI', sans-serif;
+        }
+    </style>
+
+
 
     <script src="../main.js"></script>
 </body>
