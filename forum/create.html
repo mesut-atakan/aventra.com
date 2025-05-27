@@ -219,6 +219,11 @@
         closeIcon.onclick = toggleSidebar;
     </script>
 
+    <script type="module">
+        import { requireAuth } from './auth-guard.js';
+        requireAuth();
+    </script>
+
     <script type="module" src="./firebase-forum.js"></script>
     <script>
         function execCmd(command, value = null) {

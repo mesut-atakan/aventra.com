@@ -120,6 +120,11 @@
     </script>
 
     <script type="module">
+        import { requireAuth } from './auth-guard.js';
+        requireAuth();
+    </script>
+
+    <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
         import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js";
