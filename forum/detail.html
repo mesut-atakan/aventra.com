@@ -120,9 +120,13 @@
     </script>
 
     <script type="module">
+        import { app } from './firebase-init.js';
         import { requireAuth } from './auth-guard.js';
         requireAuth();
+
+        // forumları yükleyeceğin diğer kodlar için de app'i kullanabilirsin!
     </script>
+
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";

@@ -220,9 +220,13 @@
     </script>
 
     <script type="module">
+        import { app } from './firebase-init.js';
         import { requireAuth } from './auth-guard.js';
         requireAuth();
+
+        // forumları yükleyeceğin diğer kodlar için de app'i kullanabilirsin!
     </script>
+
 
     <script type="module" src="./firebase-forum.js"></script>
     <script>

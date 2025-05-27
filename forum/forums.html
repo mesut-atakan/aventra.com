@@ -195,8 +195,11 @@
     </script>
 
     <script type="module">
+        import { app } from './firebase-init.js';
         import { requireAuth } from './auth-guard.js';
         requireAuth();
+
+        // forumları yükleyeceğin diğer kodlar için de app'i kullanabilirsin!
     </script>
 
     <script type="module">
@@ -220,6 +223,7 @@
         };
 
         const app = initializeApp(firebaseConfig);
+
         const db = getFirestore(app);
 
         const forumList = document.getElementById("forumList");
@@ -227,6 +231,7 @@
         async function loadForums() {
         const q = query(collection(db, "forums"), orderBy("createdAt", "desc"));
         const snapshot = await getDocs(q);
+
 
         forumList.innerHTML = '';
         snapshot.forEach(doc => {
