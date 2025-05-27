@@ -90,6 +90,9 @@
         <input type="password" id="password" placeholder="Şifre" required />
         <button onclick="login()">Giriş Yap</button>
         <div id="message"></div>
+        <div id="verify-link" style="display:none; margin-bottom:1rem;">
+            <a href="verify-email.html">E-posta doğrulama e-postası göndermek için tıkla</a>
+        </div>
         <p>Hesabın yok mu? <a href="register.html">Kayıt ol</a></p>
     </div>
     <script type="module">
@@ -100,17 +103,17 @@
         const message = document.getElementById('message');
         message.textContent = '';
         try {
-          const userCredential = await signInWithEmailAndPassword(auth, email, password);
-          if (!userCredential.user.emailVerified) {
-            message.textContent = "Lütfen e-posta adresinizi doğrulayın. Gelen kutunuzu kontrol edin.";
-            message.className = 'error';
-            document.getElementById('verify-link').style.display = "block"; // Linki göster!
-            await auth.signOut();
-            return;
-          }
-          window.location.href = "../index.html";
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        if (!userCredential.user.emailVerified) {
+        message.textContent = "Lütfen e-posta adresinizi doğrulayın. Gelen kutunuzu kontrol edin.";
+        message.className = 'error';
+        document.getElementById('verify-link').style.display = "block";
+        await auth.signOut();
+        return;
+        }
+        window.location.href = "../index.html";
         } catch (error) {
-          document.getElementById('verify-link').style.display = "none";
+        document.getElementById('verify-link').style.display = "none";
         if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
         message.textContent = "E-posta veya şifre hatalı.";
         } else if (error.code === "auth/invalid-email") {
@@ -122,9 +125,6 @@
         }
         }
     </script>
-    <div id="verify-link" style="display:none; text-align:center;">
-        <a href="verify-email.html">E-posta doğrulama e-postası göndermek için tıkla</a>
-    </div>
-
 </body>
+
 </html>
