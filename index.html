@@ -214,55 +214,6 @@
             }
         }
 
-        .profile-area {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .user-name {
-            font-weight: 600;
-            font-size: 1rem;
-            color: #fff;
-            letter-spacing: 1px;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.25);
-            max-width: 140px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .profile-photo {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            transition: transform 0.15s;
-        }
-
-            .profile-photo:hover {
-                transform: scale(1.06);
-                box-shadow: 0 4px 18px rgba(255,102,0,0.15);
-            }
-
-        .logout-btn, .login-btn {
-            background: var(--orange);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: 0.4rem 1rem;
-            font-size: 1rem;
-            cursor: pointer;
-            font-weight: 500;
-            transition: background 0.2s;
-        }
-
-            .logout-btn:hover, .login-btn:hover {
-                background: var(--dark-accent);
-            }
-
 
     </style>
 </head>
@@ -411,55 +362,7 @@
         document.getElementById("sidebar").style.width = "0";
         }
     </script>
-
-    <script type="module">
-        // Firebase'i projene initialize ettiysen burada import et:
-        import { getAuth, onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-        // Gerekirse Firebase'in initialize kodlarını ekle
-        // import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-        // const firebaseConfig = { /* senin configin */ };
-        // const app = initializeApp(firebaseConfig);
-
-        const auth = getAuth();
-
-        // Profil alanı
-        const profileArea = document.querySelector('.profile-area');
-
-        // Oturum durumu değiştiğinde otomatik tetiklenir
-        onAuthStateChanged(auth, (user) => {
-        if (user) {
-        // Profil fotoğrafı gelmemişse default foto kullan
-        const photoURL = user.photoURL || 'assets/images/default-profile-photo.jpg';
-        // Kullanıcı adı yoksa email göster
-        const displayName = user.displayName || user.email || 'Kullanıcı';
-
-        profileArea.innerHTML = `
-        <span class="user-name">${displayName}</span>
-        <a href="profil.html">
-        <img src="${photoURL}" class="profile-photo" alt="Profil Fotoğrafı"
-        onerror="this.onerror=null;this.src='assets/images/default-profile-photo.jpg';">
-        </a>
-        <button class="logout-btn">Çıkış Yap</button>
-        `;
-        // Çıkış butonuna click eventi ekle
-        document.querySelector('.logout-btn').addEventListener('click', () => signOut(auth));
-        } else {
-        // Giriş yoksa
-        profileArea.innerHTML = `
-        <button class="login-btn">Giriş Yap</button>
-        `;
-        // Giriş butonuna click eventi ekle
-        document.querySelector('.login-btn').addEventListener('click', loginWithGoogle);
-        }
-        });
-
-        // Google ile giriş fonksiyonu
-        function loginWithGoogle() {
-        const provider = new GoogleAuthProvider();
-        signInWithPopup(auth, provider)
-        .catch((err) => alert("Giriş Başarısız: " + err.message));
-        }
-    </script>
+    <script type="module" src="profile-area.js"></script>
 
 </body>
 </html>
