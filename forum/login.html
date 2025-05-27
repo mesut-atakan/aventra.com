@@ -100,9 +100,17 @@
         const message = document.getElementById('message');
         message.textContent = '';
         try {
-        await signInWithEmailAndPassword(auth, email, password);
-        window.location.href = "../index.html";
+          const userCredential = await signInWithEmailAndPassword(auth, email, password);
+          if (!userCredential.user.emailVerified) {
+            message.textContent = "Lütfen e-posta adresinizi doğrulayın. Gelen kutunuzu kontrol edin.";
+            message.className = 'error';
+            document.getElementById('verify-link').style.display = "block"; // Linki göster!
+            await auth.signOut();
+            return;
+          }
+          window.location.href = "../index.html";
         } catch (error) {
+          document.getElementById('verify-link').style.display = "none";
         if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
         message.textContent = "E-posta veya şifre hatalı.";
         } else if (error.code === "auth/invalid-email") {
@@ -114,5 +122,9 @@
         }
         }
     </script>
+    <div id="verify-link" style="display:none; text-align:center;">
+        <a href="verify-email.html">E-posta doğrulama e-postası göndermek için tıkla</a>
+    </div>
+
 </body>
 </html>

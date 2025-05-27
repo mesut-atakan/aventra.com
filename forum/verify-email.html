@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>KayÄ±t Ol - Aventra</title>
+    <title>E-posta Doðrulama - Aventra</title>
     <link rel="stylesheet" href="../style.css" />
     <style>
         body {
@@ -14,7 +14,7 @@
             justify-content: center;
         }
 
-        .login-container {
+        .verify-container {
             max-width: 400px;
             width: 100%;
             background: #3E2B59CC;
@@ -26,19 +26,19 @@
             align-items: center;
         }
 
-            .login-container img {
+            .verify-container img {
                 width: 80px;
                 margin-bottom: 1.2rem;
             }
 
-            .login-container h2 {
+            .verify-container h2 {
                 color: #FF6600;
                 font-size: 2rem;
                 font-weight: bold;
                 margin-bottom: 1.2rem;
             }
 
-            .login-container input, .login-container button {
+            .verify-container input, .verify-container button {
                 width: 100%;
                 margin-bottom: 1.1rem;
                 padding: 0.7rem;
@@ -47,7 +47,7 @@
                 font-size: 1rem;
             }
 
-            .login-container button {
+            .verify-container button {
                 background: #FF6600;
                 color: #fff;
                 font-weight: bold;
@@ -56,26 +56,26 @@
                 transition: background 0.2s;
             }
 
-                .login-container button:hover {
+                .verify-container button:hover {
                     background: #ea5400;
                 }
 
-            .login-container .error, .login-container .success {
+            .verify-container .error, .verify-container .success {
                 width: 100%;
                 text-align: center;
                 margin-bottom: 1rem;
                 font-size: 1rem;
             }
 
-            .login-container .error {
+            .verify-container .error {
                 color: #ff4444;
             }
 
-            .login-container .success {
+            .verify-container .success {
                 color: #66ff99;
             }
 
-            .login-container a {
+            .verify-container a {
                 color: #FF6600;
                 text-decoration: underline;
                 font-weight: 500;
@@ -83,64 +83,40 @@
     </style>
 </head>
 <body>
-    <div class="login-container">
+    <div class="verify-container">
         <img src="../assets/images/aventra_woutbg.png" alt="Aventra Logo" />
-        <h2>KayÄ±t Ol</h2>
-        <input type="text" id="username" placeholder="KullanÄ±cÄ± adÄ± (en az 3 karakter)" required />
+        <h2>E-posta Doðrulama</h2>
+        <p>Hesabýný aktif etmek için doðrulama e-postasý gönderilecek. Lütfen e-posta adresini ve þifreni gir.</p>
         <input type="email" id="email" placeholder="E-posta" required />
-        <input type="password" id="password" placeholder="Åžifre" required />
-        <input type="password" id="password2" placeholder="Åžifreyi tekrar girin" required />
-        <button onclick="register()">KayÄ±t Ol</button>
+        <input type="password" id="password" placeholder="Þifre" required />
+        <button onclick="resendVerification()">Doðrulama E-postasý Gönder</button>
         <div id="message"></div>
-        <p>Zaten hesabÄ±n var mÄ±? <a href="login.html">GiriÅŸ yap</a></p>
+        <p>Doðruladýysan <a href="login.html">Giriþ yap</a></p>
     </div>
     <script type="module">
-        import { auth, createUserWithEmailAndPassword } from './firebase-auth.js';
+        import { auth, signInWithEmailAndPassword } from './firebase-auth.js';
         import { sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-        import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-        import { app } from './firebase-auth.js';
-        const db = getFirestore(app);
-
-        window.register = async function () {
-        const username = document.getElementById('username').value.trim();
-        const email = document.getElementById('email').value.trim();
+        window.resendVerification = async function () {
+        const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        const password2 = document.getElementById('password2').value;
         const message = document.getElementById('message');
         message.textContent = '';
-
-        if (username.length < 3) {
-        message.textContent = 'KullanÄ±cÄ± adÄ± en az 3 karakter olmalÄ±.';
-        message.className = 'error';
-        return;
-        }
-        if (password !== password2) {
-        message.textContent = 'Åžifreler aynÄ± olmalÄ±.';
-        message.className = 'error';
-        return;
-        }
-
         try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        await setDoc(doc(db, "users", userCredential.user.uid), {
-        username: username,
-        email: email,
-        createdAt: new Date()
-        });
-        // DoÄŸrulama maili gÃ¶nder
-        await sendEmailVerification(userCredential.user);
-        message.textContent = 'KayÄ±t baÅŸarÄ±lÄ±! LÃ¼tfen e-posta adresinize gelen doÄŸrulama baÄŸlantÄ±sÄ±na tÄ±klayÄ±n.';
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        if (userCredential.user.emailVerified) {
+        message.textContent = "Bu hesap zaten doðrulanmýþ. Lütfen giriþ yapýn.";
         message.className = 'success';
-        setTimeout(() => {
-        window.location.href = "login.html";
-        }, 3500);
+        return;
+        }
+        await sendEmailVerification(userCredential.user);
+        message.textContent = "Doðrulama e-postasý gönderildi! Lütfen mail kutunuzu kontrol edin.";
+        message.className = 'success';
+        await auth.signOut();
         } catch (error) {
-        if (error.code === "auth/email-already-in-use") {
-        message.textContent = "Bu e-posta adresine ait bir hesap zaten var.";
+        if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
+        message.textContent = "E-posta veya þifre hatalý.";
         } else if (error.code === "auth/invalid-email") {
-        message.textContent = "GeÃ§ersiz e-posta adresi.";
-        } else if (error.code === "auth/weak-password") {
-        message.textContent = "Åžifre en az 6 karakter olmalÄ±.";
+        message.textContent = "Geçersiz e-posta adresi.";
         } else {
         message.textContent = error.message;
         }
