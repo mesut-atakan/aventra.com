@@ -929,12 +929,3 @@ footer{
         font-weight: 500;
         display: inline-block;
     }
-
-#auth-buttons {
-    margin: 1.5rem 0;
-    text-align: center;
-}
-
-    #auth-buttons a, #auth-buttons button {
-        font-size: 1rem;
-    }
