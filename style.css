@@ -181,8 +181,10 @@ header{
 }
 
 @font-face {
-    font-family:aquire;
-    src:url(aquire.otf);
+    font-family: 'Aquire';
+    src: url('/assets/fonts/aquire.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
 }
 
 .brand{
