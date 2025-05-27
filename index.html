@@ -34,11 +34,6 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.4);
         }
 
-            header h1 {
-                margin: 0;
-                font-size: 2rem;
-            }
-
         nav a {
             color: white;
             text-decoration: none;
@@ -56,16 +51,19 @@
                 transform: scale(1.08);
                 box-shadow: 0 6px 12px rgba(255, 102, 0, 0.6);
             }
+
         .brand {
             display: flex;
             align-items: flex-end;
             gap: 0.35rem;
         }
+
         .brand-logo {
             width: 64px;
             height: auto;
             display: block;
         }
+
         .brand-name {
             font-size: 1rem;
             font-weight: 900;
@@ -76,6 +74,7 @@
             align-self: flex-end;
             padding-bottom: 10px; /* gerekirse ince ayar */
         }
+
         .hero {
             padding: 6rem 2rem;
             background: linear-gradient(to right, var(--orange), var(--dark-accent));
@@ -182,7 +181,6 @@
         </div>
     </section>
 
-
     <style>
         .hero {
             padding: 3rem 2rem 6rem;
@@ -224,8 +222,6 @@
                 transform: scale(1.05);
             }
     </style>
-
-
 
     <section id="hakkimizda" class="section">
         <h3>Hakkımızda</h3>
@@ -279,53 +275,6 @@
     <footer>
         &copy; 2025 Aventra. Tüm hakları saklıdır.
     </footer>
-
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-        import {
-        getFirestore,
-        collection,
-        getDocs,
-        query,
-        orderBy
-        } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-        apiKey: "AIzaSyDFXXqR4Xze-NAfccFCnDzDL7e-xcZGL9s",
-        authDomain: "aventra-forum.firebaseapp.com",
-        projectId: "aventra-forum",
-        storageBucket: "aventra-forum.appspot.com",
-        messagingSenderId: "813714185971",
-        appId: "1:813714185971:web:cff1c9d2903ce3d7122186",
-        measurementId: "G-FYYR18WRCP"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        const forumList = document.getElementById("forumList");
-
-        async function loadForums() {
-        const q = query(collection(db, "forums"), orderBy("createdAt", "desc"));
-        const snapshot = await getDocs(q);
-
-        forumList.innerHTML = "";
-
-        snapshot.forEach((doc) => {
-        const data = doc.data();
-        const card = document.createElement("a");
-        card.href = `detail.html?id=${doc.id}`;
-        card.className = "forum-card";
-        card.innerHTML = `
-        <h2>${data.title}</h2>
-        <p>${data.content?.slice(0, 150)}...</p>
-        `;
-        forumList.appendChild(card);
-        });
-        }
-
-        loadForums();
-    </script>
-    <script src="../main.js"></script>
+    <!-- Artık forumları çeken veya forumList'e erişen bir script yok! -->
 </body>
 </html>
