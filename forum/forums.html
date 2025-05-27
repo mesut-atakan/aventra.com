@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Aventra Forumlar�</title>
+    <title>Aventra Forumları</title>
     <link rel="stylesheet" href="../style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet" />
@@ -26,6 +26,7 @@
             align-items: center;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
         }
+
         .subforum-description p {
             margin: 0;
             font-size: 1rem;
@@ -36,8 +37,9 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-height: 7.5em; /* roughly 5 lines depending on font-size */
+            max-height: 7.5em;
         }
+
         .sidebar-menu {
             position: fixed;
             top: 0;
@@ -128,6 +130,17 @@
             border: none;
             margin: 0.25rem;
         }
+
+        @font-face {
+            font-family: 'Aquire';
+            src: url('/assets/fonts/aquire.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'Aquire', 'Segoe UI', sans-serif;
+        }
     </style>
 </head>
 <body>
@@ -138,7 +151,7 @@
                 <ul class="nav-list">
                     <li class="nav-item"><a href="../index.html">Anasayfa</a></li>
                     <li class="nav-item"><a href="forums.html">Forumlar</a></li>
-                    <li class="nav-item"><a href="create.html">Yeni Forum Olu�tur</a></li>
+                    <li class="nav-item"><a href="create.html">Yeni Forum Oluştur</a></li>
                 </ul>
             </nav>
             <a class="bar-icon" id="iconBar" onclick="hideIconBar()"><i class="fa fa-bars"></i></a>
@@ -147,9 +160,9 @@
         <div class="search-box">
             <div>
                 <select>
-                    <option value="Everything">Her �y</option>
-                    <option value="Titles">Ba�l�klar</option>
-                    <option value="Descriptions">A��klamalar</option>
+                    <option value="Everything">Her Şey</option>
+                    <option value="Titles">Başlıklar</option>
+                    <option value="Descriptions">Açıklamalar</option>
                 </select>
                 <input type="text" placeholder="Arama...">
                 <button><i class="fa fa-search"></i></button>
@@ -168,17 +181,17 @@
 
     <div class="forum-info">
         <div class="chart">Aventra Forum Stats <i class="fa fa-bar-chart"></i></div>
-        <span><u>5</u> Forum Konusu mevcut. <a href="create.html">Yeni Forum Olu�tur</a></span>
+        <span><u>5</u> Forum Konusu mevcut. <a href="create.html">Yeni Forum Oluştur</a></span>
     </div>
 
     <footer>
-        <span>&copy; Aventra Ekibi | T�m Haklar� Sakl�d�r</span>
+        <span>&copy; Aventra Ekibi | Tüm Hakları Saklıdır</span>
     </footer>
 
     <div id="sidebar" class="sidebar-menu sidebar-hidden">
         <a href="../index.html">Anasayfa</a>
         <a href="forums.html">Forumlar</a>
-        <a href="create.html">Yeni Forum Olu�tur</a>
+        <a href="create.html">Yeni Forum Oluştur</a>
     </div>
 
     <script>
@@ -189,21 +202,19 @@
         function toggleSidebar() {
         sidebar.classList.toggle("sidebar-hidden");
         }
-
         iconBar.onclick = toggleSidebar;
         closeIcon.onclick = toggleSidebar;
     </script>
 
+    <!-- Giriş kontrolü -->
     <script type="module">
-        import { app } from './firebase-init.js';
         import { requireAuth } from './auth-guard.js';
         requireAuth();
-
-        // forumları yükleyeceğin diğer kodlar için de app'i kullanabilirsin!
     </script>
 
+    <!-- Forumları listeleme -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+        import { app } from './firebase-init.js';
         import {
         getFirestore,
         collection,
@@ -212,26 +223,12 @@
         orderBy
         } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-        const firebaseConfig = {
-        apiKey: "AIzaSyAfkPiGwLZwvPQcTCFaQu-he7NjS4CG27U",
-        authDomain: "aventra-platform.firebaseapp.com",
-        projectId: "aventra-platform",
-        storageBucket: "aventra-platform.appspot.com",
-        messagingSenderId: "1044485055341",
-        appId: "1:1044485055341:web:0bd3b3a2cecdded9423064",
-        measurementId: "G-RZJ4H09WJW"
-        };
-
-        const app = initializeApp(firebaseConfig);
-
         const db = getFirestore(app);
-
         const forumList = document.getElementById("forumList");
 
         async function loadForums() {
         const q = query(collection(db, "forums"), orderBy("createdAt", "desc"));
         const snapshot = await getDocs(q);
-
 
         forumList.innerHTML = '';
         snapshot.forEach(doc => {
@@ -259,26 +256,6 @@
 
         loadForums();
     </script>
-
-    <!-- Favicon fix -->
-    <link rel="icon" type="image/png" href="/assets/images/favicon.png">
-
-    <!-- Aquire font fix -->
-    <style>
-        @font-face {
-            font-family: 'Aquire';
-            src: url('./assets/fonts/aquire.otf') format('opentype');
-            font-weight: normal;
-            font-style: normal;
-        }
-
-        body {
-            font-family: 'Aquire', 'Segoe UI', sans-serif;
-        }
-    </style>
-
-
-
     <script src="../main.js"></script>
 </body>
 </html>
