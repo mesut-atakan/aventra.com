@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kayýt Ol - Aventra</title>
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+        body {
+            background: linear-gradient(to right, #FF6600, #6E2B6D);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            max-width: 400px;
+            width: 100%;
+            background: #3E2B59CC;
+            border-radius: 18px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.22);
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+            .login-container img {
+                width: 80px;
+                margin-bottom: 1.2rem;
+            }
+
+            .login-container h2 {
+                color: #FF6600;
+                font-size: 2rem;
+                font-weight: bold;
+                margin-bottom: 1.2rem;
+            }
+
+            .login-container input, .login-container button {
+                width: 100%;
+                margin-bottom: 1.1rem;
+                padding: 0.7rem;
+                border-radius: 7px;
+                border: none;
+                font-size: 1rem;
+            }
+
+            .login-container button {
+                background: #FF6600;
+                color: #fff;
+                font-weight: bold;
+                letter-spacing: 0.5px;
+                cursor: pointer;
+                transition: background 0.2s;
+            }
+
+                .login-container button:hover {
+                    background: #ea5400;
+                }
+
+            .login-container .error, .login-container .success {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 1rem;
+                font-size: 1rem;
+            }
+
+            .login-container .error {
+                color: #ff4444;
+            }
+
+            .login-container .success {
+                color: #66ff99;
+            }
+
+            .login-container a {
+                color: #FF6600;
+                text-decoration: underline;
+                font-weight: 500;
+            }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <img src="../assets/images/aventra_woutbg.png" alt="Aventra Logo" />
+        <h2>Kayýt Ol</h2>
+        <input type="text" id="username" placeholder="Kullanýcý adý (en az 3 karakter)" required />
+        <input type="email" id="email" placeholder="E-posta" required />
+        <input type="password" id="password" placeholder="Þifre" required />
+        <input type="password" id="password2" placeholder="Þifreyi tekrar girin" required />
+        <button onclick="register()">Kayýt Ol</button>
+        <div id="message"></div>
+        <p>Zaten hesabýn var mý? <a href="login.html">Giriþ yap</a></p>
+    </div>
+    <script type="module">
+        import { auth, createUserWithEmailAndPassword } from './firebase-auth.js';
+        import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+        import { app } from './firebase-auth.js';
+        const db = getFirestore(app);
+
+        window.register = async function () {
+        const username = document.getElementById('username').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        const password2 = document.getElementById('password2').value;
+        const message = document.getElementById('message');
+        message.textContent = '';
+
+        // Kullanýcý adý kontrolü
+        if (username.length < 3) {
+        message.textContent = 'Kullanýcý adý en az 3 karakter olmalý.';
+        message.className = 'error';
+        return;
+        }
+        // Þifre eþleþme kontrolü
+        if (password !== password2) {
+        message.textContent = 'Þifreler ayný olmalý.';
+        message.className = 'error';
+        return;
+        }
+
+        try {
+        // Kayýt iþlemi
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        // Kullanýcýyý Firestore'a kaydet
+        await setDoc(doc(db, "users", userCredential.user.uid), {
+        username: username,
+        email: email,
+        createdAt: new Date()
+        });
+        message.textContent = 'Kayýt baþarýlý! Anasayfaya yönlendiriliyorsunuz...';
+        message.className = 'success';
+        setTimeout(() => {
+        window.location.href = "../index.html";
+        }, 1500);
+        } catch (error) {
+        if (error.code === "auth/email-already-in-use") {
+        message.textContent = "Bu e-posta adresine ait bir hesap zaten var.";
+        } else if (error.code === "auth/invalid-email") {
+        message.textContent = "Geçersiz e-posta adresi.";
+        } else if (error.code === "auth/weak-password") {
+        message.textContent = "Þifre en az 6 karakter olmalý.";
+        } else {
+        message.textContent = error.message;
+        }
+        message.className = 'error';
+        }
+        }
+    </script>
+</body>
+</html>

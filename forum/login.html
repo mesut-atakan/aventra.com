@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Giriş Yap - Aventra</title>
+    <link rel="stylesheet" href="../style.css" />
+    <style>
+        body {
+            background: linear-gradient(to right, #FF6600, #6E2B6D);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            max-width: 400px;
+            width: 100%;
+            background: #3E2B59CC;
+            border-radius: 18px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.22);
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+            .login-container img {
+                width: 80px;
+                margin-bottom: 1.2rem;
+            }
+
+            .login-container h2 {
+                color: #FF6600;
+                font-size: 2rem;
+                font-weight: bold;
+                margin-bottom: 1.2rem;
+            }
+
+            .login-container input, .login-container button {
+                width: 100%;
+                margin-bottom: 1.1rem;
+                padding: 0.7rem;
+                border-radius: 7px;
+                border: none;
+                font-size: 1rem;
+            }
+
+            .login-container button {
+                background: #FF6600;
+                color: #fff;
+                font-weight: bold;
+                letter-spacing: 0.5px;
+                cursor: pointer;
+                transition: background 0.2s;
+            }
+
+                .login-container button:hover {
+                    background: #ea5400;
+                }
+
+            .login-container .error, .login-container .success {
+                width: 100%;
+                text-align: center;
+                margin-bottom: 1rem;
+                font-size: 1rem;
+            }
+
+            .login-container .error {
+                color: #ff4444;
+            }
+
+            .login-container .success {
+                color: #66ff99;
+            }
+
+            .login-container a {
+                color: #FF6600;
+                text-decoration: underline;
+                font-weight: 500;
+            }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <img src="../assets/images/aventra_woutbg.png" alt="Aventra Logo" />
+        <h2>Giriş Yap</h2>
+        <input type="email" id="email" placeholder="E-posta" required />
+        <input type="password" id="password" placeholder="Şifre" required />
+        <button onclick="login()">Giriş Yap</button>
+        <div id="message"></div>
+        <p>Hesabın yok mu? <a href="register.html">Kayıt ol</a></p>
+    </div>
+    <script type="module">
+        import { auth, signInWithEmailAndPassword } from './firebase-auth.js';
+        window.login = async function () {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const message = document.getElementById('message');
+        message.textContent = '';
+        try {
+        await signInWithEmailAndPassword(auth, email, password);
+        window.location.href = "../index.html";
+        } catch (error) {
+        if (error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
+        message.textContent = "E-posta veya şifre hatalı.";
+        } else if (error.code === "auth/invalid-email") {
+        message.textContent = "Geçersiz e-posta adresi.";
+        } else {
+        message.textContent = error.message;
+        }
+        message.className = 'error';
+        }
+        }
+    </script>
+</body>
+</html>
