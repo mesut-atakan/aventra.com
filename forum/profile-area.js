@@ -15,10 +15,11 @@ function updateProfileArea(user) {
                     onerror="this.onerror=null;this.src='assets/images/default-profile-photo.jpg';">
             </div>
             <div class="profile-slider">
-                <button class="profile-slider-btn" onclick="window.location.href='/profile.html'">Profil</button>
+                <button class="profile-slider-btn" onclick="window.location.href='/forum/profile.html'">Profil</button>
                 <button class="profile-slider-btn logout-btn">Çýkýþ Yap</button>
             </div>
         `;
+
 
         // Açma/kapama mantýðý
         const trigger = profileArea.querySelector('.profile-trigger');
