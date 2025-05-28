@@ -80,6 +80,134 @@
                 text-decoration: underline;
                 font-weight: 500;
             }
+
+        body {
+            /* Arka plan için degrade */
+            background: linear-gradient(120deg, #ff6600 0%, #a34c6e 100%);
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-card, .social-login-card {
+            background: #42274c;
+            border-radius: 22px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+            padding: 48px 38px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 320px;
+        }
+
+        .login-card {
+            min-width: 340px;
+        }
+
+        .login-logo {
+            width: 68px;
+            margin-bottom: 16px;
+        }
+
+        .login-card h2 {
+            color: #ff6600;
+            margin-bottom: 16px;
+        }
+
+        .login-card input {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .login-btn {
+            width: 100%;
+            background: #ff6600;
+            color: #fff;
+            font-weight: bold;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            margin-top: 8px;
+            cursor: pointer;
+            font-size: 1.06rem;
+        }
+
+        .social-login-card {
+            min-width: 260px;
+            background: #563264;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.09);
+            padding: 38px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+            .social-login-card h3 {
+                color: #ff6600;
+                margin-bottom: 18px;
+            }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: center;
+            width: 190px;
+            padding: 12px 0;
+            margin: 7px 0;
+            border-radius: 7px;
+            border: none;
+            font-size: 1.02rem;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            transition: background 0.15s;
+        }
+
+            .social-btn.google {
+                background: #fff;
+                color: #222;
+                border: 1px solid #ccc;
+            }
+
+            .social-btn.facebook {
+                background: #1877f3;
+                color: #fff;
+            }
+
+            .social-btn.github {
+                background: #24292e;
+                color: #fff;
+            }
+
+            .social-btn.google:hover {
+                background: #eee;
+            }
+
+            .social-btn.facebook:hover {
+                background: #166ada;
+            }
+
+            .social-btn.github:hover {
+                background: #1a1e22;
+            }
+            .social-btn .icon {
+                width: 22px;
+                height: 22px;
+            }
+
+        @media (max-width: 900px) {
+            .login-container {
+                flex-direction: column;
+                gap: 28px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -125,6 +253,26 @@
         }
         }
     </script>
+
+    <div class="social-login-card">
+        <h3>Sosyal Giriş</h3>
+        <button class="social-btn google">
+            <!-- Google SVG -->
+            <img src="../assets/icons/google.png" class="icon" alt="Google">
+            Google ile Giriş Yap
+        </button>
+        <button class="social-btn facebook">
+            <!-- Facebook png -->
+            <img src="../assets/icons/facebook.png" class="icon" alt="Facebook">
+            Facebook ile Giriş Yap
+        </button>
+        <button class="social-btn github">
+            <!-- GitHub png -->
+            <img src="../assets/icons/github.png" class="icon" alt="GitHub">
+            GitHub ile Giriş Yap
+        </button>
+    </div>
+
 </body>
 
 </html>
