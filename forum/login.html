@@ -254,6 +254,33 @@
         }
     </script>
 
+    <script type="module">
+        import { auth } from './firebase-auth.js';
+        import { GoogleAuthProvider, FacebookAuthProvider, GithubAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+        // Google ile Giriş
+        document.querySelector('.social-btn.google').addEventListener('click', () => {
+        signInWithPopup(auth, new GoogleAuthProvider())
+        .then(() => window.location.href = "../index.html")
+        .catch(e => alert("Google ile giriş başarısız: " + e.message));
+        });
+
+        // Facebook ile Giriş
+        document.querySelector('.social-btn.facebook').addEventListener('click', () => {
+        signInWithPopup(auth, new FacebookAuthProvider())
+        .then(() => window.location.href = "../index.html")
+        .catch(e => alert("Facebook ile giriş başarısız: " + e.message));
+        });
+
+        // Github ile Giriş
+        document.querySelector('.social-btn.github').addEventListener('click', () => {
+        signInWithPopup(auth, new GithubAuthProvider())
+        .then(() => window.location.href = "../index.html")
+        .catch(e => alert("Github ile giriş başarısız: " + e.message));
+        });
+    </script>
+
+
     <div class="social-login-card">
         <h3>Sosyal Giriş</h3>
         <button class="social-btn google">
