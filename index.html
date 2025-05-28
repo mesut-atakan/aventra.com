@@ -230,6 +230,69 @@
             }
         }
 
+        .profile-area {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            z-index: 10; /* Diğer içeriklerin üstünde olsun */
+        }
+
+        .profile-trigger {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .profile-slider {
+            position: absolute;
+            top: 110%;
+            right: 0;
+            background: var(--dark-accent);
+            border-radius: 10px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            padding: 10px 20px;
+            min-width: 140px;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            pointer-events: none;
+            transition: all 0.25s cubic-bezier(.6,0,.4,1);
+        }
+
+        .profile-area.active .profile-slider {
+            opacity: 1;
+            max-height: 300px;
+            pointer-events: auto;
+            /* İsteğe bağlı animasyon için: */
+            transform: translateY(0px) scale(1);
+        }
+
+        .profile-slider-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1rem;
+            padding: 8px 0;
+            text-align: left;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            transition: background 0.15s;
+        }
+
+            .profile-slider-btn:last-child {
+                border-bottom: none;
+            }
+
+            .profile-slider-btn:hover {
+                background: var(--orange);
+                color: #fff;
+            }
+
+
     </style>
 </head>
 <body>
