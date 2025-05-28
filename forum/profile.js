@@ -47,15 +47,6 @@ auth.onAuthStateChanged(user => {
     else window.location.href = './login.html';
 });
 
-// Profil fotoðrafý yükle
-    const user = auth.currentUser;
-    const file = e.target.files[0];
-    if (!user || !file) return;
-    const avatarRef = storageRef(storage, `profile_images/${user.uid}.jpg`);
-    await uploadBytes(avatarRef, file);
-    const url = await getDownloadURL(avatarRef);
-    document.getElementById('profile-avatar').src = url;
-});
 
 // Kullanýcý adý düzenleme
 document.getElementById('edit-username').addEventListener('click', async () => {
