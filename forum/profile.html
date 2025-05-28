@@ -6,47 +6,105 @@
     <title>Kullanıcı Profili | Aventra</title>
     <link rel="stylesheet" href="../style.css">
     <style>
-        /* Özel profil CSS'in burada, ana tema ile uyumlu olacak şekilde */
-        .profile-wrapper {
-            max-width: 540px;
-            margin: 4rem auto;
+        :root {
+            --orange: #FF6600;
+            --dark: #2B0B3F;
+            --dark-accent: #6E2B6D;
+            --light: #F4F4F4;
+            --text: #F9F9F9;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: var(--orange);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+        }
+
+        .profile-hero {
+            padding: 3rem 1rem 0.5rem;
+            text-align: center;
+            background: linear-gradient(90deg, var(--orange) 0%, var(--dark-accent) 100%);
+            box-shadow: 0 4px 30px rgba(43,11,63,0.4);
+            position: relative;
+        }
+
+            .profile-hero img {
+                max-width: 120px;
+                margin-bottom: 1.2rem;
+                filter: drop-shadow(0 3px 12px #2b0b3f88);
+            }
+
+            .profile-hero h2 {
+                font-size: 2.1rem;
+                margin-bottom: 0.7rem;
+                font-weight: 900;
+                letter-spacing: 1px;
+            }
+
+            .profile-hero p {
+                font-size: 1.05rem;
+                color: #ffe2c6;
+                max-width: 360px;
+                margin: 0 auto 1.3rem;
+            }
+
+        main {
+            min-height: 60vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 0 1rem 3rem;
+        }
+
+        .profile-card {
             background: var(--dark-accent);
-            border-radius: 18px;
-            padding: 2.5rem;
+            margin-top: -2rem;
+            border-radius: 22px;
             box-shadow: 0 6px 30px rgba(0,0,0,.35);
+            padding: 2.3rem 2.1rem 2.7rem 2.1rem;
+            max-width: 460px;
+            width: 100%;
+            color: var(--text);
         }
 
         .profile-header {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1.7rem;
+            margin-bottom: 1.4rem;
         }
 
         .profile-avatar {
-            width: 86px;
-            height: 86px;
+            width: 82px;
+            height: 82px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid var(--orange);
+            background: #fff2;
+            box-shadow: 0 2px 10px #0002;
         }
 
-        .profile-edit-btn {
-            background: var(--orange);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: 0.4rem 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background .25s;
+        .profile-header h3 {
+            font-size: 1.22rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--orange);
         }
-
-            .profile-edit-btn:hover {
-                background: #e25500;
-            }
 
         .profile-fields {
-            margin-top: 2rem;
+            margin-top: 1.7rem;
         }
 
         .profile-field {
@@ -58,6 +116,7 @@
             font-size: 1rem;
             margin-bottom: .4rem;
             display: block;
+            font-weight: 500;
         }
 
         .profile-input, .profile-bio {
@@ -66,53 +125,114 @@
             border-radius: 8px;
             border: none;
             background: var(--light);
-            color: #222;
-            font-size: 1rem;
+            color: #2B0B3F;
+            font-size: 1.04rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+            outline: none;
         }
 
+            .profile-input:disabled, .profile-bio:disabled {
+                background: #f2e1fc;
+                color: #8a729b;
+            }
+
         .profile-bio {
-            min-height: 50px;
+            min-height: 54px;
             resize: vertical;
         }
 
-        .forum-list {
-            background: #fff1;
-            border-radius: 10px;
-            padding: 1rem;
-            margin-top: 1.5rem;
+        .profile-edit-btn {
+            background: var(--orange);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.45rem 1.25rem;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-top: .25rem;
+            cursor: pointer;
+            transition: background .25s;
+            box-shadow: 0 2px 8px #ff660033;
+            letter-spacing: .2px;
         }
 
+            .profile-edit-btn:hover {
+                background: #e25500;
+            }
+
+        .forum-list {
+            background: #fff1;
+            border-radius: 12px;
+            padding: 1.1rem 1.1rem .7rem 1.1rem;
+            margin-top: 2.1rem;
+        }
+
+            .forum-list strong {
+                color: var(--orange);
+                font-weight: 700;
+                font-size: 1.09rem;
+            }
+
         .forum-item {
-            padding: .5rem 0;
+            padding: .6rem 0;
             border-bottom: 1px solid #eee2;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
         }
 
             .forum-item:last-child {
                 border-bottom: none;
             }
 
+            .forum-item a {
+                color: #ffab5a;
+                text-decoration: none;
+                font-weight: bold;
+            }
+
+                .forum-item a:hover {
+                    text-decoration: underline;
+                }
+
         .empty-msg {
-            color: #aaa;
-            font-size: .95rem;
+            color: #e6d7f2;
+            font-size: .99rem;
         }
 
-        .save-btn {
-            background: var(--orange);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: 0.6rem 1.5rem;
-            font-weight: bold;
-            margin-top: 1rem;
+        @media (max-width: 600px) {
+            .profile-card {
+                padding: 1.1rem 0.4rem 2rem 0.4rem;
+                margin: 0.4rem;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <header> <!-- Ana menü buraya JS ile eklenmeli veya component olarak kullanılmalı --> </header>
+    <header>
+        <a href="/index.html" style="text-decoration:none; display:flex; align-items:center; gap:.6rem;">
+            <img src="../assets/images/aventra_woutbg.png" alt="Aventra Logo" style="height:38px; width:auto;">
+            <span style="font-weight:900; letter-spacing:.7px; color:#fff; font-size:1.2rem;">Aventra</span>
+        </a>
+    </header>
+    <section class="profile-hero">
+        <img src="../assets/images/aventra-maskot.png" alt="Aventra Maskot" />
+        <h2>Profilim</h2>
+        <p>Kişisel bilgilerini yönet, biyografini güncelle ve forum aktivitelerini takip et.</p>
+    </section>
     <main>
-        <div class="profile-wrapper" id="profile-section">
+        <div class="profile-card" id="profile-section">
             <div class="profile-header">
                 <img src="../assets/images/default-profile-photo.jpg" alt="Profil Fotoğrafı" class="profile-avatar" id="profile-avatar">
+                <div>
+                    <h3>Kullanıcı Bilgileri</h3>
+                </div>
             </div>
             <div class="profile-fields">
                 <div class="profile-field">
