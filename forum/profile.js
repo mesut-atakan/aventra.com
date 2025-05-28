@@ -1,7 +1,5 @@
 import { auth, db, storage } from '../forum/firebase-init.js';
-import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
-import { doc, getDoc, updateDoc, collection, query, where, getDocs } from "firebase/firestore";
-import { updateProfile, updatePassword } from "firebase/auth";
+import { updateProfile, updatePassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
 // Kullanýcýyý çek
 async function loadProfile() {
