@@ -12,10 +12,8 @@ async function loadProfile() {
     }
 
     // Profil fotoðrafý
-    const avatarRef = storageRef(storage, `profile_images/${user.uid}.jpg`);
-    getDownloadURL(avatarRef)
-        .then(url => document.getElementById('profile-avatar').src = url)
-        .catch(() => document.getElementById('profile-avatar').src = '../assets/images/default-profile-photo.jpg');
+    document.getElementById('profile-avatar').src = '../assets/images/default-profile-photo.jpg';
+
 
     // Firestore'dan kullanýcý adý, bio vs
     const userRef = doc(db, 'users', user.uid);
