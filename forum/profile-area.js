@@ -48,7 +48,7 @@ function updateProfileArea(user) {
     } else {
         profileArea.innerHTML = `<button class="login-btn">Giriþ Yap</button>`;
         document.querySelector('.login-btn').addEventListener('click', () => {
-            window.location.href = "./login.html"; // Veya giriþ sayfanýn yolu neyse
+            window.location.href = "/login.html"; // Veya giriþ sayfanýn yolu neyse
         });
     }
 }
