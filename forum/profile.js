@@ -1,4 +1,4 @@
-import { auth, db, storage } from './firebase-init.js';
+import { auth, db, storage } from '../forum/firebase-init.js';
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { doc, getDoc, updateDoc, collection, query, where, getDocs } from "firebase/firestore";
 import { updateProfile, updatePassword } from "firebase/auth";
