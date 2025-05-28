@@ -4,103 +4,235 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kayıt Ol - Aventra</title>
-    <link rel="stylesheet" href="../style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            background: linear-gradient(to right, #FF6600, #6E2B6D);
+            background: linear-gradient(120deg, #ff6600 0%, #6e2b6d 100%);
             min-height: 100vh;
+            margin: 0;
+            font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .login-container {
+        .register-panel {
+            background: #432759ee;
+            border-radius: 22px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.14);
+            padding: 48px 34px 38px 34px;
             max-width: 400px;
-            width: 100%;
-            background: #3E2B59CC;
-            border-radius: 18px;
-            box-shadow: 0 4px 32px rgba(0,0,0,0.22);
-            padding: 2.5rem 2rem;
+            width: 95vw;
             display: flex;
             flex-direction: column;
             align-items: center;
+            gap: 14px;
         }
 
-            .login-container img {
-                width: 80px;
-                margin-bottom: 1.2rem;
-            }
+        .register-logo {
+            width: 78px;
+            margin-bottom: 8px;
+        }
 
-            .login-container h2 {
-                color: #FF6600;
-                font-size: 2rem;
-                font-weight: bold;
-                margin-bottom: 1.2rem;
-            }
+        .register-panel h2 {
+            color: #ff6600;
+            margin-bottom: 14px;
+            font-size: 2rem;
+            letter-spacing: 1px;
+        }
 
-            .login-container input, .login-container button {
-                width: 100%;
-                margin-bottom: 1.1rem;
-                padding: 0.7rem;
+        .register-form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+            margin-bottom: 18px;
+        }
+
+            .register-form input {
+                padding: 12px 13px;
                 border-radius: 7px;
                 border: none;
                 font-size: 1rem;
+                outline: none;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.02);
             }
 
-            .login-container button {
-                background: #FF6600;
-                color: #fff;
-                font-weight: bold;
-                letter-spacing: 0.5px;
-                cursor: pointer;
-                transition: background 0.2s;
+        .register-btn {
+            padding: 13px 0;
+            background: #ff6600;
+            color: #fff;
+            font-weight: 600;
+            font-size: 1.09rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            margin-top: 3px;
+            transition: background 0.19s;
+        }
+
+            .register-btn:hover {
+                background: #ea5400;
             }
 
-                .login-container button:hover {
-                    background: #ea5400;
-                }
+        .form-link {
+            text-align: center;
+            margin-bottom: 0;
+            font-size: 1rem;
+            color: #fff;
+        }
 
-            .login-container .error, .login-container .success {
-                width: 100%;
-                text-align: center;
-                margin-bottom: 1rem;
-                font-size: 1rem;
+            .form-link a {
+                color: #ff6600;
+                text-decoration: underline;
+                font-weight: 600;
             }
 
-            .login-container .error {
+        #message {
+            margin: 0 0 8px 0;
+            min-height: 18px;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+            #message.error {
                 color: #ff4444;
             }
 
-            .login-container .success {
+            #message.success {
                 color: #66ff99;
             }
 
-            .login-container a {
-                color: #FF6600;
-                text-decoration: underline;
-                font-weight: 500;
+        .divider {
+            width: 100%;
+            text-align: center;
+            color: #ff6600;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            margin: 12px 0 8px 0;
+        }
+
+        .social-btns {
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+            width: 100%;
+            margin-top: 0;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            padding: 10px 0;
+            border-radius: 7px;
+            border: none;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.13s;
+            line-height: 1.1;
+            box-sizing: border-box;
+        }
+
+            .social-btn .icon {
+                width: 24px;
+                height: 24px;
+                display: block;
             }
+
+            .social-btn.google {
+                background: #fff;
+                color: #222;
+                border: 1px solid #ccc;
+            }
+
+                .social-btn.google:hover {
+                    background: #f5f5f5;
+                }
+
+            .social-btn.facebook {
+                background: #1877f3;
+                color: #fff;
+            }
+
+                .social-btn.facebook:hover {
+                    background: #1465c1;
+                }
+
+            .social-btn.github {
+                background: #24292e;
+                color: #fff;
+            }
+
+                .social-btn.github:hover {
+                    background: #15181b;
+                }
+
+        @media (max-width: 600px) {
+            .register-panel {
+                padding: 24px 5vw 18px 5vw;
+            }
+
+            .social-btn {
+                font-size: 0.97rem;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <img src="../assets/images/aventra_woutbg.png" alt="Aventra Logo" />
+    <form class="register-panel" autocomplete="off" onsubmit="return false;">
+        <img src="../assets/images/aventra_woutbg.png" class="register-logo" alt="Aventra Logo" />
         <h2>Kayıt Ol</h2>
-        <input type="text" id="username" placeholder="Kullanıcı adı (en az 3 karakter)" required />
-        <input type="email" id="email" placeholder="E-posta" required />
-        <input type="password" id="password" placeholder="Şifre" required />
-        <input type="password" id="password2" placeholder="Şifreyi tekrar girin" required />
-        <button onclick="register()">Kayıt Ol</button>
-        <div id="message"></div>
-        <p>Zaten hesabın var mı? <a href="login.html">Giriş yap</a></p>
-    </div>
+        <div class="register-form">
+            <input type="text" id="username" placeholder="Kullanıcı adı (en az 3 karakter)" required />
+            <input type="email" id="email" placeholder="E-posta" required />
+            <input type="password" id="password" placeholder="Şifre" required />
+            <input type="password" id="password2" placeholder="Şifreyi tekrar girin" required />
+            <button class="register-btn" type="button" onclick="register()">Kayıt Ol</button>
+            <div id="message"></div>
+        </div>
+        <div class="form-link">Zaten hesabın var mı? <a href="login.html">Giriş yap</a></div>
+        <div class="divider">Sosyal Kayıt</div>
+        <div class="social-btns">
+            <button type="button" class="social-btn google">
+                <img src="../assets/icons/google.png" class="icon" alt="Google">
+                Google ile Kayıt Ol
+            </button>
+            <button type="button" class="social-btn facebook">
+                <img src="../assets/icons/facebook.png" class="icon" alt="Facebook">
+                Facebook ile Kayıt Ol
+            </button>
+            <button type="button" class="social-btn github">
+                <img src="../assets/icons/github.png" class="icon" alt="GitHub">
+                Github ile Kayıt Ol
+            </button>
+        </div>
+    </form>
     <script type="module">
         import { auth, createUserWithEmailAndPassword } from './firebase-auth.js';
         import { sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
         import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
         import { app } from './firebase-auth.js';
+        import { GoogleAuthProvider, FacebookAuthProvider, GithubAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
         const db = getFirestore(app);
 
+        // Sosyal loginler
+        document.querySelector('.social-btn.google').addEventListener('click', () => {
+        signInWithPopup(auth, new GoogleAuthProvider()).catch(e => alert("Google ile kayıt başarısız: " + e.message));
+        });
+        document.querySelector('.social-btn.facebook').addEventListener('click', () => {
+        signInWithPopup(auth, new FacebookAuthProvider()).catch(e => alert("Facebook ile kayıt başarısız: " + e.message));
+        });
+        document.querySelector('.social-btn.github').addEventListener('click', () => {
+        signInWithPopup(auth, new GithubAuthProvider()).catch(e => alert("Github ile kayıt başarısız: " + e.message));
+        });
+
+        // Normal kayıt
         window.register = async function () {
         const username = document.getElementById('username').value.trim();
         const email = document.getElementById('email').value.trim();
@@ -108,6 +240,7 @@
         const password2 = document.getElementById('password2').value;
         const message = document.getElementById('message');
         message.textContent = '';
+        message.className = '';
 
         if (username.length < 3) {
         message.textContent = 'Kullanıcı adı en az 3 karakter olmalı.';
@@ -119,7 +252,6 @@
         message.className = 'error';
         return;
         }
-
         try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await setDoc(doc(db, "users", userCredential.user.uid), {
@@ -127,13 +259,10 @@
         email: email,
         createdAt: new Date()
         });
-        // Doğrulama maili gönder
         await sendEmailVerification(userCredential.user);
         message.textContent = 'Kayıt başarılı! Lütfen e-posta adresinize gelen doğrulama bağlantısına tıklayın.';
         message.className = 'success';
-        setTimeout(() => {
-        window.location.href = "login.html";
-        }, 3500);
+        setTimeout(() => { window.location.href = "login.html"; }, 3500);
         } catch (error) {
         if (error.code === "auth/email-already-in-use") {
         message.textContent = "Bu e-posta adresine ait bir hesap zaten var.";
