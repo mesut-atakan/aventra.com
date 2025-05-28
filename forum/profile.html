@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profilim | Aventra</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --orange: #FF6600;
+            --dark: #2B0B3F;
+            --dark-accent: #6E2B6D;
+            --light: #F4F4F4;
+            --text: #F9F9F9;
+        }
+
+        body {
+            background: linear-gradient(120deg, var(--orange) 0%, var(--dark-accent) 100%);
+            font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            color: var(--text);
+        }
+
+        .profile-container {
+            max-width: 440px;
+            margin: 60px auto 40px auto;
+            background: #3e2b59ee;
+            border-radius: 22px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.18);
+            padding: 40px 28px 30px 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-photo-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-photo {
+            width: 88px;
+            height: 88px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--orange);
+            background: #fff;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.14);
+        }
+
+        .photo-upload-btn {
+            margin-top: 7px;
+            background: var(--orange);
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            padding: 6px 18px;
+            font-size: 0.97rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.18s;
+        }
+
+            .photo-upload-btn:hover {
+                background: #ea5400;
+            }
+
+        .profile-form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .form-label {
+            font-size: 1rem;
+            margin-bottom: 4px;
+            color: #ff6600;
+            font-weight: 600;
+        }
+
+        .profile-form input,
+        .profile-form textarea {
+            width: 100%;
+            padding: 11px 13px;
+            border-radius: 7px;
+            border: none;
+            font-size: 1rem;
+            background: #f7f7f7;
+            color: #2b0b3f;
+            box-sizing: border-box;
+            margin-bottom: 2px;
+        }
+
+        .profile-form textarea {
+            min-height: 60px;
+            resize: vertical;
+        }
+
+        .profile-form .save-btn {
+            margin-top: 7px;
+            padding: 12px 0;
+            background: var(--orange);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.07rem;
+            cursor: pointer;
+            transition: background 0.17s;
+        }
+
+            .profile-form .save-btn:hover {
+                background: #ea5400;
+            }
+
+        .profile-form .change-pw-link {
+            background: none;
+            border: none;
+            color: #FF6600;
+            text-decoration: underline;
+            cursor: pointer;
+            font-size: 0.98rem;
+            font-weight: 600;
+            padding: 0;
+            margin-left: 4px;
+        }
+
+        .profile-form .logout-btn {
+            margin-top: 16px;
+            background: #6e2b6d;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.01rem;
+            padding: 10px 0;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.17s;
+        }
+
+            .profile-form .logout-btn:hover {
+                background: #4b1854;
+            }
+
+        .profile-message {
+            margin: 10px 0 0 0;
+            min-height: 22px;
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+            .profile-message.error {
+                color: #ff4444;
+            }
+
+            .profile-message.success {
+                color: #66ff99;
+            }
+
+        .profile-forum-area {
+            margin-top: 34px;
+            width: 100%;
+            background: #2b0b3f;
+            border-radius: 14px;
+            padding: 18px 14px;
+        }
+
+        .forum-list-title {
+            color: var(--orange);
+            font-size: 1.06rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .forum-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 160px;
+            overflow-y: auto;
+        }
+
+            .forum-list li {
+                margin-bottom: 9px;
+                color: #fff;
+                font-size: 0.97rem;
+                padding-bottom: 5px;
+                border-bottom: 1px solid #444;
+            }
+
+                .forum-list li:last-child {
+                    border-bottom: none;
+                }
+
+        @media (max-width: 600px) {
+            .profile-container {
+                padding: 18px 5vw 12px 5vw;
+                max-width: 98vw;
+            }
+
+            .profile-photo {
+                width: 68px;
+                height: 68px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-photo-area">
+            <img id="profile-photo" class="profile-photo" src="../assets/images/default-profile-photo.jpg" alt="Profil Fotoðrafý">
+            <input type="file" id="photo-input" style="display:none;" accept="image/*">
+            <button class="photo-upload-btn" type="button" onclick="document.getElementById('photo-input').click()">Fotoðrafý Deðiþtir</button>
+        </div>
+        <form class="profile-form" onsubmit="return false;">
+            <div>
+                <div class="form-label">Kullanýcý Adý</div>
+                <input type="text" id="profile-username" minlength="3" maxlength="24" required>
+            </div>
+            <div>
+                <div class="form-label">Biyografi</div>
+                <textarea id="profile-bio" maxlength="200" placeholder="Kendinizden kýsaca bahsedin..."></textarea>
+            </div>
+            <button class="save-btn" type="button" onclick="saveProfile()">Kaydet</button>
+            <div class="form-label" style="margin: 15px 0 2px 0;">Þifreyi Deðiþtir</div>
+            <input type="password" id="profile-old-password" placeholder="Eski Þifre">
+            <input type="password" id="profile-new-password" placeholder="Yeni Þifre">
+            <button class="save-btn" type="button" onclick="changePassword()">Þifreyi Güncelle</button>
+            <button class="logout-btn" type="button" onclick="logout()">Çýkýþ Yap</button>
+            <div id="profile-message" class="profile-message"></div>
+        </form>
+        <div class="profile-forum-area">
+            <div class="forum-list-title">Yazdýðým Forumlar (Örnek)</div>
+            <ul class="forum-list" id="user-forum-list">
+                <!-- Dinamik olarak doldurulacak -->
+            </ul>
+        </div>
+    </div>
+    <script type="module">
+        import { auth, signOut, updateProfile, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from './firebase-auth.js';
+        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+        import { app } from './firebase-auth.js';
+
+        // Profil verileri için Firestore
+        const db = getFirestore(app);
+        let currentUser = null;
+        let userProfileDocRef = null;
+
+        const usernameInput = document.getElementById('profile-username');
+        const bioInput = document.getElementById('profile-bio');
+        const photoImg = document.getElementById('profile-photo');
+        const photoInput = document.getElementById('photo-input');
+        const messageBox = document.getElementById('profile-message');
+        const forumList = document.getElementById('user-forum-list');
+
+        onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+        window.location.href = "./login.html";
+        return;
+        }
+        currentUser = user;
+        photoImg.src = user.photoURL || "../assets/images/default-profile-photo.jpg";
+        usernameInput.value = user.displayName || "";
+        // Firestore'dan bio ve diðer ek bilgileri çek
+        userProfileDocRef = doc(db, "users", user.uid);
+        const snap = await getDoc(userProfileDocRef);
+        if (snap.exists()) {
+        const d = snap.data();
+        if (d.username && !user.displayName) usernameInput.value = d.username;
+        if (d.bio) bioInput.value = d.bio;
+        // Forumlarý örnek olarak doldur
+        if (d.forums && Array.isArray(d.forums)) {
+        forumList.innerHTML = "";
+        d.forums.forEach(title => {
+        const li = document.createElement('li');
+        li.textContent = title;
+        forumList.appendChild(li);
+        });
+        }
+        }
+        });
+
+        // Fotoðraf deðiþtirme (yalnýzca localde görseli deðiþtirir)
+        photoInput.addEventListener('change', async function() {
+        const file = this.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+        photoImg.src = e.target.result;
+        try {
+        await updateProfile(auth.currentUser, { photoURL: e.target.result });
+        showMessage("Profil fotoðrafý güncellendi.", true);
+        } catch (err) {
+        showMessage("Fotoðraf güncellenemedi: " + err.message, false);
+        }
+        }
+        reader.readAsDataURL(file);
+        });
+
+        // Profil bilgileri kaydetme (kullanýcý adý ve biyografi)
+        window.saveProfile = async function() {
+        const newName = usernameInput.value.trim();
+        const bio = bioInput.value.trim();
+        if (newName.length < 3) {
+        showMessage("Kullanýcý adý en az 3 karakter olmalý.", false);
+        return;
+        }
+        try {
+        await updateProfile(auth.currentUser, { displayName: newName });
+        await updateDoc(userProfileDocRef, { username: newName, bio: bio });
+        showMessage("Profil güncellendi!", true);
+        } catch (err) {
+        showMessage("Hata: " + err.message, false);
+        }
+        }
+
+        // Þifre deðiþtirme
+        window.changePassword = async function() {
+        const oldPw = document.getElementById('profile-old-password').value;
+        const newPw = document.getElementById('profile-new-password').value;
+        if (!oldPw || !newPw) {
+        showMessage("Lütfen eski ve yeni þifreyi gir.", false);
+        return;
+        }
+        if (newPw.length < 6) {
+        showMessage("Yeni þifre en az 6 karakter olmalý.", false);
+        return;
+        }
+        try {
+        const cred = EmailAuthProvider.credential(currentUser.email, oldPw);
+        await reauthenticateWithCredential(currentUser, cred);
+        await updatePassword(currentUser, newPw);
+        showMessage("Þifre güncellendi!", true);
+        } catch (err) {
+        showMessage("Þifre deðiþtirilemedi: " + err.message, false);
+        }
+        }
+
+        // Çýkýþ yap
+        window.logout = async function() {
+        await signOut(auth);
+        window.location.href = "./login.html";
+        }
+
+        function showMessage(msg, success = true) {
+        messageBox.textContent = msg;
+        messageBox.className = "profile-message " + (success ? "success" : "error");
+        }
+    </script>
+</body>
+</html>
