@@ -48,7 +48,6 @@ auth.onAuthStateChanged(user => {
 });
 
 // Profil fotoðrafý yükle
-document.getElementById('avatar-upload').addEventListener('change', async (e) => {
     const user = auth.currentUser;
     const file = e.target.files[0];
     if (!user || !file) return;
