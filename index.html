@@ -214,6 +214,20 @@
             }
         }
 
+        .login-btn,
+        .logout-btn {
+            padding: 0.2rem 0.7rem; /* Yüksekliği ve genişliği azaltır */
+            font-size: 0.85rem; /* Yazı boyutunu küçültür */
+            border-radius: 6px; /* Daha minik köşe */
+            min-width: unset; /* Varsa min-width kaldırılır */
+            height: 28px; /* İsteğe bağlı: sabit yükseklik */
+        }
+        @media (max-width:600px) {
+            .login-btn, .logout-btn {
+                font-size: 0.8rem;
+                padding: 0.12rem 0.5rem;
+            }
+        }
 
     </style>
 </head>
