@@ -95,6 +95,8 @@
         <a href="create.html">Yeni Forum Oluştur</a>
     </div>
 
+<div id="forumAuthor" style="display: flex; align-items: center; gap: 1rem; margin-top: 1rem;"></div>
+
     <div class="container">
         <div class="subforum">
             <div class="subforum-title">
@@ -168,6 +170,49 @@
 
         loadForum();
     </script>
+
+<script>
+import { getDoc, doc, getFirestore } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+const forumAuthor = document.getElementById("forumAuthor");
+
+async function loadForum() {
+    if (!forumId) return;
+    const docRef = doc(db, "forums", forumId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        const data = docSnap.data();
+        forumTitle.innerText = data.title;
+        forumContent.innerHTML = data.content;
+
+        if (data.authorId) {
+            const userRef = doc(db, "users", data.authorId);
+            const userSnap = await getDoc(userRef);
+            if (userSnap.exists()) {
+                const userData = userSnap.data();
+                const img = document.createElement("img");
+                img.src = userData.photoURL || "../assets/images/default-profile-photo.jpg";
+                img.style.width = "48px";
+                img.style.height = "48px";
+                img.style.borderRadius = "50%";
+                img.style.border = "2px solid #FF6600";
+
+                const name = document.createElement("span");
+                name.textContent = userData.username || "Bilinmeyen Kullanıcı";
+                name.style.fontWeight = "bold";
+                name.style.color = "#FF6600";
+
+                forumAuthor.appendChild(img);
+                forumAuthor.appendChild(name);
+            }
+        }
+    } else {
+        forumTitle.innerText = "Forum bulunamadı";
+        forumContent.innerHTML = "Belirtilen forum silinmiş olabilir.";
+    }
+}
+</script>
     <script src="../main.js"></script>
 </body>
 </html>
