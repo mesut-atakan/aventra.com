@@ -126,6 +126,15 @@
     <div class="forum-header" id="forumAuthor"></div>
     <h1 id="forumTitle">Yükleniyor...</h1>
     <div id="forumContent" class="content-box">Yükleniyor...</div>
+<h2 style="margin-top: 3rem;">Yorumlar</h2>
+<div id="commentsList" style="margin-bottom: 1rem;"></div>
+
+<div style="display: flex; flex-direction: column; gap: 0.5rem;">
+  <textarea id="commentInput" rows="3" placeholder="Yorumunuzu yazın..." style="resize: vertical; padding: 0.75rem; border-radius: 8px; font-size: 1rem; border: none;"></textarea>
+  <button id="submitComment" style="align-self: flex-end; background-color: #FF6600; color: white; font-weight: bold; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer;">
+    Yorumu Gönder
+  </button>
+</div>
   </div>
 
   <footer>
@@ -134,65 +143,117 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, collection, addDoc, serverTimestamp, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyAfkPiGwLZwvPQcTCFaQu-he7NjS4CG27U",
-      authDomain: "aventra-platform.firebaseapp.com",
-      projectId: "aventra-platform",
-      storageBucket: "aventra-platform.appspot.com",
-      messagingSenderId: "1044485055341",
-      appId: "1:1044485055341:web:0bd3b3a2cecdded9423064",
-      measurementId: "G-RZJ4H09WJW"
-    };
+const firebaseConfig = {
+  apiKey: "AIzaSyAfkPiGwLZwvPQcTCFaQu-he7NjS4CG27U",
+  authDomain: "aventra-platform.firebaseapp.com",
+  projectId: "aventra-platform",
+  storageBucket: "aventra-platform.appspot.com",
+  messagingSenderId: "1044485055341",
+  appId: "1:1044485055341:web:0bd3b3a2cecdded9423064"
+};
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
 
-    const forumTitle = document.getElementById("forumTitle");
-    const forumContent = document.getElementById("forumContent");
-    const forumAuthor = document.getElementById("forumAuthor");
-    const DEFAULT_PHOTO = "../assets/images/default-profile-photo.jpg";
+const forumTitle = document.getElementById("forumTitle");
+const forumContent = document.getElementById("forumContent");
+const forumAuthor = document.getElementById("forumAuthor");
+const commentInput = document.getElementById("commentInput");
+const commentsList = document.getElementById("commentsList");
+const submitBtn = document.getElementById("submitComment");
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const forumId = urlParams.get("id");
+const DEFAULT_PHOTO = "../assets/images/default-profile-photo.jpg";
+const urlParams = new URLSearchParams(window.location.search);
+const forumId = urlParams.get("id");
 
-    async function loadForum() {
-      if (!forumId) return;
+async function loadForum() {
+  if (!forumId) return;
+  const docRef = doc(db, "forums", forumId);
+  const docSnap = await getDoc(docRef);
 
-      const docRef = doc(db, "forums", forumId);
-      const docSnap = await getDoc(docRef);
+  if (!docSnap.exists()) {
+    forumTitle.innerText = "Forum bulunamadı";
+    forumContent.innerHTML = "Belirtilen forum silinmiş olabilir.";
+    return;
+  }
 
-      if (!docSnap.exists()) {
-        forumTitle.innerText = "Forum bulunamadı";
-        forumContent.innerHTML = "Belirtilen forum silinmiş olabilir.";
-        return;
-      }
+  const data = docSnap.data();
+  forumTitle.innerText = data.title;
+  forumContent.innerHTML = data.content;
 
-      const data = docSnap.data();
-      forumTitle.innerText = data.title;
-      forumContent.innerHTML = data.content;
+  if (data.authorId) {
+    const userRef = doc(db, "users", data.authorId);
+    const userSnap = await getDoc(userRef);
+    if (userSnap.exists()) {
+      const userData = userSnap.data();
+      const avatar = document.createElement("img");
+      avatar.className = "author-avatar";
+      avatar.src = userData.photoURL || DEFAULT_PHOTO;
 
-      if (data.authorId) {
-        const userRef = doc(db, "users", data.authorId);
-        const userSnap = await getDoc(userRef);
-        if (userSnap.exists()) {
-          const userData = userSnap.data();
-          const avatar = document.createElement("img");
-          avatar.className = "author-avatar";
-          avatar.src = userData.photoURL || DEFAULT_PHOTO;
+      const username = document.createElement("span");
+      username.className = "author-name";
+      username.textContent = userData.username || "Bilinmeyen Kullanıcı";
 
-          const username = document.createElement("span");
-          username.className = "author-name";
-          username.textContent = userData.username || "Bilinmeyen Kullanıcı";
+      forumAuthor.appendChild(avatar);
+      forumAuthor.appendChild(username);
+    }
+  }
+}
 
-          forumAuthor.appendChild(avatar);
-          forumAuthor.appendChild(username);
-        }
-      }
+async function loadComments() {
+  commentsList.innerHTML = "Yorumlar yükleniyor...";
+  const commentsRef = collection(db, "forums", forumId, "comments");
+  const q = query(commentsRef, orderBy("createdAt", "desc"));
+  const snapshot = await getDocs(q);
+
+  commentsList.innerHTML = "";
+
+  snapshot.forEach((doc) => {
+    const data = doc.data();
+    const div = document.createElement("div");
+    div.style.padding = "1rem";
+    div.style.marginBottom = "1rem";
+    div.style.backgroundColor = "rgba(255,255,255,0.06)";
+    div.style.borderRadius = "6px";
+
+    const username = data.username || "Anonim";
+    const content = data.content;
+
+    div.innerHTML = `<strong style="color:#FF6600">${username}</strong><br>${content}`;
+    commentsList.appendChild(div);
+  });
+}
+
+submitBtn.addEventListener("click", async () => {
+  const content = commentInput.value.trim();
+  if (!content) return alert("Yorum boş olamaz.");
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      return alert("Yorum yapmak için giriş yapmalısınız.");
     }
 
-    loadForum();
+    const userDoc = await getDoc(doc(db, "users", user.uid));
+    const username = userDoc.exists() ? (userDoc.data().username || user.email) : user.email;
+
+    await addDoc(collection(db, "forums", forumId, "comments"), {
+      content,
+      createdAt: serverTimestamp(),
+      userId: user.uid,
+      username
+    });
+
+    commentInput.value = "";
+    await loadComments();
+  });
+});
+
+await loadForum();
+await loadComments();
   </script>
 </body>
 </html>
