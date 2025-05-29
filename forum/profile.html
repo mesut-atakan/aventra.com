@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kullanıcı Profili | Aventra</title>
+    <title>Kullanıcı Profili | VENTRA</title>
     <link rel="stylesheet" href="../style.css">
     <style>
         :root {
@@ -217,12 +217,12 @@
 <body>
     <header>
         <a href="/index.html" style="text-decoration:none; display:flex; align-items:center; gap:.6rem;">
-            <img src="../assets/images/aventra_woutbg.png" alt="Aventra Logo" style="height:38px; width:auto;">
-            <span style="font-weight:900; letter-spacing:.7px; color:#fff; font-size:1.2rem;">Aventra</span>
+            <img src="../assets/images/aventra_woutbg.png" alt="Ventra Logo" style="height:38px; width:auto;">
+            <span style="font-weight:900; letter-spacing:.7px; color:#fff; font-size:1.2rem;">VENTRA</span>
         </a>
     </header>
     <section class="profile-hero">
-        <img src="../assets/images/aventra-maskot.png" alt="Aventra Maskot" />
+        <img src="../assets/images/aventra-maskot.png" alt="Ventra Maskot" />
         <h2>Profilim</h2>
         <p>Kişisel bilgilerini yönet, biyografini güncelle ve forum aktivitelerini takip et.</p>
     </section>
@@ -247,7 +247,7 @@
                 </div>
                 <div class="profile-field">
                     <label class="profile-label">Şifre Değiştir</label>
-                    <button class="profile-edit-btn" onclick="openChangePassword()">Şifreyi Değiştir</button>
+                    <button class="profile-edit-btn" onclick="window.location.href='./reset-password.html'">Şifreyi Değiştir</button>
                 </div>
             </div>
             <div class="forum-list" id="forum-list">
@@ -256,7 +256,6 @@
             </div>
         </div>
     </main>
-    <div id="change-password-modal" style="display:none;"> <!-- Modal popup ile şifre değişim alanı --> </div>
     <script type="module" src="./profile.js"></script>
 </body>
 </html>
