@@ -11,9 +11,9 @@ async function loadProfile() {
         return;
     }
 
-    // Profil fotoðrafý
-    document.getElementById('profile-avatar').src = '../assets/images/default-profile-photo.jpg';
-
+    // Kullanýcýnýn profil fotoðrafý varsa onu kullan, yoksa default
+    let photoURL = user.photoURL || '../assets/images/default-profile-photo.jpg';
+    document.getElementById('profile-avatar').src = photoURL;
 
     // Firestore'dan kullanýcý adý, bio vs
     const userRef = doc(db, 'users', user.uid);
@@ -47,7 +47,6 @@ auth.onAuthStateChanged(user => {
     else window.location.href = './login.html';
 });
 
-
 // Kullanýcý adý düzenleme
 document.getElementById('edit-username').addEventListener('click', async () => {
     const input = document.getElementById('username');
@@ -74,8 +73,3 @@ document.getElementById('edit-bio').addEventListener('click', async () => {
         textarea.focus();
     }
 });
-
-// Þifre deðiþtirme (ileride modal açmak için burasý geliþtirilmeli)
-window.openChangePassword = function() {
-    alert("Þifre deðiþtirme iþlemi burada yapýlacak! (Henüz entegre deðil.)");
-};
