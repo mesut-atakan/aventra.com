@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <title>Notion-Style Forum Editor</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+
     <style>
         body {
             background: linear-gradient(to right, #2B0B3F, #6E2B6D);
@@ -30,6 +32,7 @@
             bottom: 0;
             z-index: 10;
             min-height: 100vh;
+            top: 60px;
         }
 
         .accordion {
@@ -278,9 +281,73 @@
                 height: 14px;
             }
         }
+
+        .header {
+            width: 100%;
+            height: 62px;
+            background: #FF6600;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 2px 12px #2B0B3F33;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: .7rem;
+            font-weight: 900;
+            font-size: 1.3rem;
+            color: #fff;
+            letter-spacing: .7px;
+            text-decoration: none;
+            margin-left: 32px;
+        }
+
+        .header-logo {
+            height: 38px;
+            width: auto;
+            display: block;
+        }
+
+        .header-text {
+            color: #fff;
+            font-weight: 900;
+            font-size: 1.16em;
+            letter-spacing: 2px;
+        }
+
+        body {
+            padding-top: 62px; /* Header kapatmasın */
+        }
+
+        @media (max-width: 700px) {
+            .header-brand {
+                margin-left: 9px;
+                font-size: 1.02rem;
+            }
+
+            .header-logo {
+                height: 29px;
+            }
+        }
+
     </style>
+
+
 </head>
+
 <body>
+<header class="header">
+    <a href="../index.html" class="header-brand">
+        <img src="../assets/images/aventra_woutbg.png" alt="Aventra Logo" class="header-logo">
+        <span class="header-text">VENTRA</span>
+    </a>
+</header>
+
     <div class="sidebar">
         <div class="accordion open">
             <div class="accordion-title" onclick="toggleAccordion(this)">Tipi Değiştir <i class="fa fa-angle-down"></i></div>
@@ -322,246 +389,246 @@
             <button type="submit" class="submit-btn" id="submitBtn" disabled>Forum Sayfasını Oluştur</button>
         </form>
     </div>
-   <script>
-// Accordion açma-kapama
-function toggleAccordion(el) {
-    const parent = el.closest('.accordion');
-    document.querySelectorAll('.accordion').forEach(acc => acc.classList.remove('open'));
-    parent.classList.toggle('open');
-}
+    <script>
+        // Accordion açma-kapama
+        function toggleAccordion(el) {
+        const parent = el.closest('.accordion');
+        document.querySelectorAll('.accordion').forEach(acc => acc.classList.remove('open'));
+        parent.classList.toggle('open');
+        }
 
-// Başlık kontrolü
-const editorTitle = document.getElementById('editorTitle');
-const editorContent = document.getElementById('editorContent');
-const submitBtn = document.getElementById('submitBtn');
-editorTitle.addEventListener('input', () => {
-    submitBtn.disabled = editorTitle.innerText.trim().length < 1;
-});
+        // Başlık kontrolü
+        const editorTitle = document.getElementById('editorTitle');
+        const editorContent = document.getElementById('editorContent');
+        const submitBtn = document.getElementById('submitBtn');
+        editorTitle.addEventListener('input', () => {
+        submitBtn.disabled = editorTitle.innerText.trim().length < 1;
+        });
 
-// Tipi Değiştir (Sol Bar)
-function formatBlock(tag) {
-    document.execCommand('formatBlock', false, tag);
-    editorContent.focus();
-}
-function insertImage() {
-    const url = prompt("Görselin internet adresini yapıştır:");
-    if (url) document.execCommand('insertImage', false, url);
-}
-function setBold() { document.execCommand('bold', false, null); }
-function setItalic() { document.execCommand('italic', false, null); }
-function setUnderline() { document.execCommand('underline', false, null); }
-function setStrike() { document.execCommand('strikeThrough', false, null); }
-function setLink() {
-    const url = prompt('Bağlantı girin:');
-    if (url) document.execCommand('createLink', false, url);
-}
+        // Tipi Değiştir (Sol Bar)
+        function formatBlock(tag) {
+        document.execCommand('formatBlock', false, tag);
+        editorContent.focus();
+        }
+        function insertImage() {
+        const url = prompt("Görselin internet adresini yapıştır:");
+        if (url) document.execCommand('insertImage', false, url);
+        }
+        function setBold() { document.execCommand('bold', false, null); }
+        function setItalic() { document.execCommand('italic', false, null); }
+        function setUnderline() { document.execCommand('underline', false, null); }
+        function setStrike() { document.execCommand('strikeThrough', false, null); }
+        function setLink() {
+        const url = prompt('Bağlantı girin:');
+        if (url) document.execCommand('createLink', false, url);
+        }
 
-// Kod Bloğu (Notion-Style, <pre>)
-function insertCodeBlock() {
-    const pre = document.createElement('pre');
-    pre.className = 'code-block';
-    pre.setAttribute('contenteditable', 'true');
-    pre.innerHTML = '<br>';
-    pre.style.whiteSpace = 'pre-wrap';
-    pre.addEventListener('keydown', function(e) {
+        // Kod Bloğu (Notion-Style, <pre>)
+        function insertCodeBlock() {
+        const pre = document.createElement('pre');
+        pre.className = 'code-block';
+        pre.setAttribute('contenteditable', 'true');
+        pre.innerHTML = '<br>';
+        pre.style.whiteSpace = 'pre-wrap';
+        pre.addEventListener('keydown', function(e) {
         // Shift+Enter ile kod bloğundan çık, altına yeni satır ekle ve odakla
         if (e.key === "Enter" && e.shiftKey) {
-            e.preventDefault();
-            const p = document.createElement('div');
-            p.innerHTML = '<br>';
-            if (pre.nextSibling) editorContent.insertBefore(p, pre.nextSibling);
-            else editorContent.appendChild(p);
-            setTimeout(() => setCaretAtStart(p), 0);
+        e.preventDefault();
+        const p = document.createElement('div');
+        p.innerHTML = '<br>';
+        if (pre.nextSibling) editorContent.insertBefore(p, pre.nextSibling);
+        else editorContent.appendChild(p);
+        setTimeout(() => setCaretAtStart(p), 0);
         }
-    });
-    pre.addEventListener('focus', function(e) {
+        });
+        pre.addEventListener('focus', function(e) {
         setTimeout(() => {
-            if (pre.innerHTML === '<br>' || pre.innerHTML === '') setCaretAtStart(pre);
+        if (pre.innerHTML === '<br>' || pre.innerHTML === '') setCaretAtStart(pre);
         }, 0);
-    });
-    insertNodeAtCursor(pre);
-    // Altına ekstra satır ekle
-    const p = document.createElement('div');
-    p.innerHTML = '<br>';
-    if (pre.nextSibling) editorContent.insertBefore(p, pre.nextSibling);
-    else editorContent.appendChild(p);
-    setCaretAtStart(pre);
-}
-function insertNodeAtCursor(node) {
-    const sel = window.getSelection();
-    if (!sel.rangeCount) return;
-    const range = sel.getRangeAt(0);
-    range.collapse(false);
-    range.insertNode(node);
-    range.setStart(node, 0);
-    range.setEnd(node, 0);
-    sel.removeAllRanges();
-    sel.addRange(range);
-}
-function setCaretAtStart(el) {
-    const range = document.createRange();
-    range.setStart(el, 0);
-    range.collapse(true);
-    const sel = window.getSelection();
-    sel.removeAllRanges();
-    sel.addRange(range);
-}
+        });
+        insertNodeAtCursor(pre);
+        // Altına ekstra satır ekle
+        const p = document.createElement('div');
+        p.innerHTML = '<br>';
+        if (pre.nextSibling) editorContent.insertBefore(p, pre.nextSibling);
+        else editorContent.appendChild(p);
+        setCaretAtStart(pre);
+        }
+        function insertNodeAtCursor(node) {
+        const sel = window.getSelection();
+        if (!sel.rangeCount) return;
+        const range = sel.getRangeAt(0);
+        range.collapse(false);
+        range.insertNode(node);
+        range.setStart(node, 0);
+        range.setEnd(node, 0);
+        sel.removeAllRanges();
+        sel.addRange(range);
+        }
+        function setCaretAtStart(el) {
+        const range = document.createRange();
+        range.setStart(el, 0);
+        range.collapse(true);
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        }
 
-// Diğer blok tipleri
-function insertCallout() {
-    document.execCommand('insertHTML', false, `<div style="background:#FFF5C2;color:#2B0B3F;padding:12px 18px;border-radius:8px;margin:5px 0;">💡 Bilgi Kutusu</div>`);
-}
-function insertDivider() {
-    document.execCommand('insertHTML', false, `<hr style="border:0;height:1.5px;background:#E6D5B8;margin:18px 0;">`);
-}
-function insertTodo() {
-    document.execCommand('insertHTML', false, `<div contenteditable="false" style="display:inline-block;vertical-align:middle;"><input type="checkbox" style="zoom:1.3;margin-right:7px;vertical-align:middle;"></div>`);
-}
+        // Diğer blok tipleri
+        function insertCallout() {
+        document.execCommand('insertHTML', false, `<div style="background:#FFF5C2;color:#2B0B3F;padding:12px 18px;border-radius:8px;margin:5px 0;">💡 Bilgi Kutusu</div>`);
+        }
+        function insertDivider() {
+        document.execCommand('insertHTML', false, `<hr style="border:0;height:1.5px;background:#E6D5B8;margin:18px 0;">`);
+        }
+        function insertTodo() {
+        document.execCommand('insertHTML', false, `<div contenteditable="false" style="display:inline-block;vertical-align:middle;"><input type="checkbox" style="zoom:1.3;margin-right:7px;vertical-align:middle;"></div>`);
+        }
 
-// Satır İşlemleri
-function getActiveLineNode() {
-    let sel = window.getSelection();
-    if (!sel.rangeCount) return null;
-    let node = sel.anchorNode;
-    while (node && node !== editorContent && node.nodeType !== 1) node = node.parentNode;
-    if (node === editorContent) return null;
-    return node;
-}
-function deleteLine() {
-    const line = getActiveLineNode();
-    if (line) line.remove();
-}
-function duplicateLine() {
-    const line = getActiveLineNode();
-    if (line) {
+        // Satır İşlemleri
+        function getActiveLineNode() {
+        let sel = window.getSelection();
+        if (!sel.rangeCount) return null;
+        let node = sel.anchorNode;
+        while (node && node !== editorContent && node.nodeType !== 1) node = node.parentNode;
+        if (node === editorContent) return null;
+        return node;
+        }
+        function deleteLine() {
+        const line = getActiveLineNode();
+        if (line) line.remove();
+        }
+        function duplicateLine() {
+        const line = getActiveLineNode();
+        if (line) {
         const clone = line.cloneNode(true);
         line.after(clone);
-    }
-}
-function pickColor(type) {
-    const line = getActiveLineNode();
-    if (!line) return;
-    const input = document.createElement('input');
-    input.type = 'color';
-    input.style.position = 'fixed';
-    input.style.left = '-9999px';
-    document.body.appendChild(input);
-    input.onchange = e => {
+        }
+        }
+        function pickColor(type) {
+        const line = getActiveLineNode();
+        if (!line) return;
+        const input = document.createElement('input');
+        input.type = 'color';
+        input.style.position = 'fixed';
+        input.style.left = '-9999px';
+        document.body.appendChild(input);
+        input.onchange = e => {
         line.style[type] = input.value;
         input.remove();
-    };
-    input.click();
-}
+        };
+        input.click();
+        }
 
-// FLOATING TOOLBAR UI
-const COLORS = [
-    "#000000","#E53935","#FFB300","#43A047","#1E88E5",
-    "#3949AB","#F4511E","#8D6E63","#00897B","#FDD835","#C2185B"
-];
-const toolbarActions = [
-    { icon: '<b>B</b>', cmd: 'bold', title: 'Kalın' },
-    { icon: '<i>I</i>', cmd: 'italic', title: 'İtalik' },
-    { icon: '<u>U</u>', cmd: 'underline', title: 'Altı Çizili' },
-    { icon: '<s>S</s>', cmd: 'strikeThrough', title: 'Üstü Çizili' },
-    { icon: '<i class="fa fa-link"></i>', cmd: 'createLink', prompt: 'Bağlantı girin:', title: 'Bağlantı' },
-    { icon: '<code style="background:#ececec;padding:2px 6px;border-radius:4px;font-size:.9em;">{}</code>', custom: 'inlineCode', title: 'Kodu Vurgula' }
-];
-function colorPalette(cmd, colors=COLORS) {
-    let html = '<div class="palette-bar">';
-    colors.forEach(c => {
+        // FLOATING TOOLBAR UI
+        const COLORS = [
+        "#000000","#E53935","#FFB300","#43A047","#1E88E5",
+        "#3949AB","#F4511E","#8D6E63","#00897B","#FDD835","#C2185B"
+        ];
+        const toolbarActions = [
+        { icon: '<b>B</b>', cmd: 'bold', title: 'Kalın' },
+        { icon: '<i>I</i>', cmd: 'italic', title: 'İtalik' },
+        { icon: '<u>U</u>', cmd: 'underline', title: 'Altı Çizili' },
+        { icon: '<s>S</s>', cmd: 'strikeThrough', title: 'Üstü Çizili' },
+        { icon: '<i class="fa fa-link"></i>', cmd: 'createLink', prompt: 'Bağlantı girin:', title: 'Bağlantı' },
+        { icon: '<code style="background:#ececec;padding:2px 6px;border-radius:4px;font-size:.9em;">{}</code>', custom: 'inlineCode', title: 'Kodu Vurgula' }
+        ];
+        function colorPalette(cmd, colors=COLORS) {
+        let html = '<div class="palette-bar">';
+        colors.forEach(c => {
         html += `<button class="palette-btn" style="background:${c}" title="${c}" onclick="paletteColorPick(event,'${cmd}','${c}')"></button>`;
-    });
-    html += '</div>';
-    return html;
-}
-const floatToolbar = document.createElement('div');
-floatToolbar.className = 'float-toolbar-ui';
-document.body.appendChild(floatToolbar);
-function showFloatToolbar() {
-    const sel = window.getSelection();
-    if (!sel.rangeCount || sel.isCollapsed || document.activeElement !== editorContent) {
+        });
+        html += '</div>';
+        return html;
+        }
+        const floatToolbar = document.createElement('div');
+        floatToolbar.className = 'float-toolbar-ui';
+        document.body.appendChild(floatToolbar);
+        function showFloatToolbar() {
+        const sel = window.getSelection();
+        if (!sel.rangeCount || sel.isCollapsed || document.activeElement !== editorContent) {
         floatToolbar.style.opacity = 0;
         floatToolbar.style.pointerEvents = 'none';
         return;
-    }
-    const range = sel.getRangeAt(0);
-    const rect = range.getBoundingClientRect();
-    floatToolbar.innerHTML = '';
-    toolbarActions.forEach(action => {
+        }
+        const range = sel.getRangeAt(0);
+        const rect = range.getBoundingClientRect();
+        floatToolbar.innerHTML = '';
+        toolbarActions.forEach(action => {
         const btn = document.createElement('button');
         btn.innerHTML = action.icon;
         btn.className = 'toolbar-btn';
         btn.title = action.title;
         btn.onclick = e => {
-            e.preventDefault();
-            if (action.cmd) {
-                if (action.cmd === 'createLink') {
-                    const url = prompt(action.prompt);
-                    if (url) document.execCommand(action.cmd, false, url);
-                } else {
-                    document.execCommand(action.cmd, false, null);
-                }
-            }
-            if (action.custom === 'inlineCode') {
-                document.execCommand('insertHTML', false, `<code style="background:#ececec;padding:2px 6px;border-radius:4px;">${sel.toString()}</code>`);
-            }
-            floatToolbar.style.opacity = 0;
-            floatToolbar.style.pointerEvents = 'none';
-        };
-        floatToolbar.appendChild(btn);
-    });
-    // Renk paleti - yazı rengi
-    const colorWrap = document.createElement('div');
-    colorWrap.innerHTML = colorPalette('foreColor');
-    colorWrap.style.display = 'inline-block';
-    colorWrap.style.marginLeft = '9px';
-    floatToolbar.appendChild(colorWrap);
-    // Renk paleti - arka plan rengi
-    const bgWrap = document.createElement('div');
-    bgWrap.innerHTML = colorPalette('hiliteColor');
-    bgWrap.style.display = 'inline-block';
-    bgWrap.style.marginLeft = '2px';
-    floatToolbar.appendChild(bgWrap);
-
-    // Pozisyon
-    floatToolbar.style.position = 'absolute';
-    floatToolbar.style.top = (window.scrollY + rect.top - 48) + "px";
-    floatToolbar.style.left = (window.scrollX + rect.left + rect.width / 2 - 120) + "px";
-    floatToolbar.style.opacity = 1;
-    floatToolbar.style.pointerEvents = 'auto';
-}
-editorContent.addEventListener('mouseup', showFloatToolbar);
-editorContent.addEventListener('keyup', showFloatToolbar);
-window.addEventListener('mousedown', (e) => {
-    if (!floatToolbar.contains(e.target)) {
+        e.preventDefault();
+        if (action.cmd) {
+        if (action.cmd === 'createLink') {
+        const url = prompt(action.prompt);
+        if (url) document.execCommand(action.cmd, false, url);
+        } else {
+        document.execCommand(action.cmd, false, null);
+        }
+        }
+        if (action.custom === 'inlineCode') {
+        document.execCommand('insertHTML', false, `<code style="background:#ececec;padding:2px 6px;border-radius:4px;">${sel.toString()}</code>`);
+        }
         floatToolbar.style.opacity = 0;
         floatToolbar.style.pointerEvents = 'none';
-    }
-});
-window.paletteColorPick = function(e, cmd, color) {
-    e.preventDefault();
-    document.execCommand(cmd, false, color);
-    floatToolbar.style.opacity = 0;
-    floatToolbar.style.pointerEvents = 'none';
-};
+        };
+        floatToolbar.appendChild(btn);
+        });
+        // Renk paleti - yazı rengi
+        const colorWrap = document.createElement('div');
+        colorWrap.innerHTML = colorPalette('foreColor');
+        colorWrap.style.display = 'inline-block';
+        colorWrap.style.marginLeft = '9px';
+        floatToolbar.appendChild(colorWrap);
+        // Renk paleti - arka plan rengi
+        const bgWrap = document.createElement('div');
+        bgWrap.innerHTML = colorPalette('hiliteColor');
+        bgWrap.style.display = 'inline-block';
+        bgWrap.style.marginLeft = '2px';
+        floatToolbar.appendChild(bgWrap);
 
-// H1, H2, H3 Boyutları
-const style = document.createElement('style');
-style.innerHTML = `
-    #editorContent h1 { font-size:2.2rem;font-weight:900;margin:15px 0 7px 0;color:#2B0B3F;}
-    #editorContent h2 { font-size:1.5rem;font-weight:700;margin:13px 0 6px 0;color:#391859;}
-    #editorContent h3 { font-size:1.15rem;font-weight:700;margin:11px 0 5px 0;color:#71499c;}
-`;
-document.head.appendChild(style);
+        // Pozisyon
+        floatToolbar.style.position = 'absolute';
+        floatToolbar.style.top = (window.scrollY + rect.top - 48) + "px";
+        floatToolbar.style.left = (window.scrollX + rect.left + rect.width / 2 - 120) + "px";
+        floatToolbar.style.opacity = 1;
+        floatToolbar.style.pointerEvents = 'auto';
+        }
+        editorContent.addEventListener('mouseup', showFloatToolbar);
+        editorContent.addEventListener('keyup', showFloatToolbar);
+        window.addEventListener('mousedown', (e) => {
+        if (!floatToolbar.contains(e.target)) {
+        floatToolbar.style.opacity = 0;
+        floatToolbar.style.pointerEvents = 'none';
+        }
+        });
+        window.paletteColorPick = function(e, cmd, color) {
+        e.preventDefault();
+        document.execCommand(cmd, false, color);
+        floatToolbar.style.opacity = 0;
+        floatToolbar.style.pointerEvents = 'none';
+        };
 
-// Forum Gönderimi
-function handleSubmit(event) {
-    event.preventDefault();
-    const title = editorTitle.innerText.trim();
-    let content = editorContent.innerHTML.trim();
-    if (typeof createEntry === "function") createEntry(title, content);
-    return false;
-};
+        // H1, H2, H3 Boyutları
+        const style = document.createElement('style');
+        style.innerHTML = `
+        #editorContent h1 { font-size:2.2rem;font-weight:900;margin:15px 0 7px 0;color:#2B0B3F;}
+        #editorContent h2 { font-size:1.5rem;font-weight:700;margin:13px 0 6px 0;color:#391859;}
+        #editorContent h3 { font-size:1.15rem;font-weight:700;margin:11px 0 5px 0;color:#71499c;}
+        `;
+        document.head.appendChild(style);
+
+        // Forum Gönderimi
+        function handleSubmit(event) {
+        event.preventDefault();
+        const title = editorTitle.innerText.trim();
+        let content = editorContent.innerHTML.trim();
+        if (typeof createEntry === "function") createEntry(title, content);
+        return false;
+        };
 
 
     </script>
