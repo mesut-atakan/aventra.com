@@ -1,229 +1,183 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Forum Detayı</title>
-    <link rel="stylesheet" href="../style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet" />
-    <style>
-        body {
-            background: linear-gradient(to right, #2B0B3F, #6E2B6D);
-            color: #F9F9F9;
-            font-family: 'Segoe UI', sans-serif;
-            margin: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Forum Detayı | Aventra</title>
+  <link rel="stylesheet" href="../style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(to right, #2B0B3F, #6E2B6D);
+      color: #F9F9F9;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-        header {
-            background-color: #FF6600;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-        }
+    header {
+      background-color: #FF6600;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+      justify-content: space-between;
+    }
 
-        .sidebar-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            width: 220px;
-            background-color: #3E2B59;
-            display: flex;
-            flex-direction: column;
-            padding-top: 80px;
-            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.3);
-            z-index: 999;
-        }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      font-weight: 900;
+      font-size: 1.3rem;
+      color: #fff;
+      letter-spacing: .7px;
+    }
 
-            .sidebar-menu a {
-                color: white;
-                padding: 1rem;
-                text-decoration: none;
-                font-weight: bold;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                transition: background-color 0.3s ease;
-            }
+    .brand img {
+      height: 38px;
+      width: auto;
+    }
 
-                .sidebar-menu a:hover {
-                    background-color: #6E2B6D;
-                }
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1rem;
+      box-sizing: border-box;
+    }
 
-        .sidebar-hidden {
-            display: none;
-        }
+    .forum-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
 
-        .subforum-title h1 {
-            color: #FF6600;
-            font-size: 2rem;
-        }
+    .author-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #FF6600;
+      background: #fff2;
+    }
 
-        .content-box {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #F9F9F9;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
+    .author-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #FF6600;
+    }
 
-        footer {
-            text-align: center;
-            padding: 2rem;
-            color: white;
-            background-color: #1A042C;
-            font-size: 0.9rem;
-            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.3);
-        }
-.container {
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: 1rem;
-    box-sizing: border-box;
-}
+    h1 {
+      font-size: 2rem;
+      color: #FF6600;
+      margin-bottom: 1rem;
+    }
 
-.content-box {
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
-    </style>
+    .content-box {
+      background-color: rgba(255, 255, 255, 0.07);
+      padding: 1.5rem;
+      border-radius: 12px;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      color: #F9F9F9;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    footer {
+      margin-top: auto;
+      background-color: #1A042C;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.85rem;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.3);
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="navbar">
-            <a class="bar-icon" id="iconBar"><i class="fa fa-bars"></i></a>
-            <div class="brand">Aventra</div>
-        </div>
-    </header>
+  <header>
+    <a href="../index.html" class="brand" style="text-decoration: none;">
+      <img src="../assets/images/aventra_woutbg.png" alt="Ventra Logo">
+      <span>VENTRA</span>
+    </a>
+  </header>
 
-    <div id="sidebar" class="sidebar-menu sidebar-hidden">
-        <a href="../index.html">Anasayfa</a>
-        <a href="forums.html">Forumlar</a>
-        <a href="create.html">Yeni Forum Oluştur</a>
-    </div>
+  <div class="container">
+    <div class="forum-header" id="forumAuthor"></div>
+    <h1 id="forumTitle">Yükleniyor...</h1>
+    <div id="forumContent" class="content-box">Yükleniyor...</div>
+  </div>
 
-<div id="forumAuthor" style="display: flex; align-items: center; gap: 1rem; margin-top: 1rem;"></div>
+  <footer>
+    <span>&copy; Aventra Ekibi | Tüm Hakları Saklıdır</span>
+  </footer>
 
-    <div class="container">
-        <div class="subforum">
-            <div class="subforum-title">
-                <h1 id="forumTitle">Yükleniyor...</h1>
-            </div>
-            <div class="subforum-description">
-                <div id="forumContent" class="content-box">Yükleniyor...</div>
-            </div>
-        </div>
-    </div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-    <footer>
-        <span>&copy; Aventra Ekibi | Tüm Hakları Saklıdır</span>
-    </footer>
+    const firebaseConfig = {
+      apiKey: "AIzaSyAfkPiGwLZwvPQcTCFaQu-he7NjS4CG27U",
+      authDomain: "aventra-platform.firebaseapp.com",
+      projectId: "aventra-platform",
+      storageBucket: "aventra-platform.appspot.com",
+      messagingSenderId: "1044485055341",
+      appId: "1:1044485055341:web:0bd3b3a2cecdded9423064",
+      measurementId: "G-RZJ4H09WJW"
+    };
 
-    <script>
-        const iconBar = document.getElementById("iconBar");
-        const sidebar = document.getElementById("sidebar");
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-        iconBar.onclick = function () {
-        sidebar.classList.toggle("sidebar-hidden");
-        }
-    </script>
+    const forumTitle = document.getElementById("forumTitle");
+    const forumContent = document.getElementById("forumContent");
+    const forumAuthor = document.getElementById("forumAuthor");
+    const DEFAULT_PHOTO = "../assets/images/default-profile-photo.jpg";
 
-    <script type="module">
-        import { app } from './firebase-init.js';
-        import { requireAuth } from './auth-guard.js';
-        requireAuth();
+    const urlParams = new URLSearchParams(window.location.search);
+    const forumId = urlParams.get("id");
 
-        // forumları yükleyeceğin diğer kodlar için de app'i kullanabilirsin!
-    </script>
+    async function loadForum() {
+      if (!forumId) return;
 
+      const docRef = doc(db, "forums", forumId);
+      const docSnap = await getDoc(docRef);
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-analytics.js";
-
-        const firebaseConfig = {
-        apiKey: "AIzaSyAfkPiGwLZwvPQcTCFaQu-he7NjS4CG27U",
-        authDomain: "aventra-platform.firebaseapp.com",
-        projectId: "aventra-platform",
-        storageBucket: "aventra-platform.appspot.com",
-        messagingSenderId: "1044485055341",
-        appId: "1:1044485055341:web:0bd3b3a2cecdded9423064",
-        measurementId: "G-RZJ4H09WJW"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        const forumTitle = document.getElementById("forumTitle");
-        const forumContent = document.getElementById("forumContent");
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const forumId = urlParams.get("id");
-
-        async function loadForum() {
-        if (!forumId) return;
-        const docRef = doc(db, "forums", forumId);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-        const data = docSnap.data();
-        forumTitle.innerText = data.title;
-        forumContent.innerHTML = data.content;
-        } else {
+      if (!docSnap.exists()) {
         forumTitle.innerText = "Forum bulunamadı";
         forumContent.innerHTML = "Belirtilen forum silinmiş olabilir.";
+        return;
+      }
+
+      const data = docSnap.data();
+      forumTitle.innerText = data.title;
+      forumContent.innerHTML = data.content;
+
+      if (data.authorId) {
+        const userRef = doc(db, "users", data.authorId);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+          const userData = userSnap.data();
+          const avatar = document.createElement("img");
+          avatar.className = "author-avatar";
+          avatar.src = userData.photoURL || DEFAULT_PHOTO;
+
+          const username = document.createElement("span");
+          username.className = "author-name";
+          username.textContent = userData.username || "Bilinmeyen Kullanıcı";
+
+          forumAuthor.appendChild(avatar);
+          forumAuthor.appendChild(username);
         }
-        }
-
-        loadForum();
-    </script>
-
-<script>
-import { getDoc, doc, getFirestore } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-
-const forumAuthor = document.getElementById("forumAuthor");
-
-async function loadForum() {
-    if (!forumId) return;
-    const docRef = doc(db, "forums", forumId);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-        const data = docSnap.data();
-        forumTitle.innerText = data.title;
-        forumContent.innerHTML = data.content;
-
-        if (data.authorId) {
-            const userRef = doc(db, "users", data.authorId);
-            const userSnap = await getDoc(userRef);
-            if (userSnap.exists()) {
-                const userData = userSnap.data();
-                const img = document.createElement("img");
-                img.src = userData.photoURL || "../assets/images/default-profile-photo.jpg";
-                img.style.width = "48px";
-                img.style.height = "48px";
-                img.style.borderRadius = "50%";
-                img.style.border = "2px solid #FF6600";
-
-                const name = document.createElement("span");
-                name.textContent = userData.username || "Bilinmeyen Kullanıcı";
-                name.style.fontWeight = "bold";
-                name.style.color = "#FF6600";
-
-                forumAuthor.appendChild(img);
-                forumAuthor.appendChild(name);
-            }
-        }
-    } else {
-        forumTitle.innerText = "Forum bulunamadı";
-        forumContent.innerHTML = "Belirtilen forum silinmiş olabilir.";
+      }
     }
-}
-</script>
-    <script src="../main.js"></script>
+
+    loadForum();
+  </script>
 </body>
 </html>
