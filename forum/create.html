@@ -341,12 +341,12 @@
 </head>
 
 <body>
-<header class="header">
-    <a href="../index.html" class="header-brand">
-        <img src="../assets/images/aventra_woutbg.png" alt="Aventra Logo" class="header-logo">
-        <span class="header-text">VENTRA</span>
-    </a>
-</header>
+    <header class="header">
+        <a href="../index.html" class="header-brand">
+            <img src="../assets/images/aventra_woutbg.png" alt="Aventra Logo" class="header-logo">
+            <span class="header-text">VENTRA</span>
+        </a>
+    </header>
 
     <div class="sidebar">
         <div class="accordion open">
@@ -632,5 +632,55 @@
 
 
     </script>
+    <script type="module">
+        import { app, db } from './firebase-init.js';
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+        import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+        const DEFAULT_PHOTO = "../assets/images/default-profile-photo.jpg";
+
+        // Forum oluşturma fonksiyonu
+        window.createEntry = async function(title, content) {
+        const auth = getAuth(app);
+
+        onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+        alert("Forum paylaşmak için giriş yapmalısınız.");
+        window.location.href = "login.html";
+        return;
+        }
+
+        // Kullanıcıyı da firestoredan çekip username bulalım
+        const userId = user.uid;
+        let username = user.email;
+        let photoURL = user.photoURL || DEFAULT_PHOTO;
+
+        // Eğer Firestore'da bir "users" koleksiyonu varsa, ordan çek
+        try {
+        const userSnap = await import("https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js")
+        .then(({ doc, getDoc }) => getDoc(doc(db, "users", userId)));
+        if (userSnap && userSnap.exists()) {
+        const userData = userSnap.data();
+        username = userData.username || user.email;
+        photoURL = userData.photoURL || DEFAULT_PHOTO;
+        }
+        } catch {}
+
+        // forums koleksiyonuna yeni döküman ekle
+        await addDoc(collection(db, "forums"), {
+        title,
+        content,
+        authorId: userId,
+        authorName: username,
+        authorPhoto: photoURL,
+        createdAt: serverTimestamp(),
+        });
+
+        // Forumlar sayfasına yönlendir
+        window.location.href = "forums.html";
+        });
+        };
+    </script>
+
 </body>
 </html>
