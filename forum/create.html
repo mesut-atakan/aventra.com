@@ -103,8 +103,11 @@
 
         .content-box {
             min-height: 200px;
-            background-color: white;
-            color: black;
+            background-color: rgba(255,255,255,0.1); /* hafif transparan */
+            color: #23272e;
+            border-radius: 10px;
+            box-shadow: 0 1px 10px rgba(43,11,63,0.10);
+            transition: background 0.2s;
         }
 
         .toolbar button {
@@ -193,6 +196,7 @@
                     <button onclick="execCmd('insertOrderedList')"><i class="fa fa-list-ol"></i></button>
                     <button onclick="insertLink()"><i class="fa fa-link"></i></button>
                     <button onclick="insertImage()"><i class="fa fa-image"></i></button>
+                    <button onclick="insertCodeBlock()" title="Kod Bloğu"><i class="fa fa-code"></i></button>
                 </div>
                 <div id="pageContent" contenteditable="true" aria-label="İçerik Alanı" class="content-box"></div>
                 <button class="submit-button" onclick="createEntry()">Forum Sayfasını Oluştur</button>
@@ -246,6 +250,9 @@
         const url = prompt("Görsel URL'si girin:");
         if (url) execCmd('insertImage', url);
         }
+        function insertCodeBlock() {
+        document.execCommand('insertHTML', false, '<pre style="background:#23272e;color:#f8f8f2;padding:12px 16px;border-radius:7px;font-size:.97em;overflow-x:auto;"><code>// kodunuzu buraya yazın</code></pre>');
+}
     </script>
 
 <script type="module">
