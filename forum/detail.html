@@ -78,15 +78,30 @@
     }
 
     .content-box {
-      background-color: rgba(255, 255, 255, 0.07);
-      padding: 1.5rem;
-      border-radius: 12px;
-      word-break: break-word;
-      overflow-wrap: break-word;
-      color: #F9F9F9;
-      font-size: 1rem;
-      line-height: 1.6;
-    }
+  background-color: rgba(255, 255, 255, 0.07);
+  padding: 1.5rem;
+  border-radius: 12px;
+  color: #F9F9F9;
+  font-size: 1rem;
+  line-height: 1.6;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.content-box pre {
+  white-space: pre-wrap;
+  overflow-x: auto;
+  word-break: break-word;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 6px;
+}
+.content-box img,
+.content-box iframe,
+.content-box table {
+  max-width: 100%;
+  overflow-x: auto;
+}
 
     footer {
       margin-top: auto;
