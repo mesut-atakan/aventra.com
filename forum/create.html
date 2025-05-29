@@ -242,6 +242,42 @@
         if (url) execCmd('insertImage', url);
         }
     </script>
+
+<script type="module">
+    import { db, auth } from './firebase-init.js';
+    import { collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+    window.createEntry = async function () {
+        const title = document.getElementById("pageTitle").value.trim();
+        const content = document.getElementById("pageContent").innerHTML.trim();
+
+        if (!title || !content) {
+            alert("Başlık ve içerik boş bırakılamaz.");
+            return;
+        }
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                alert("Forum oluşturmak için giriş yapmalısınız.");
+                return;
+            }
+
+            try {
+                await addDoc(collection(db, "forums"), {
+                    title,
+                    content,
+                    authorId: user.uid,
+                    createdAt: serverTimestamp()
+                });
+                window.location.href = "forums.html";
+            } catch (error) {
+                console.error("Forum oluşturulurken hata:", error);
+                alert("Bir hata oluştu.");
+            }
+        });
+    };
+</script>
     <script src="../main.js"></script>
 </body>
 </html>
