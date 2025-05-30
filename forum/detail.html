@@ -145,208 +145,206 @@
   </style>
 </head>
 <body>
-  <header>
-    <a href="../index.html" class="brand" style="text-decoration: none;">
-      <img src="../assets/images/aventra_woutbg.png" alt="Ventra Logo">
-      <span>VENTRA</span>
-    </a>
-  </header>
+    <header>
+        <a href="../index.html" class="brand" style="text-decoration: none;">
+            <img src="../assets/images/aventra_woutbg.png" alt="Ventra Logo">
+            <span>VENTRA</span>
+        </a>
+    </header>
 
-  <div class="container">
-    <div class="forum-header" id="forumAuthor"></div>
-    <h1 id="forumTitle">Yükleniyor...</h1>
-    <div id="forumContent" class="content-box">Yükleniyor...</div>
-<h2 style="margin-top: 3rem;">Yorumlar</h2>
-<div id="commentsList" style="margin-bottom: 1rem;"></div>
+    <div class="container">
+        <div class="forum-header" id="forumAuthor"></div>
+        <h1 id="forumTitle">Yükleniyor...</h1>
+        <div id="forumContent" class="content-box">Yükleniyor...</div>
+        <h2 style="margin-top: 3rem;">Yorumlar</h2>
+        <div id="commentsList" style="margin-bottom: 1rem;"></div>
 
-<div style="display: flex; flex-direction: column; gap: 0.5rem;">
-  <textarea id="commentInput" rows="3" placeholder="Yorumunuzu yazın..." style="resize: vertical; padding: 0.75rem; border-radius: 8px; font-size: 1rem; border: none;"></textarea>
-  <button id="submitComment" style="align-self: flex-end; background-color: #FF6600; color: white; font-weight: bold; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer;">
-    Yorumu Gönder
-  </button>
-</div>
-  </div>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <textarea id="commentInput" rows="3" placeholder="Yorumunuzu yazın..." style="resize: vertical; padding: 0.75rem; border-radius: 8px; font-size: 1rem; border: none;"></textarea>
+            <button id="submitComment" style="align-self: flex-end; background-color: #FF6600; color: white; font-weight: bold; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer;">
+                Yorumu Gönder
+            </button>
+        </div>
+    </div>
 
-  <footer>
-    <span>&copy; Aventra Ekibi | Tüm Hakları Saklıdır</span>
-  </footer>
+    <footer>
+        <span>&copy; Aventra Ekibi | Tüm Hakları Saklıdır</span>
+    </footer>
 
-  <script type="module">
-import { requireAuth } from './auth-guard.js';
-requireAuth(); // login yoksa login.html'e yönlendirir
+    <script type="module">
+        import { requireAuth } from './auth-guard.js';
+        requireAuth(); // Giriş yapılmamışsa yönlendir
 
-import { logUniqueUserPageVisit } from './analytics.js';
-import { db, auth } from './firebase-init.js';
-// Diğer Firebase fonksiyonlarını import et
-import { doc, getDoc, collection, addDoc, serverTimestamp, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+        import { logUniqueUserPageVisit } from './analytics.js';
+        import { db, auth } from './firebase-init.js'; // Sadece bir dosyadan import et!
+        import { doc, getDoc, collection, addDoc, serverTimestamp, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
-// forumId'yi çek
-const urlParams = new URLSearchParams(window.location.search);
-const forumId = urlParams.get("id");
+        // URL'den forum ID'yi çek
+        const urlParams = new URLSearchParams(window.location.search);
+        const forumId = urlParams.get("id");
 
-if (forumId) {
-    logUniqueUserPageVisit(forumId);
-}
-
-
-
-import { db, auth } from './firebase-init.js';
-import { doc, getDoc, collection, addDoc, serverTimestamp, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-
-const forumTitle = document.getElementById("forumTitle");
-const forumContent = document.getElementById("forumContent");a
-const forumAuthor = document.getElementById("forumAuthor");
-const commentInput = document.getElementById("commentInput");
-const commentsList = document.getElementById("commentsList");
-const submitBtn = document.getElementById("submitComment");
-
-const DEFAULT_PHOTO = "../assets/images/default-profile-photo.jpg";
-
-
-function renderEditorJs(data) {
-    if (typeof data === "string") data = JSON.parse(data);
-    let html = '';
-    data.blocks.forEach(block => {
-        switch (block.type) {
-            case 'header':
-                html += `<h${block.data.level}>${block.data.text}</h${block.data.level}>`;
-                break;
-            case 'paragraph':
-                html += `<p>${block.data.text}</p>`;
-                break;
-            case 'list':
-                const type = block.data.style === "ordered" ? "ol" : "ul";
-                html += `<${type} style="margin:0 0 16px 24px;">${block.data.items.map(item => `<li>${item}</li>`).join('')}</${type}>`;
-                break;
-            case 'checklist':
-                html += '<ul class="checklist">';
-                block.data.items.forEach(item => {
-                    html += `<li style="list-style:none; margin-bottom:6px;">
-                        <input type="checkbox" disabled ${item.checked ? 'checked' : ''} style="accent-color:#ff6600; margin-right:7px;">
-                        ${item.text}
-                    </li>`;
-                });
-                html += '</ul>';
-                break;
-            case 'quote':
-                html += `<blockquote style="border-left:3px solid #ff6600; margin:16px 0; padding:10px 18px; background:#1a1a2a;">${block.data.text}${block.data.caption ? `<br><cite style="font-size:.95em;color:#ff9900;">${block.data.caption}</cite>` : ""}</blockquote>`;
-                break;
-            case 'code':
-                html += `<pre class="editorjs-code-block" style="background:#232334;border-radius:7px;padding:16px;margin:16px 0;overflow:auto;color:#fff;font-size:1.02em;"><code>${block.data.code}</code></pre>`;
-                break;
-            case 'delimiter':
-                html += `<hr style="border:0;border-top:2px solid #444;margin:24px 0;">`;
-                break;
-            case 'table':
-                html += '<div class="editorjs-table-wrap" style="overflow-x:auto;margin:18px 0;"><table style="border-collapse:collapse;width:auto;min-width:300px;">';
-                block.data.content.forEach(row => {
-                    html += '<tr>';
-                    row.forEach(cell => {
-                        html += `<td style="border:1px solid #ccc;padding:6px 12px;text-align:left;">${cell}</td>`;
-                    });
-                    html += '</tr>';
-                });
-                html += '</table></div>';
-                break;
-            case 'image':
-                html += `<div style="margin:12px 0;"><img src="${block.data.file.url}" alt="${block.data.caption || ''}" style="max-width:100%; border-radius:7px; box-shadow:0 2px 12px #0002;"><div style="color:#aaa;font-size:.95em;margin-top:3px">${block.data.caption || ''}</div></div>`;
-                break;
-            default:
-                break;
+        // Ziyaretçi kaydı (sadece girişli kullanıcı için ve tekil)
+        if (forumId) {
+        logUniqueUserPageVisit(forumId);
         }
-    });
-    return html;
-}
 
+        // DOM elementlerini çek
+        const forumTitle = document.getElementById("forumTitle");
+        const forumContent = document.getElementById("forumContent");
+        const forumAuthor = document.getElementById("forumAuthor");
+        const commentInput = document.getElementById("commentInput");
+        const commentsList = document.getElementById("commentsList");
+        const submitBtn = document.getElementById("submitComment");
 
+        const DEFAULT_PHOTO = "../assets/images/default-profile-photo.jpg";
 
+        // Editor.js render fonksiyonu (sendekiyle aynı)
+        function renderEditorJs(data) {
+        if (typeof data === "string") data = JSON.parse(data);
+        let html = '';
+        data.blocks.forEach(block => {
+        switch (block.type) {
+        case 'header':
+        html += `<h${block.data.level}>${block.data.text}</h${block.data.level}>`;
+        break;
+        case 'paragraph':
+        html += `<p>${block.data.text}</p>`;
+        break;
+        case 'list':
+        const type = block.data.style === "ordered" ? "ol" : "ul";
+        html += `<${type} style="margin:0 0 16px 24px;">${block.data.items.map(item => `<li>${item}</li>`).join('')}</${type}>`;
+        break;
+        case 'checklist':
+        html += '<ul class="checklist">';
+        block.data.items.forEach(item => {
+        html += `<li style="list-style:none; margin-bottom:6px;">
+        <input type="checkbox" disabled ${item.checked ? 'checked' : ''} style="accent-color:#ff6600; margin-right:7px;">
+        ${item.text}
+        </li>`;
+        });
+        html += '</ul>';
+        break;
+        case 'quote':
+        html += `<blockquote style="border-left:3px solid #ff6600; margin:16px 0; padding:10px 18px; background:#1a1a2a;">${block.data.text}${block.data.caption ? `<br><cite style="font-size:.95em;color:#ff9900;">${block.data.caption}</cite>` : ""}</blockquote>`;
+        break;
+        case 'code':
+        html += `<pre class="editorjs-code-block" style="background:#232334;border-radius:7px;padding:16px;margin:16px 0;overflow:auto;color:#fff;font-size:1.02em;"><code>${block.data.code}</code></pre>`;
+        break;
+        case 'delimiter':
+        html += `<hr style="border:0;border-top:2px solid #444;margin:24px 0;">`;
+        break;
+        case 'table':
+        html += '<div class="editorjs-table-wrap" style="overflow-x:auto;margin:18px 0;"><table style="border-collapse:collapse;width:auto;min-width:300px;">';
+        block.data.content.forEach(row => {
+        html += '<tr>';
+        row.forEach(cell => {
+        html += `<td style="border:1px solid #ccc;padding:6px 12px;text-align:left;">${cell}</td>`;
+        });
+        html += '</tr>';
+        });
+        html += '</table></div>';
+        break;
+        case 'image':
+        html += `<div style="margin:12px 0;"><img src="${block.data.file.url}" alt="${block.data.caption || ''}" style="max-width:100%; border-radius:7px; box-shadow:0 2px 12px #0002;"><div style="color:#aaa;font-size:.95em;margin-top:3px">${block.data.caption || ''}</div></div>`;
+        break;
+        default:
+        break;
+        }
+        });
+        return html;
+        }
 
-async function loadForum() {
-  if (!forumId) return;
-  const docRef = doc(db, "forums", forumId);
-  const docSnap = await getDoc(docRef);
+        // Forum detayını yükle
+        async function loadForum() {
+        if (!forumId) return;
+        const docRef = doc(db, "forums", forumId);
+        const docSnap = await getDoc(docRef);
 
-  if (!docSnap.exists()) {
-    forumTitle.innerText = "Forum bulunamadı";
-    forumContent.innerHTML = "Belirtilen forum silinmiş olabilir.";
-    return;
-  }
+        if (!docSnap.exists()) {
+        forumTitle.innerText = "Forum bulunamadı";
+        forumContent.innerHTML = "Belirtilen forum silinmiş olabilir.";
+        return;
+        }
 
-   const data = docSnap.data();
-  forumTitle.innerText = data.title;
-  forumContent.innerHTML = renderEditorJs(JSON.parse(data.content));
+        const data = docSnap.data();
+        forumTitle.innerText = data.title;
+        forumContent.innerHTML = renderEditorJs(JSON.parse(data.content));
 
-  if (data.authorId) {
-    const userRef = doc(db, "users", data.authorId);
-    const userSnap = await getDoc(userRef);
-    if (userSnap.exists()) {
-      const userData = userSnap.data();
-      const avatar = document.createElement("img");
-      avatar.className = "author-avatar";
-      avatar.src = userData.photoURL || DEFAULT_PHOTO;
+        if (data.authorId) {
+        const userRef = doc(db, "users", data.authorId);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+        const userData = userSnap.data();
+        const avatar = document.createElement("img");
+        avatar.className = "author-avatar";
+        avatar.src = userData.photoURL || DEFAULT_PHOTO;
 
-      const username = document.createElement("span");
-      username.className = "author-name";
-      username.textContent = userData.username || "Bilinmeyen Kullanıcı";
+        const username = document.createElement("span");
+        username.className = "author-name";
+        username.textContent = userData.username || "Bilinmeyen Kullanıcı";
 
-      forumAuthor.appendChild(avatar);
-      forumAuthor.appendChild(username);
-    }
-  }
-}
+        forumAuthor.appendChild(avatar);
+        forumAuthor.appendChild(username);
+        }
+        }
+        }
 
-async function loadComments() {
-  commentsList.innerHTML = "Yorumlar yükleniyor...";
-  const commentsRef = collection(db, "forums", forumId, "comments");
-  const q = query(commentsRef, orderBy("createdAt", "desc"));
-  const snapshot = await getDocs(q);
+        // Yorumları yükle
+        async function loadComments() {
+        commentsList.innerHTML = "Yorumlar yükleniyor...";
+        const commentsRef = collection(db, "forums", forumId, "comments");
+        const q = query(commentsRef, orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
 
-  commentsList.innerHTML = "";
+        commentsList.innerHTML = "";
 
-  snapshot.forEach((doc) => {
-    const data = doc.data();
-    const div = document.createElement("div");
-    div.style.padding = "1rem";
-    div.style.marginBottom = "1rem";
-    div.style.backgroundColor = "rgba(255,255,255,0.06)";
-    div.style.borderRadius = "6px";
+        snapshot.forEach((doc) => {
+        const data = doc.data();
+        const div = document.createElement("div");
+        div.style.padding = "1rem";
+        div.style.marginBottom = "1rem";
+        div.style.backgroundColor = "rgba(255,255,255,0.06)";
+        div.style.borderRadius = "6px";
 
-    const username = data.username || "Anonim";
-    const content = data.content;
+        const username = data.username || "Anonim";
+        const content = data.content;
 
-    div.innerHTML = `<strong style="color:#FF6600">${username}</strong><br>${content}`;
-    commentsList.appendChild(div);
-  });
-}
+        div.innerHTML = `<strong style="color:#FF6600">${username}</strong><br>${content}`;
+        commentsList.appendChild(div);
+        });
+        }
 
-submitBtn.addEventListener("click", async () => {
-  const content = commentInput.value.trim();
-  if (!content) return alert("Yorum boş olamaz.");
+        // Yorum gönderme eventi
+        submitBtn.addEventListener("click", async () => {
+        const content = commentInput.value.trim();
+        if (!content) return alert("Yorum boş olamaz.");
 
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      return alert("Yorum yapmak için giriş yapmalısınız.");
-    }
+        onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+        return alert("Yorum yapmak için giriş yapmalısınız.");
+        }
 
-    const userDoc = await getDoc(doc(db, "users", user.uid));
-    const username = userDoc.exists() ? (userDoc.data().username || user.email) : user.email;
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        const username = userDoc.exists() ? (userDoc.data().username || user.email) : user.email;
 
-    await addDoc(collection(db, "forums", forumId, "comments"), {
-      content,
-      createdAt: serverTimestamp(),
-      userId: user.uid,
-      username
-    });
+        await addDoc(collection(db, "forums", forumId, "comments"), {
+        content,
+        createdAt: serverTimestamp(),
+        userId: user.uid,
+        username
+        });
 
-    commentInput.value = "";
-    await loadComments();
-  });
-});
+        commentInput.value = "";
+        await loadComments();
+        });
+        });
 
-await loadForum();
-await loadComments();
-  </script>
+        // Sayfa açılışında forum ve yorumları yükle
+        await loadForum();
+        await loadComments();
+
+    </script>
+
 </body>
 </html>
