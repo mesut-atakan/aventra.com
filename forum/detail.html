@@ -1,360 +1,208 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Forum Detayı | Aventra</title>
-  <link rel="stylesheet" href="../style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet" />
-  <style>
-    body {
-      background: linear-gradient(to right, #2B0B3F, #6E2B6D);
-      color: #F9F9F9;
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    header {
-      background-color: #FF6600;
-      padding: 1rem 2rem;
-      display: flex;
-      align-items: center;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-      justify-content: space-between;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: .7rem;
-      font-weight: 900;
-      font-size: 1.3rem;
-      color: #fff;
-      letter-spacing: .7px;
-    }
-
-    .brand img {
-      height: 38px;
-      width: auto;
-    }
-
-    .container {
-      max-width: 900px;
-      margin: 2rem auto;
-      padding: 1rem;
-      box-sizing: border-box;
-    }
-
-    .forum-header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-
-    .author-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #FF6600;
-      background: #fff2;
-    }
-
-    .author-name {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #FF6600;
-    }
-
-    h1 {
-      font-size: 2rem;
-      color: #FF6600;
-      margin-bottom: 1rem;
-    }
-
-    .content-box {
-  background-color: rgba(255, 255, 255, 0.07);
-  padding: 1.5rem;
-  border-radius: 12px;
-  color: #F9F9F9;
-  font-size: 1rem;
-  line-height: 1.6;
-  word-break: break-word;
-  overflow-wrap: anywhere;
-  white-space: pre-wrap;
-}
-.content-box pre {
-  white-space: pre-wrap;
-  overflow-x: auto;
-  word-break: break-word;
-  background-color: rgba(255, 255, 255, 0.05);
-  padding: 1rem;
-  border-radius: 6px;
-}
-.content-box img,
-.content-box iframe,
-.content-box table {
-  max-width: 100%;
-  overflow-x: auto;
-}
-
-    footer {
-      margin-top: auto;
-      background-color: #1A042C;
-      color: white;
-      text-align: center;
-      padding: 2rem;
-      font-size: 0.85rem;
-      box-shadow: 0 -4px 10px rgba(0,0,0,0.3);
-    }
-      .editorjs-table-wrap table td {
-          border: 1px solid #ccc;
-          padding: 6px 12px;
-          font-size: 1.08em;
-          background: #18182a;
-          color: #fafafa;
-      }
-
-      .editorjs-code-block {
-          background: #222334;
-          color: #fffae0;
-          font-family: "JetBrains Mono", "Consolas", "Menlo", "monospace";
-          font-size: 1.02em;
-          border-radius: 7px;
-      }
-
-      .checklist input[type="checkbox"] {
-          accent-color: #ff6600;
-      }
-
-      .checklist li {
-          font-size: 1.03em;
-          margin-bottom: 7px;
-      }
-
-      blockquote {
-          font-size: 1.07em;
-          border-radius: 6px;
-      }
-
-  </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forum Detayı | Aventra</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet" />
+    <style>
+        /* ... CSS aynı kalabilir ... */
+    </style>
 </head>
 <body>
-  <header>
-    <a href="../index.html" class="brand" style="text-decoration: none;">
-      <img src="../assets/images/aventra_woutbg.png" alt="Ventra Logo">
-      <span>VENTRA</span>
-    </a>
-  </header>
+    <header>
+        <a href="../index.html" class="brand" style="text-decoration: none;">
+            <img src="../assets/images/aventra_woutbg.png" alt="Ventra Logo">
+            <span>VENTRA</span>
+        </a>
+    </header>
 
-  <div class="container">
-    <div class="forum-header" id="forumAuthor"></div>
-    <h1 id="forumTitle">Yükleniyor...</h1>
-    <div id="forumContent" class="content-box">Yükleniyor...</div>
-<h2 style="margin-top: 3rem;">Yorumlar</h2>
-<div id="commentsList" style="margin-bottom: 1rem;"></div>
+    <div class="container">
+        <div class="forum-header" id="forumAuthor"></div>
+        <h1 id="forumTitle">Yükleniyor...</h1>
+        <div id="forumContent" class="content-box">Yükleniyor...</div>
+        <h2 style="margin-top: 3rem;">Yorumlar</h2>
+        <div id="commentsList" style="margin-bottom: 1rem;"></div>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <textarea id="commentInput" rows="3" placeholder="Yorumunuzu yazın..." style="resize: vertical; padding: 0.75rem; border-radius: 8px; font-size: 1rem; border: none;"></textarea>
+            <button id="submitComment" style="align-self: flex-end; background-color: #FF6600; color: white; font-weight: bold; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer;">
+                Yorumu Gönder
+            </button>
+        </div>
+    </div>
 
-<div style="display: flex; flex-direction: column; gap: 0.5rem;">
-  <textarea id="commentInput" rows="3" placeholder="Yorumunuzu yazın..." style="resize: vertical; padding: 0.75rem; border-radius: 8px; font-size: 1rem; border: none;"></textarea>
-  <button id="submitComment" style="align-self: flex-end; background-color: #FF6600; color: white; font-weight: bold; border: none; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer;">
-    Yorumu Gönder
-  </button>
-</div>
-  </div>
+    <footer>
+        <span>&copy; Aventra Ekibi | Tüm Hakları Saklıdır</span>
+    </footer>
 
-  <footer>
-    <span>&copy; Aventra Ekibi | Tüm Hakları Saklıdır</span>
-  </footer>
+    <script type="module">
+        import { requireAuth } from './auth-guard.js';
+        import { logUniqueUserPageVisit } from './analytics.js';
+        import { db, auth } from './firebase-init.js';
+        import { doc, getDoc, collection, addDoc, serverTimestamp, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
-  <script type="module">
-      import { requireAuth } from './auth-guard.js';
-requireAuth(); // login yoksa login.html'e yönlendirir
+        requireAuth(); // login yoksa yönlendirir
 
-      import { logUniqueUserPageVisit } from './analytics.js';
+        // Forum id çek
+        const urlParams = new URLSearchParams(window.location.search);
+        const forumId = urlParams.get("id");
 
-// forumId'yi çek
-const urlParams = new URLSearchParams(window.location.search);
-const forumId = urlParams.get("id");
-
-if (forumId) {
-    logUniqueUserPageVisit(forumId);
-}
-
-
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-import { getFirestore, doc, getDoc, collection, addDoc, serverTimestamp, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyAfkPiGwLZwvPQcTCFaQu-he7NjS4CG27U",
-  authDomain: "aventra-platform.firebaseapp.com",
-  projectId: "aventra-platform",
-  storageBucket: "aventra-platform.appspot.com",
-  messagingSenderId: "1044485055341",
-  appId: "1:1044485055341:web:0bd3b3a2cecdded9423064"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
-
-const forumTitle = document.getElementById("forumTitle");
-const forumContent = document.getElementById("forumContent");
-const forumAuthor = document.getElementById("forumAuthor");
-const commentInput = document.getElementById("commentInput");
-const commentsList = document.getElementById("commentsList");
-const submitBtn = document.getElementById("submitComment");
-
-const DEFAULT_PHOTO = "../assets/images/default-profile-photo.jpg";
-
-
-function renderEditorJs(data) {
-    if (typeof data === "string") data = JSON.parse(data);
-    let html = '';
-    data.blocks.forEach(block => {
-        switch (block.type) {
-            case 'header':
-                html += `<h${block.data.level}>${block.data.text}</h${block.data.level}>`;
-                break;
-            case 'paragraph':
-                html += `<p>${block.data.text}</p>`;
-                break;
-            case 'list':
-                const type = block.data.style === "ordered" ? "ol" : "ul";
-                html += `<${type} style="margin:0 0 16px 24px;">${block.data.items.map(item => `<li>${item}</li>`).join('')}</${type}>`;
-                break;
-            case 'checklist':
-                html += '<ul class="checklist">';
-                block.data.items.forEach(item => {
-                    html += `<li style="list-style:none; margin-bottom:6px;">
-                        <input type="checkbox" disabled ${item.checked ? 'checked' : ''} style="accent-color:#ff6600; margin-right:7px;">
-                        ${item.text}
-                    </li>`;
-                });
-                html += '</ul>';
-                break;
-            case 'quote':
-                html += `<blockquote style="border-left:3px solid #ff6600; margin:16px 0; padding:10px 18px; background:#1a1a2a;">${block.data.text}${block.data.caption ? `<br><cite style="font-size:.95em;color:#ff9900;">${block.data.caption}</cite>` : ""}</blockquote>`;
-                break;
-            case 'code':
-                html += `<pre class="editorjs-code-block" style="background:#232334;border-radius:7px;padding:16px;margin:16px 0;overflow:auto;color:#fff;font-size:1.02em;"><code>${block.data.code}</code></pre>`;
-                break;
-            case 'delimiter':
-                html += `<hr style="border:0;border-top:2px solid #444;margin:24px 0;">`;
-                break;
-            case 'table':
-                html += '<div class="editorjs-table-wrap" style="overflow-x:auto;margin:18px 0;"><table style="border-collapse:collapse;width:auto;min-width:300px;">';
-                block.data.content.forEach(row => {
-                    html += '<tr>';
-                    row.forEach(cell => {
-                        html += `<td style="border:1px solid #ccc;padding:6px 12px;text-align:left;">${cell}</td>`;
-                    });
-                    html += '</tr>';
-                });
-                html += '</table></div>';
-                break;
-            case 'image':
-                html += `<div style="margin:12px 0;"><img src="${block.data.file.url}" alt="${block.data.caption || ''}" style="max-width:100%; border-radius:7px; box-shadow:0 2px 12px #0002;"><div style="color:#aaa;font-size:.95em;margin-top:3px">${block.data.caption || ''}</div></div>`;
-                break;
-            default:
-                break;
+        if (forumId) {
+        logUniqueUserPageVisit(forumId);
         }
-    });
-    return html;
-}
 
+        const forumTitle = document.getElementById("forumTitle");
+        const forumContent = document.getElementById("forumContent");
+        const forumAuthor = document.getElementById("forumAuthor");
+        const commentInput = document.getElementById("commentInput");
+        const commentsList = document.getElementById("commentsList");
+        const submitBtn = document.getElementById("submitComment");
 
+        const DEFAULT_PHOTO = "../assets/images/default-profile-photo.jpg";
 
+        function renderEditorJs(data) {
+        if (typeof data === "string") data = JSON.parse(data);
+        let html = '';
+        data.blocks.forEach(block => {
+        switch (block.type) {
+        case 'header':
+        html += `<h${block.data.level}>${block.data.text}</h${block.data.level}>`;
+        break;
+        case 'paragraph':
+        html += `<p>${block.data.text}</p>`;
+        break;
+        case 'list':
+        const type = block.data.style === "ordered" ? "ol" : "ul";
+        html += `<${type} style="margin:0 0 16px 24px;">${block.data.items.map(item => `<li>${item}</li>`).join('')}</${type}>`;
+        break;
+        case 'checklist':
+        html += '<ul class="checklist">';
+        block.data.items.forEach(item => {
+        html += `<li style="list-style:none; margin-bottom:6px;">
+        <input type="checkbox" disabled ${item.checked ? 'checked' : ''} style="accent-color:#ff6600; margin-right:7px;">
+        ${item.text}
+        </li>`;
+        });
+        html += '</ul>';
+        break;
+        case 'quote':
+        html += `<blockquote style="border-left:3px solid #ff6600; margin:16px 0; padding:10px 18px; background:#1a1a2a;">${block.data.text}${block.data.caption ? `<br><cite style="font-size:.95em;color:#ff9900;">${block.data.caption}</cite>` : ""}</blockquote>`;
+        break;
+        case 'code':
+        html += `<pre class="editorjs-code-block" style="background:#232334;border-radius:7px;padding:16px;margin:16px 0;overflow:auto;color:#fff;font-size:1.02em;"><code>${block.data.code}</code></pre>`;
+        break;
+        case 'delimiter':
+        html += `<hr style="border:0;border-top:2px solid #444;margin:24px 0;">`;
+        break;
+        case 'table':
+        html += '<div class="editorjs-table-wrap" style="overflow-x:auto;margin:18px 0;"><table style="border-collapse:collapse;width:auto;min-width:300px;">';
+        block.data.content.forEach(row => {
+        html += '<tr>';
+        row.forEach(cell => {
+        html += `<td style="border:1px solid #ccc;padding:6px 12px;text-align:left;">${cell}</td>`;
+        });
+        html += '</tr>';
+        });
+        html += '</table></div>';
+        break;
+        case 'image':
+        html += `<div style="margin:12px 0;"><img src="${block.data.file.url}" alt="${block.data.caption || ''}" style="max-width:100%; border-radius:7px; box-shadow:0 2px 12px #0002;"><div style="color:#aaa;font-size:.95em;margin-top:3px">${block.data.caption || ''}</div></div>`;
+        break;
+        default:
+        break;
+        }
+        });
+        return html;
+        }
 
-async function loadForum() {
-  if (!forumId) return;
-  const docRef = doc(db, "forums", forumId);
-  const docSnap = await getDoc(docRef);
+        async function loadForum() {
+        if (!forumId) return;
+        const docRef = doc(db, "forums", forumId);
+        const docSnap = await getDoc(docRef);
 
-  if (!docSnap.exists()) {
-    forumTitle.innerText = "Forum bulunamadı";
-    forumContent.innerHTML = "Belirtilen forum silinmiş olabilir.";
-    return;
-  }
+        if (!docSnap.exists()) {
+        forumTitle.innerText = "Forum bulunamadı";
+        forumContent.innerHTML = "Belirtilen forum silinmiş olabilir.";
+        return;
+        }
 
-   const data = docSnap.data();
-  forumTitle.innerText = data.title;
-  forumContent.innerHTML = renderEditorJs(JSON.parse(data.content));
+        const data = docSnap.data();
+        forumTitle.innerText = data.title;
+        forumContent.innerHTML = renderEditorJs(JSON.parse(data.content));
 
-  if (data.authorId) {
-    const userRef = doc(db, "users", data.authorId);
-    const userSnap = await getDoc(userRef);
-    if (userSnap.exists()) {
-      const userData = userSnap.data();
-      const avatar = document.createElement("img");
-      avatar.className = "author-avatar";
-      avatar.src = userData.photoURL || DEFAULT_PHOTO;
+        if (data.authorId) {
+        const userRef = doc(db, "users", data.authorId);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+        const userData = userSnap.data();
+        const avatar = document.createElement("img");
+        avatar.className = "author-avatar";
+        avatar.src = userData.photoURL || DEFAULT_PHOTO;
 
-      const username = document.createElement("span");
-      username.className = "author-name";
-      username.textContent = userData.username || "Bilinmeyen Kullanıcı";
+        const username = document.createElement("span");
+        username.className = "author-name";
+        username.textContent = userData.username || "Bilinmeyen Kullanıcı";
 
-      forumAuthor.appendChild(avatar);
-      forumAuthor.appendChild(username);
-    }
-  }
-}
+        forumAuthor.appendChild(avatar);
+        forumAuthor.appendChild(username);
+        }
+        }
+        }
 
-async function loadComments() {
-  commentsList.innerHTML = "Yorumlar yükleniyor...";
-  const commentsRef = collection(db, "forums", forumId, "comments");
-  const q = query(commentsRef, orderBy("createdAt", "desc"));
-  const snapshot = await getDocs(q);
+        async function loadComments() {
+        commentsList.innerHTML = "Yorumlar yükleniyor...";
+        const commentsRef = collection(db, "forums", forumId, "comments");
+        const q = query(commentsRef, orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
 
-  commentsList.innerHTML = "";
+        commentsList.innerHTML = "";
 
-  snapshot.forEach((doc) => {
-    const data = doc.data();
-    const div = document.createElement("div");
-    div.style.padding = "1rem";
-    div.style.marginBottom = "1rem";
-    div.style.backgroundColor = "rgba(255,255,255,0.06)";
-    div.style.borderRadius = "6px";
+        snapshot.forEach((doc) => {
+        const data = doc.data();
+        const div = document.createElement("div");
+        div.style.padding = "1rem";
+        div.style.marginBottom = "1rem";
+        div.style.backgroundColor = "rgba(255,255,255,0.06)";
+        div.style.borderRadius = "6px";
 
-    const username = data.username || "Anonim";
-    const content = data.content;
+        const username = data.username || "Anonim";
+        const content = data.content;
 
-    div.innerHTML = `<strong style="color:#FF6600">${username}</strong><br>${content}`;
-    commentsList.appendChild(div);
-  });
-}
+        div.innerHTML = `<strong style="color:#FF6600">${username}</strong><br>${content}`;
+        commentsList.appendChild(div);
+        });
+        }
 
-submitBtn.addEventListener("click", async () => {
-  const content = commentInput.value.trim();
-  if (!content) return alert("Yorum boş olamaz.");
+        submitBtn.addEventListener("click", async () => {
+        const content = commentInput.value.trim();
+        if (!content) return alert("Yorum boş olamaz.");
 
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      return alert("Yorum yapmak için giriş yapmalısınız.");
-    }
+        onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+        return alert("Yorum yapmak için giriş yapmalısınız.");
+        }
 
-    const userDoc = await getDoc(doc(db, "users", user.uid));
-    const username = userDoc.exists() ? (userDoc.data().username || user.email) : user.email;
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        const username = userDoc.exists() ? (userDoc.data().username || user.email) : user.email;
 
-    await addDoc(collection(db, "forums", forumId, "comments"), {
-      content,
-      createdAt: serverTimestamp(),
-      userId: user.uid,
-      username
-    });
+        await addDoc(collection(db, "forums", forumId, "comments"), {
+        content,
+        createdAt: serverTimestamp(),
+        userId: user.uid,
+        username
+        });
 
-    commentInput.value = "";
-    await loadComments();
-  });
-});
+        commentInput.value = "";
+        await loadComments();
+        });
+        });
 
-await loadForum();
-await loadComments();
-  </script>
+        await loadForum();
+        await loadComments();
+
+    </script>
 </body>
 </html>
