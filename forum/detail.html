@@ -170,6 +170,46 @@ const DEFAULT_PHOTO = "../assets/images/default-profile-photo.jpg";
 const urlParams = new URLSearchParams(window.location.search);
 const forumId = urlParams.get("id");
 
+
+function renderEditorJs(data) {
+    if (typeof data === "string") data = JSON.parse(data);
+    let html = '';
+    data.blocks.forEach(block => {
+        switch (block.type) {
+            case 'header':
+                html += `<h${block.data.level}>${block.data.text}</h${block.data.level}>`;
+                break;
+            case 'paragraph':
+                html += `<p>${block.data.text}</p>`;
+                break;
+            case 'list':
+                const type = block.data.style === "ordered" ? "ol" : "ul";
+                html += `<${type}>${block.data.items.map(item => `<li>${item}</li>`).join('')}</${type}>`;
+                break;
+            case 'quote':
+                html += `<blockquote>${block.data.text} <cite>${block.data.caption || ''}</cite></blockquote>`;
+                break;
+            case 'code':
+                html += `<pre><code>${block.data.code}</code></pre>`;
+                break;
+            case 'delimiter':
+                html += `<hr/>`;
+                break;
+            case 'table':
+                html += `<table>${block.data.content.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}</table>`;
+                break;
+            case 'image':
+                html += `<img src="${block.data.file.url}" alt="${block.data.caption || ''}" style="max-width:100%; border-radius:7px; margin:8px 0;"/>`;
+                break;
+            default:
+                break;
+        }
+    });
+    return html;
+}
+
+
+
 async function loadForum() {
   if (!forumId) return;
   const docRef = doc(db, "forums", forumId);
@@ -181,9 +221,9 @@ async function loadForum() {
     return;
   }
 
-  const data = docSnap.data();
+   const data = docSnap.data();
   forumTitle.innerText = data.title;
-  forumContent.innerHTML = data.content;
+  forumContent.innerHTML = renderEditorJs(JSON.parse(data.content));
 
   if (data.authorId) {
     const userRef = doc(db, "users", data.authorId);
