@@ -94,6 +94,7 @@
                 height: 36px;
             }
         }
+
         .brand span,
         .brand {
             font-family: 'Segoe UI', sans-serif !important;
@@ -102,21 +103,22 @@
             letter-spacing: .7px;
         }
 
-.subforum-column {
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
-.center {
-    text-align: center;
-}
+        .subforum-column {
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        .center {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <header>
-<a href="../index.html" class="brand" style="text-decoration: none;">
-    <img src="../assets/images/aventra_woutbg.png" alt="Ventra Logo">
-    <span>VENTRA</span>
-</a>
+        <a href="../index.html" class="brand" style="text-decoration: none;">
+            <img src="../assets/images/aventra_woutbg.png" alt="Ventra Logo">
+            <span>VENTRA</span>
+        </a>
         <!-- diğer navbar/arama kutusu vs burada olacaksa ekle -->
     </header>
     <div class="container">
@@ -128,5 +130,158 @@
         </div>
     </div>
     <script type="module" src="./firebase-forum.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+        import { getFirestore, doc, getDoc, collection, addDoc, serverTimestamp, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+        const firebaseConfig = {
+        apiKey: "AIzaSyAfkPiGwLZwvPQcTCFaQu-he7NjS4CG27U",
+        authDomain: "aventra-platform.firebaseapp.com",
+        projectId: "aventra-platform",
+        storageBucket: "aventra-platform.appspot.com",
+        messagingSenderId: "1044485055341",
+        appId: "1:1044485055341:web:0bd3b3a2cecdded9423064"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        const forumTitle = document.getElementById("forumTitle");
+        const forumContent = document.getElementById("forumContent");
+        const forumAuthor = document.getElementById("forumAuthor");
+        const commentInput = document.getElementById("commentInput");
+        const commentsList = document.getElementById("commentsList");
+        const submitBtn = document.getElementById("submitComment");
+
+        const DEFAULT_PHOTO = "../assets/images/default-profile-photo.jpg";
+        const urlParams = new URLSearchParams(window.location.search);
+        const forumId = urlParams.get("id");
+
+        // --- YENİ: Editor.js JSON'dan HTML'e ---
+        function renderEditorJs(data) {
+        if (typeof data === "string") data = JSON.parse(data);
+        let html = '';
+        data.blocks.forEach(block => {
+        switch (block.type) {
+        case 'header':
+        html += `<h${block.data.level}>${block.data.text}</h${block.data.level}>`;
+        break;
+        case 'paragraph':
+        html += `<p>${block.data.text}</p>`;
+        break;
+        case 'list':
+        const type = block.data.style === "ordered" ? "ol" : "ul";
+        html += `<${type}>${block.data.items.map(item => `<li>${item}</li>`).join('')}</${type}>`;
+        break;
+        case 'quote':
+        html += `<blockquote>${block.data.text} <cite>${block.data.caption || ''}</cite></blockquote>`;
+        break;
+        case 'code':
+        html += `<pre><code>${block.data.code}</code></pre>`;
+        break;
+        case 'delimiter':
+        html += `<hr/>`;
+        break;
+        case 'table':
+        html += `<table>${block.data.content.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}</table>`;
+        break;
+        case 'image':
+        html += `<img src="${block.data.file.url}" alt="${block.data.caption || ''}" style="max-width:100%; border-radius:7px; margin:8px 0;"/>`;
+        break;
+        // Diğer blok tipleri burada çoğaltılabilir.
+        default:
+        break;
+        }
+        });
+        return html;
+        }
+
+        async function loadForum() {
+        if (!forumId) return;
+        const docRef = doc(db, "forums", forumId);
+        const docSnap = await getDoc(docRef);
+
+        if (!docSnap.exists()) {
+        forumTitle.innerText = "Forum bulunamadı";
+        forumContent.innerHTML = "Belirtilen forum silinmiş olabilir.";
+        return;
+        }
+
+        const data = docSnap.data();
+        forumTitle.innerText = data.title;
+        forumContent.innerHTML = renderEditorJs(JSON.parse(data.content)); // Burada içerik render ediliyor
+
+        if (data.authorId) {
+        const userRef = doc(db, "users", data.authorId);
+        const userSnap = await getDoc(userRef);
+        if (userSnap.exists()) {
+        const userData = userSnap.data();
+        const avatar = document.createElement("img");
+        avatar.className = "author-avatar";
+        avatar.src = userData.photoURL || DEFAULT_PHOTO;
+
+        const username = document.createElement("span");
+        username.className = "author-name";
+        username.textContent = userData.username || "Bilinmeyen Kullanıcı";
+
+        forumAuthor.appendChild(avatar);
+        forumAuthor.appendChild(username);
+        }
+        }
+        }
+
+        async function loadComments() {
+        commentsList.innerHTML = "Yorumlar yükleniyor...";
+        const commentsRef = collection(db, "forums", forumId, "comments");
+        const q = query(commentsRef, orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+
+        commentsList.innerHTML = "";
+
+        snapshot.forEach((doc) => {
+        const data = doc.data();
+        const div = document.createElement("div");
+        div.style.padding = "1rem";
+        div.style.marginBottom = "1rem";
+        div.style.backgroundColor = "rgba(255,255,255,0.06)";
+        div.style.borderRadius = "6px";
+
+        const username = data.username || "Anonim";
+        const content = data.content;
+
+        div.innerHTML = `<strong style="color:#FF6600">${username}</strong><br>${content}`;
+        commentsList.appendChild(div);
+        });
+        }
+
+        submitBtn.addEventListener("click", async () => {
+        const content = commentInput.value.trim();
+        if (!content) return alert("Yorum boş olamaz.");
+
+        onAuthStateChanged(auth, async (user) => {
+        if (!user) {
+        return alert("Yorum yapmak için giriş yapmalısınız.");
+        }
+
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        const username = userDoc.exists() ? (userDoc.data().username || user.email) : user.email;
+
+        await addDoc(collection(db, "forums", forumId, "comments"), {
+        content,
+        createdAt: serverTimestamp(),
+        userId: user.uid,
+        username
+        });
+
+        commentInput.value = "";
+        await loadComments();
+        });
+        });
+
+        await loadForum();
+        await loadComments();
+    </script>
 </body>
 </html>
