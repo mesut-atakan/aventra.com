@@ -1,5 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyAfkPiGwLZwvPQcTCFaQu-he7NjS4CG27U",
   authDomain: "aventra-platform.firebaseapp.com",
@@ -9,22 +11,21 @@ const firebaseConfig = {
   appId: "1:1044485055341:web:0bd3b3a2cecdded9423064",
   measurementId: "G-RZJ4H09WJW"
 };
+
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
+export const db = getFirestore(app);
 export { createUserWithEmailAndPassword, signInWithEmailAndPassword };
 
-import { db } from './firebase-init.js';
-import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+// SADECE AÞAÐIDAKÝ GÝBÝ OTOMATÝK USER EKLEME FONKSÝYONUNU DA BURADA TUT
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-import { auth } from './firebase-auth.js';
 
+// KESÝNLÝKLE TEKRAR "import { auth } from './firebase-auth.js'" YAPMA! 
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    // users koleksiyonunda var mý kontrol et
     const userRef = doc(db, "users", user.uid);
     const userSnap = await getDoc(userRef);
     if (!userSnap.exists()) {
-      // kullanýcýyý ekle (veya güncelle)
       await setDoc(userRef, {
         uid: user.uid,
         email: user.email,
