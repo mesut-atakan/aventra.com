@@ -112,6 +112,36 @@
       font-size: 0.85rem;
       box-shadow: 0 -4px 10px rgba(0,0,0,0.3);
     }
+      .editorjs-table-wrap table td {
+          border: 1px solid #ccc;
+          padding: 6px 12px;
+          font-size: 1.08em;
+          background: #18182a;
+          color: #fafafa;
+      }
+
+      .editorjs-code-block {
+          background: #222334;
+          color: #fffae0;
+          font-family: "JetBrains Mono", "Consolas", "Menlo", "monospace";
+          font-size: 1.02em;
+          border-radius: 7px;
+      }
+
+      .checklist input[type="checkbox"] {
+          accent-color: #ff6600;
+      }
+
+      .checklist li {
+          font-size: 1.03em;
+          margin-bottom: 7px;
+      }
+
+      blockquote {
+          font-size: 1.07em;
+          border-radius: 6px;
+      }
+
   </style>
 </head>
 <body>
@@ -184,22 +214,40 @@ function renderEditorJs(data) {
                 break;
             case 'list':
                 const type = block.data.style === "ordered" ? "ol" : "ul";
-                html += `<${type}>${block.data.items.map(item => `<li>${item}</li>`).join('')}</${type}>`;
+                html += `<${type} style="margin:0 0 16px 24px;">${block.data.items.map(item => `<li>${item}</li>`).join('')}</${type}>`;
+                break;
+            case 'checklist':
+                html += '<ul class="checklist">';
+                block.data.items.forEach(item => {
+                    html += `<li style="list-style:none; margin-bottom:6px;">
+                        <input type="checkbox" disabled ${item.checked ? 'checked' : ''} style="accent-color:#ff6600; margin-right:7px;">
+                        ${item.text}
+                    </li>`;
+                });
+                html += '</ul>';
                 break;
             case 'quote':
-                html += `<blockquote>${block.data.text} <cite>${block.data.caption || ''}</cite></blockquote>`;
+                html += `<blockquote style="border-left:3px solid #ff6600; margin:16px 0; padding:10px 18px; background:#1a1a2a;">${block.data.text}${block.data.caption ? `<br><cite style="font-size:.95em;color:#ff9900;">${block.data.caption}</cite>` : ""}</blockquote>`;
                 break;
             case 'code':
-                html += `<pre><code>${block.data.code}</code></pre>`;
+                html += `<pre class="editorjs-code-block" style="background:#232334;border-radius:7px;padding:16px;margin:16px 0;overflow:auto;color:#fff;font-size:1.02em;"><code>${block.data.code}</code></pre>`;
                 break;
             case 'delimiter':
-                html += `<hr/>`;
+                html += `<hr style="border:0;border-top:2px solid #444;margin:24px 0;">`;
                 break;
             case 'table':
-                html += `<table>${block.data.content.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}</table>`;
+                html += '<div class="editorjs-table-wrap" style="overflow-x:auto;margin:18px 0;"><table style="border-collapse:collapse;width:auto;min-width:300px;">';
+                block.data.content.forEach(row => {
+                    html += '<tr>';
+                    row.forEach(cell => {
+                        html += `<td style="border:1px solid #ccc;padding:6px 12px;text-align:left;">${cell}</td>`;
+                    });
+                    html += '</tr>';
+                });
+                html += '</table></div>';
                 break;
             case 'image':
-                html += `<img src="${block.data.file.url}" alt="${block.data.caption || ''}" style="max-width:100%; border-radius:7px; margin:8px 0;"/>`;
+                html += `<div style="margin:12px 0;"><img src="${block.data.file.url}" alt="${block.data.caption || ''}" style="max-width:100%; border-radius:7px; box-shadow:0 2px 12px #0002;"><div style="color:#aaa;font-size:.95em;margin-top:3px">${block.data.caption || ''}</div></div>`;
                 break;
             default:
                 break;
@@ -207,6 +255,7 @@ function renderEditorJs(data) {
     });
     return html;
 }
+
 
 
 
