@@ -238,7 +238,6 @@
         // Burada formun yayına alınmasını sağlayan işlemleri ekle.
         // Mesela fetch ile bir backend API'ye gönder veya başka bir sayfaya yönlendir.
         console.log(forumPost);
-        window.location.href = "forums.html";
         document.getElementById('result').textContent = JSON.stringify(forumPost, null, 2);
         }).catch((error) => {
         alert("Hata: " + error);
@@ -274,6 +273,7 @@
         // Hiçbir alert yok, hata olursa sessizce geçer.
         });
         });
+        window.location.href = "forums.html";
     </script>
 </body>
 </html>
