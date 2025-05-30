@@ -116,6 +116,9 @@
         <div id="forumList"></div>
     </main>
     <script type="module">
+        import { requireAuth } from './auth-guard.js';
+        requireAuth("login.html"); // Oturum yoksa login'e gönder
+
         import { app, db } from './firebase-init.js';
         import { collection, getDocs, query, orderBy, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
