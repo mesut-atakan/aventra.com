@@ -277,7 +277,18 @@
 
     <script type="module">
         import { auth } from './firebase-auth.js';
-        import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+        import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+        const ALLOWED_EMAIL = "mesut_atakan@aventragames.com";
+
+        onAuthStateChanged(auth, (user) => {
+          if (!user) {
+            window.location.href = "login.html";
+          } else if (user.email !== ALLOWED_EMAIL) {
+            alert("Burası geliştirme aşamasında. Testler bittikten sonra size mail yoluyla bilgi verilecek.");
+            window.location.href = "forums.html"; // signOut yok, sadece yönlendir!
+          }
+        });
 
         // İzin verilen email
         const ALLOWED_EMAIL = "mesut_atakan@aventragames.com";
