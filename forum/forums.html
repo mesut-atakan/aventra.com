@@ -1,287 +1,213 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AVENTRA Forumları</title>
-    <link rel="stylesheet" href="../style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <title>Aventra Forumları</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../assets/styles/forum.css">
     <style>
         body {
-            background: linear-gradient(to right, #2B0B3F, #6E2B6D);
-            color: #F9F9F9;
+            background: #191927;
+            color: #f2f2f2;
             font-family: 'Segoe UI', sans-serif;
             margin: 0;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
-
-        header {
-            background-color: #FF6600;
-            padding: 1rem 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: .7rem;
-            font-weight: 900;
-            font-size: 1.3rem;
-            color: #fff;
-            letter-spacing: .7px;
-        }
-
-            .brand img {
-                height: 38px;
-                width: auto;
-            }
 
         .subforum-row {
-            display: grid;
-            grid-template-columns: 60px 1fr 120px 150px;
-            align-items: start;
-            background-color: #1E1A2B;
-            color: #fff;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-            width: 100%;
-            min-height: 160px;
-            box-sizing: border-box;
-            margin-bottom: 1.1rem;
+            display: flex;
+            align-items: flex-start;
+            background: #232340;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px #0003;
+            margin-bottom: 20px;
+            padding: 20px;
         }
 
         .author-col {
+            flex: 0 0 60px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: .5rem;
-            justify-content: flex-start;
+            margin-right: 18px;
         }
 
         .author-avatar {
-            width: 48px;
-            height: 48px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
             object-fit: cover;
-            border: 2px solid #FF6600;
-            background: #fff2;
-            margin-bottom: .2rem;
+            margin-bottom: 7px;
+            background: #444;
         }
 
         .author-username {
-            font-size: .92rem;
+            color: #ff6600;
+            font-size: 1rem;
             font-weight: 600;
-            color: #FF6600;
-            word-break: break-word;
             text-align: center;
         }
-        /* Responsive */
+
+        .subforum-description {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+            .subforum-description h4 {
+                margin: 2px 0 8px 0;
+                font-size: 1.3rem;
+            }
+
+                .subforum-description h4 a {
+                    color: #fff;
+                    text-decoration: none;
+                    transition: color .18s;
+                }
+
+                    .subforum-description h4 a:hover {
+                        color: #ff6600;
+                        text-decoration: underline;
+                    }
+
+            .subforum-description p {
+                margin: 0 0 4px 0;
+                color: #d0d0df;
+                font-size: 1.05rem;
+                line-height: 1.45;
+            }
+
+        .subforum-stats {
+            flex: 0 0 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .subforum-stats span {
+                color: #ff9900;
+                font-weight: 500;
+                font-size: 1rem;
+            }
+
         @media (max-width: 700px) {
             .subforum-row {
-                grid-template-columns: 40px 1fr;
-                padding: 1rem;
+                flex-direction: column;
+                padding: 14px;
+            }
+
+            .author-col {
+                flex-direction: row;
+                margin-right: 0;
+                margin-bottom: 10px;
             }
 
             .author-avatar {
-                width: 36px;
-                height: 36px;
+                width: 38px;
+                height: 38px;
             }
-        }
-
-        .brand span,
-        .brand {
-            font-family: 'Segoe UI', sans-serif !important;
-            font-weight: 900;
-            font-size: 1.3rem;
-            letter-spacing: .7px;
-        }
-
-        .subforum-column {
-            padding-left: 1rem;
-            padding-right: 1rem;
-        }
-
-        .center {
-            text-align: center;
         }
     </style>
 </head>
 <body>
-    <header>
-        <a href="../index.html" class="brand" style="text-decoration: none;">
-            <img src="../assets/images/aventra_woutbg.png" alt="Ventra Logo">
-            <span>VENTRA</span>
-        </a>
-        <!-- diğer navbar/arama kutusu vs burada olacaksa ekle -->
-    </header>
-    <div class="container">
-        <div class="subforum">
-            <div class="subforum-title">
-                <h1>En Son Forumlar</h1>
-            </div>
-            <div id="forumList"></div>
-        </div>
-    </div>
-    <script type="module" src="./firebase-forum.js"></script>
+    <main style="max-width:900px; margin:32px auto 0 auto;">
+        <h1 style="color:#ff6600; margin-bottom:30px; font-size:2.1rem; text-align:center; letter-spacing:1.5px; font-weight:800;">
+            Aventra Forumları
+        </h1>
+        <div id="forumList"></div>
+    </main>
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-        import { getFirestore, doc, getDoc, collection, addDoc, serverTimestamp, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+        import { app, db } from './firebase-init.js';
+        import { collection, getDocs, query, orderBy, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-        const firebaseConfig = {
-        apiKey: "AIzaSyAfkPiGwLZwvPQcTCFaQu-he7NjS4CG27U",
-        authDomain: "aventra-platform.firebaseapp.com",
-        projectId: "aventra-platform",
-        storageBucket: "aventra-platform.appspot.com",
-        messagingSenderId: "1044485055341",
-        appId: "1:1044485055341:web:0bd3b3a2cecdded9423064"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-
-        const forumTitle = document.getElementById("forumTitle");
-        const forumContent = document.getElementById("forumContent");
-        const forumAuthor = document.getElementById("forumAuthor");
-        const commentInput = document.getElementById("commentInput");
-        const commentsList = document.getElementById("commentsList");
-        const submitBtn = document.getElementById("submitComment");
-
+        const forumList = document.getElementById("forumList");
         const DEFAULT_PHOTO = "../assets/images/default-profile-photo.jpg";
-        const urlParams = new URLSearchParams(window.location.search);
-        const forumId = urlParams.get("id");
 
-        // --- YENİ: Editor.js JSON'dan HTML'e ---
-        function renderEditorJs(data) {
+        // Editor.js JSON'u HTML'e çeviren fonksiyon (sadece özet için plain text verir)
+        function renderEditorJsPreview(data) {
         if (typeof data === "string") data = JSON.parse(data);
-        let html = '';
-        data.blocks.forEach(block => {
-        switch (block.type) {
-        case 'header':
-        html += `<h${block.data.level}>${block.data.text}</h${block.data.level}>`;
-        break;
-        case 'paragraph':
-        html += `<p>${block.data.text}</p>`;
-        break;
-        case 'list':
-        const type = block.data.style === "ordered" ? "ol" : "ul";
-        html += `<${type}>${block.data.items.map(item => `<li>${item}</li>`).join('')}</${type}>`;
-        break;
-        case 'quote':
-        html += `<blockquote>${block.data.text} <cite>${block.data.caption || ''}</cite></blockquote>`;
-        break;
-        case 'code':
-        html += `<pre><code>${block.data.code}</code></pre>`;
-        break;
-        case 'delimiter':
-        html += `<hr/>`;
-        break;
-        case 'table':
-        html += `<table>${block.data.content.map(row => `<tr>${row.map(cell => `<td>${cell}</td>`).join('')}</tr>`).join('')}</table>`;
-        break;
-        case 'image':
-        html += `<img src="${block.data.file.url}" alt="${block.data.caption || ''}" style="max-width:100%; border-radius:7px; margin:8px 0;"/>`;
-        break;
-        // Diğer blok tipleri burada çoğaltılabilir.
-        default:
+        let preview = '';
+        for (const block of data.blocks) {
+        if (block.type === 'paragraph' && block.data.text) {
+        preview = block.data.text;
         break;
         }
-        });
-        return html;
+        if (block.type === 'header' && block.data.text) {
+        preview = block.data.text;
+        break;
+        }
+        }
+        if (!preview && data.blocks.length > 0 && data.blocks[0].data && data.blocks[0].data.text) {
+        preview = data.blocks[0].data.text;
+        }
+        // fallback: tüm textleri birleştir (150 karaktere kadar)
+        if (!preview) {
+        preview = data.blocks.map(b => b.data.text || '').join(' ');
+        }
+        return preview ? (preview.length > 150 ? preview.slice(0, 147) + "..." : preview) : "";
         }
 
-        async function loadForum() {
-        if (!forumId) return;
-        const docRef = doc(db, "forums", forumId);
-        const docSnap = await getDoc(docRef);
+        async function loadForums() {
+        const q = query(collection(db, "forums"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
 
-        if (!docSnap.exists()) {
-        forumTitle.innerText = "Forum bulunamadı";
-        forumContent.innerHTML = "Belirtilen forum silinmiş olabilir.";
-        return;
-        }
+        forumList.innerHTML = '';
+        for (const docu of snapshot.docs) {
+        const data = docu.data();
+        const forumId = docu.id;
 
-        const data = docSnap.data();
-        forumTitle.innerText = data.title;
-        forumContent.innerHTML = renderEditorJs(JSON.parse(data.content)); // Burada içerik render ediliyor
+        // Kullanıcı bilgisi
+        let authorName = "Bilinmeyen";
+        let authorPhoto = DEFAULT_PHOTO;
 
         if (data.authorId) {
+        try {
         const userRef = doc(db, "users", data.authorId);
         const userSnap = await getDoc(userRef);
         if (userSnap.exists()) {
         const userData = userSnap.data();
-        const avatar = document.createElement("img");
-        avatar.className = "author-avatar";
-        avatar.src = userData.photoURL || DEFAULT_PHOTO;
-
-        const username = document.createElement("span");
-        username.className = "author-name";
-        username.textContent = userData.username || "Bilinmeyen Kullanıcı";
-
-        forumAuthor.appendChild(avatar);
-        forumAuthor.appendChild(username);
+        authorName = userData.username || userData.email || "Kullanıcı";
+        authorPhoto = userData.photoURL || DEFAULT_PHOTO;
         }
-        }
+        } catch (e) {}
         }
 
-        async function loadComments() {
-        commentsList.innerHTML = "Yorumlar yükleniyor...";
+        // Yorum sayısını dinamik getir
+        let commentCount = 0;
+        try {
         const commentsRef = collection(db, "forums", forumId, "comments");
-        const q = query(commentsRef, orderBy("createdAt", "desc"));
-        const snapshot = await getDocs(q);
+        const commentSnap = await getDocs(commentsRef);
+        commentCount = commentSnap.size;
+        } catch (e) {}
 
-        commentsList.innerHTML = "";
-
-        snapshot.forEach((doc) => {
-        const data = doc.data();
-        const div = document.createElement("div");
-        div.style.padding = "1rem";
-        div.style.marginBottom = "1rem";
-        div.style.backgroundColor = "rgba(255,255,255,0.06)";
-        div.style.borderRadius = "6px";
-
-        const username = data.username || "Anonim";
-        const content = data.content;
-
-        div.innerHTML = `<strong style="color:#FF6600">${username}</strong><br>${content}`;
-        commentsList.appendChild(div);
-        });
+        // Forum preview (JSON parse + plain text özet)
+        let preview = "";
+        try {
+        preview = renderEditorJsPreview(JSON.parse(data.content));
+        } catch (e) {
+        preview = "";
         }
 
-        submitBtn.addEventListener("click", async () => {
-        const content = commentInput.value.trim();
-        if (!content) return alert("Yorum boş olamaz.");
-
-        onAuthStateChanged(auth, async (user) => {
-        if (!user) {
-        return alert("Yorum yapmak için giriş yapmalısınız.");
+        const row = document.createElement("div");
+        row.className = "subforum-row";
+        row.innerHTML = `
+        <div class="author-col">
+        <img src="${authorPhoto}" class="author-avatar" alt="Profil Fotoğrafı" onerror="this.src='${DEFAULT_PHOTO}'">
+        <span class="author-username">${authorName}</span>
+        </div>
+        <div class="subforum-description subforum-column">
+        <span class="author-username" style="font-size:.93rem; font-weight:500; color:#FF6600; margin-bottom:2px;">${authorName}</span>
+        <h4><a href="detail.html?id=${forumId}">${data.title}</a></h4>
+        <p>${preview}</p>
+        </div>
+        <div class="subforum-stats subforum-column center">
+        <span>${commentCount} Yorum</span>
+        </div>
+        `;
+        forumList.appendChild(row);
+        }
         }
 
-        const userDoc = await getDoc(doc(db, "users", user.uid));
-        const username = userDoc.exists() ? (userDoc.data().username || user.email) : user.email;
-
-        await addDoc(collection(db, "forums", forumId, "comments"), {
-        content,
-        createdAt: serverTimestamp(),
-        userId: user.uid,
-        username
-        });
-
-        commentInput.value = "";
-        await loadComments();
-        });
-        });
-
-        await loadForum();
-        await loadComments();
+        loadForums();
     </script>
 </body>
 </html>
