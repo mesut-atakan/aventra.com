@@ -274,5 +274,27 @@
         });
         });
     </script>
+
+    <script type="module">
+        import { auth } from './firebase-auth.js';
+        import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+        // İzin verilen email
+        const ALLOWED_EMAIL = "mesut_atakan@aventragames.com";
+
+        onAuthStateChanged(auth, (user) => {
+        if (!user) {
+        // Kullanıcı giriş yapmamışsa login sayfasına yönlendir
+        window.location.href = "login.html";
+        } else if (user.email !== ALLOWED_EMAIL) {
+        // İzin verilmeyen kullanıcı ise alert ve yönlendirme
+        alert("Burası geliştirme aşamasında. Testler bittikten sonra size mail yoluyla bilgi verilecek.");
+        // Otomatik çıkış yap ve ana sayfaya yönlendir
+        signOut(auth).then(() => {
+        window.location.href = "index.html";
+        });
+        }
+        });
+    </script>
 </body>
 </html>
