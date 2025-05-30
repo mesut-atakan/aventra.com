@@ -216,21 +216,38 @@
     <script type="module">
         import { auth, createUserWithEmailAndPassword } from './firebase-auth.js';
         import { sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-        import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+        import { getFirestore, setDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
         import { app } from './firebase-auth.js';
         import { GoogleAuthProvider, FacebookAuthProvider, GithubAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
         const db = getFirestore(app);
 
+        // Ortak sosyal login işlemi ve Firestore user kaydı
+        async function handleSocialRegister(provider) {
+        try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        // Firestore'a user kaydı (varsa skip)
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+        if (!userSnap.exists()) {
+        await setDoc(userRef, {
+        uid: user.uid,
+        email: user.email,
+        username: user.displayName || user.email.split("@")[0],
+        photoURL: user.photoURL || "/assets/images/default-profile-photo.jpg",
+        createdAt: new Date()
+        });
+        }
+        window.location.href = "index.html";
+        } catch (e) {
+        alert(provider.providerId.split('.')[0] + " ile kayıt başarısız: " + e.message);
+        }
+        }
+
         // Sosyal loginler
-        document.querySelector('.social-btn.google').addEventListener('click', () => {
-        signInWithPopup(auth, new GoogleAuthProvider()).catch(e => alert("Google ile kayıt başarısız: " + e.message));
-        });
-        document.querySelector('.social-btn.facebook').addEventListener('click', () => {
-        signInWithPopup(auth, new FacebookAuthProvider()).catch(e => alert("Facebook ile kayıt başarısız: " + e.message));
-        });
-        document.querySelector('.social-btn.github').addEventListener('click', () => {
-        signInWithPopup(auth, new GithubAuthProvider()).catch(e => alert("Github ile kayıt başarısız: " + e.message));
-        });
+        document.querySelector('.social-btn.google').addEventListener('click', () => handleSocialRegister(new GoogleAuthProvider()));
+        document.querySelector('.social-btn.facebook').addEventListener('click', () => handleSocialRegister(new FacebookAuthProvider()));
+        document.querySelector('.social-btn.github').addEventListener('click', () => handleSocialRegister(new GithubAuthProvider()));
 
         // Normal kayıt
         window.register = async function () {
@@ -277,5 +294,6 @@
         }
         }
     </script>
+
 </body>
 </html>

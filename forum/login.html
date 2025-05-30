@@ -227,6 +227,12 @@
     </div>
     <script type="module">
         import { auth, signInWithEmailAndPassword } from './firebase-auth.js';
+        import { getFirestore, setDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+        import { app } from './firebase-auth.js';
+        import { GoogleAuthProvider, FacebookAuthProvider, GithubAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+        const db = getFirestore(app);
+
+        // Email/Password Login
         window.login = async function () {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
@@ -241,6 +247,18 @@
         await auth.signOut();
         return;
         }
+        // Firestore users koleksiyonunda yoksa ekle (email ile login için güvenlik amaçlı)
+        const userRef = doc(db, "users", userCredential.user.uid);
+        const userSnap = await getDoc(userRef);
+        if (!userSnap.exists()) {
+        await setDoc(userRef, {
+        uid: userCredential.user.uid,
+        email: userCredential.user.email,
+        username: userCredential.user.displayName || userCredential.user.email.split("@")[0],
+        photoURL: userCredential.user.photoURL || "/assets/images/default-profile-photo.jpg",
+        createdAt: new Date()
+        });
+        }
         window.location.href = "../index.html";
         } catch (error) {
         document.getElementById('verify-link').style.display = "none";
@@ -254,33 +272,37 @@
         message.className = 'error';
         }
         }
+
+        // Ortak sosyal giriş ve Firestore kaydı
+        async function handleSocialLogin(provider) {
+        try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        // Firestore'a user kaydı (varsa skip)
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+        if (!userSnap.exists()) {
+        await setDoc(userRef, {
+        uid: user.uid,
+        email: user.email,
+        username: user.displayName || user.email.split("@")[0],
+        photoURL: user.photoURL || "/assets/images/default-profile-photo.jpg",
+        createdAt: new Date()
+        });
+        }
+        window.location.href = "../index.html";
+        } catch (e) {
+        alert(provider.providerId.split('.')[0] + " ile giriş başarısız: " + e.message);
+        }
+        }
+
+        // Sosyal girişler
+        document.querySelector('.social-btn.google').addEventListener('click', () => handleSocialLogin(new GoogleAuthProvider()));
+        document.querySelector('.social-btn.facebook').addEventListener('click', () => handleSocialLogin(new FacebookAuthProvider()));
+        document.querySelector('.social-btn.github').addEventListener('click', () => handleSocialLogin(new GithubAuthProvider()));
+
     </script>
 
-    <script type="module">
-        import { auth } from './firebase-auth.js';
-        import { GoogleAuthProvider, FacebookAuthProvider, GithubAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-
-        // Google ile Giriş
-        document.querySelector('.social-btn.google').addEventListener('click', () => {
-        signInWithPopup(auth, new GoogleAuthProvider())
-        .then(() => window.location.href = "../index.html")
-        .catch(e => alert("Google ile giriş başarısız: " + e.message));
-        });
-
-        // Facebook ile Giriş
-        document.querySelector('.social-btn.facebook').addEventListener('click', () => {
-        signInWithPopup(auth, new FacebookAuthProvider())
-        .then(() => window.location.href = "../index.html")
-        .catch(e => alert("Facebook ile giriş başarısız: " + e.message));
-        });
-
-        // Github ile Giriş
-        document.querySelector('.social-btn.github').addEventListener('click', () => {
-        signInWithPopup(auth, new GithubAuthProvider())
-        .then(() => window.location.href = "../index.html")
-        .catch(e => alert("Github ile giriş başarısız: " + e.message));
-        });
-    </script>
 
 
     <div class="social-login-card">
