@@ -172,6 +172,20 @@
   </footer>
 
   <script type="module">
+      import { requireAuth } from './auth-guard.js';
+requireAuth(); // login yoksa login.html'e yönlendirir
+
+      import { logUniqueUserPageVisit } from './analytics.js';
+
+// forumId'yi çek
+const urlParams = new URLSearchParams(window.location.search);
+const forumId = urlParams.get("id");
+
+if (forumId) {
+    logUniqueUserPageVisit(forumId);
+}
+
+
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
 import { getFirestore, doc, getDoc, collection, addDoc, serverTimestamp, query, orderBy, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
